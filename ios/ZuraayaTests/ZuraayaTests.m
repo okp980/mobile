@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface WedoTests : XCTestCase
+@interface ZuraayaTests : XCTestCase
 
 @end
 
-@implementation WedoTests
+@implementation ZuraayaTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {
