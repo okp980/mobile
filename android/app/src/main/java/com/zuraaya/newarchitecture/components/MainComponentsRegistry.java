@@ -1,4 +1,4 @@
-package com.w3wedo.newarchitecture.components;
+package com.zuraaya.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
