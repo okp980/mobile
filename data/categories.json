@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "6447eb74ebaa84f586efd41a"
+  },
+  "name": "Computer & Accessories",
+  "image": "img-url",
+  "createdAt": {
+    "$date": "2023-04-25T15:01:42.844Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6447f63c99369a6af8033928"
+  },
+  "name": "Beauty & Hair",
+  "image": "img-url",
+  "createdAt": {
+    "$date": "2023-04-25T15:44:39.706Z"
+  },
+  "__v": 0
+}]

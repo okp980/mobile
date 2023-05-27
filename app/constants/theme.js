@@ -17,7 +17,7 @@ export const COLORS = {
   label: '#8A8A8A',
   input: '#F9F9F9',
   borderColor: '#E3E3E3',
-  backgroundColor: '#fff',
+  backgroundColor: '#F9F9F9',
 };
 
 export const SIZES = {
@@ -27,6 +27,7 @@ export const SIZES = {
   fontXs: 12,
 
   //radius
+  radius_xs: 5,
   radius_sm: 8,
   radius: 12,
   radius_md: 18,
@@ -73,12 +74,12 @@ export const FONTS = {
     lineHeight: 14,
     fontFamily: 'OpenSans-Regular',
   },
-  h1: {fontSize: SIZES.h1, color: COLORS.title, fontFamily: 'Poppins-SemiBold'},
-  h2: {fontSize: SIZES.h2, color: COLORS.title, fontFamily: 'Poppins-SemiBold'},
-  h3: {fontSize: SIZES.h3, color: COLORS.title, fontFamily: 'Poppins-SemiBold'},
-  h4: {fontSize: SIZES.h4, color: COLORS.title, fontFamily: 'Poppins-SemiBold'},
-  h5: {fontSize: SIZES.h5, color: COLORS.title, fontFamily: 'Poppins-SemiBold'},
-  h6: {fontSize: SIZES.h6, color: COLORS.title, fontFamily: 'Poppins-SemiBold'},
+  h1: {fontSize: SIZES.h1, color: COLORS.title, fontFamily: 'Poppins-Regular'},
+  h2: {fontSize: SIZES.h2, color: COLORS.title, fontFamily: 'Poppins-Regular'},
+  h3: {fontSize: SIZES.h3, color: COLORS.title, fontFamily: 'Poppins-Regular'},
+  h4: {fontSize: SIZES.h4, color: COLORS.title, fontFamily: 'Poppins-Regular'},
+  h5: {fontSize: SIZES.h5, color: COLORS.title, fontFamily: 'Poppins-Regular'},
+  h6: {fontSize: SIZES.h6, color: COLORS.title, fontFamily: 'Poppins-Regular'},
   fontBold: {fontFamily: 'OpenSans-SemiBold'},
   fontMedium: {fontFamily: 'OpenSans-Medium'},
 };

@@ -1,14 +1,14 @@
-
 import React from 'react';
-import Routes from "./app/Navigations/Route";
+import Routes from './app/Navigations/Route';
+import {Provider} from 'react-redux';
+import {store} from './store';
 
-const App = () =>{
-  
+const App = () => {
   return (
     <>
-      
-      <Routes/>
-
+      <Provider store={store}>
+        <Routes />
+      </Provider>
     </>
   );
 };

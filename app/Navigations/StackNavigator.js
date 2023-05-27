@@ -1,8 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Splash from '../Screens/Onboarding/Splash';
-import Onboarding from '../Screens/Onboarding/Onboarding';
-import Welcome from '../Screens/Onboarding/Welcome';
 import SignUp from '../Screens/Auth/SignUp';
 import SignIn from '../Screens/Auth/SignIn';
 import Products from '../Screens/Products/Products';
@@ -62,8 +60,6 @@ const StackNavigator = () => {
           cardStyle: {backgroundColor: 'transparent'},
         }}>
         <StackComponent.Screen name={'Splash'} component={Splash} />
-        <StackComponent.Screen name={'Onboarding'} component={Onboarding} />
-        <StackComponent.Screen name={'Welcome'} component={Welcome} />
         <StackComponent.Screen name={'SignUp'} component={SignUp} />
         <StackComponent.Screen name={'SignIn'} component={SignIn} />
         <StackComponent.Screen
