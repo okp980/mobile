@@ -27,10 +27,10 @@ export const SIZES = {
   fontXs: 12,
 
   //radius
-  radius_xs: 5,
-  radius_sm: 8,
-  radius: 12,
-  radius_md: 18,
+  radius_xs: 3,
+  radius_sm: 5,
+  radius: 8,
+  radius_md: 10,
 
   //space
   padding: 15,
