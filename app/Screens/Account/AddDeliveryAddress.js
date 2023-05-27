@@ -15,6 +15,7 @@ import Card from '../../components/Card';
 import CustomInput from '../../components/CustomInput';
 import {Divider} from 'react-native-paper';
 import ShippingMethodItem from '../../components/ShippingMethodItem';
+import OrderSummary from '../../components/OrderSummary';
 
 const AddDeliveryAddress = ({navigation}) => {
   const [defaultAddress, setAddress] = useState('Home');
@@ -54,8 +55,6 @@ const AddDeliveryAddress = ({navigation}) => {
             <CustomInput label="State" placeholder="Select State" />
             <CustomInput label="City" placeholder="Select City" />
           </Card>
-
-          <ShippingMethodItem />
         </ScrollView>
       </View>
       <View style={GlobalStyleSheet.container}>

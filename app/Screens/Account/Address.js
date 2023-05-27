@@ -1,102 +1,91 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { GlobalStyleSheet } from '../../constants/StyleSheet';
-import { COLORS, FONTS } from '../../constants/theme';
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {GlobalStyleSheet} from '../../constants/StyleSheet';
+import {COLORS, FONTS} from '../../constants/theme';
 import Header from '../../layout/Header';
+import Card from '../../components/Card';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import {Divider} from 'react-native-paper';
 
 const Address = ({navigation}) => {
-    return (
-        <SafeAreaView
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: COLORS.backgroundColor,
+      }}>
+      <Header titleLeft leftIcon={'back'} title={'Address'} />
+      <ScrollView style={GlobalStyleSheet.container}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AddDeliveryAddress')}
+          style={{
+            paddingHorizontal: 15,
+            paddingVertical: 8,
+          }}>
+          <Text
+            style={{...FONTS.font, ...FONTS.fontBold, color: COLORS.primary}}>
+            +Add New Address
+          </Text>
+        </TouchableOpacity>
+        <Card>
+          <View
             style={{
-                flex:1,
-                backgroundColor:COLORS.backgroundColor,
-            }}
-        >
-            <Header
-                titleLeft
-                leftIcon={'back'}
-                title={'Address'}
-            />
-            <ScrollView>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('AddDeliveryAddress')}
-                    style={{
-                        paddingHorizontal:15,
-                        paddingVertical:8,
-                    }}
-                >
-                    <Text style={{...FONTS.font,...FONTS.fontBold,color:COLORS.primary}}>+Add New Address</Text>
-                </TouchableOpacity>
-                <View style={GlobalStyleSheet.container}>
-                    <Text style={[FONTS.font,FONTS.fontBold,{color:COLORS.title,marginBottom:10}]}>Default Address</Text>
+              ...GlobalStyleSheet.container,
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingVertical: 10,
+            }}>
+            <View>
+              <View
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderColor: 'black',
+                  borderWidth: 1,
+                  borderRadius: 10,
 
-                    <View
-                        style={{
-                            padding:12,
-                            borderWidth:1,
-                            borderColor:COLORS.borderColor,
-                            borderRadius:6,
-                        }}
-                    >
-                        <View
-                            style={{
-                                marginBottom:8,
-                                flexDirection:'row',
-                                justifyContent:'space-between',
-                                alignItems:'center',
-                            }}
-                        >
-                            <Text style={{...FONTS.font,...FONTS.fontBold,color:COLORS.title}}>Yatin</Text>
-                            <View
-                                style={{
-                                    backgroundColor:'#F2F2F2',
-                                    paddingHorizontal:10,
-                                    paddingTop:6,
-                                    paddingBottom:4,
-                                    borderRadius:15,
-                                }}
-                            >
-                                <Text style={{...FONTS.fontXs,...FONTS.fontBold}}>OFFICE</Text>
-                            </View>
-                        </View>
-                        <Text style={FONTS.font}>Mokshita dairy near bsnl circle {`\n`}Rk puram{`\n`}Kota -324009{`\n`}Rajasthan{`\n`}{`\n`}Mobile: 0123 4567 891</Text>
-                        <View
-                            style={{
-                                borderTopWidth:1,
-                                borderColor:COLORS.borderColor,
-                                marginTop:12,
-                                flexDirection:'row',
-                                marginHorizontal:-12,
-                                marginBottom:-12,
-                            }}
-                        >
-                            <TouchableOpacity
-                                style={{
-                                    flex:1,
-                                    padding:12,
-                                    alignItems:'center',
-                                    borderRightWidth:1,
-                                    borderColor:COLORS.borderColor,
-                                }}
-                            >
-                                <Text style={{...FONTS.h6,color:COLORS.secondary}}>Edit</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{
-                                    flex:1,
-                                    padding:12,
-                                    alignItems:'center',
-                                }}
-                            >
-                                <Text style={{...FONTS.h6,color:COLORS.secondary}}>Remove</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    );
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <View
+                  style={{
+                    width: 12,
+                    height: 12,
+                    backgroundColor: 'black',
+                    borderRadius: 6,
+                  }}
+                />
+              </View>
+            </View>
+            <View style={{flex: 1, paddingHorizontal: 10}}>
+              <Text style={{...FONTS.font}}>Emmanuel Okpunor</Text>
+              <Text style={{...FONTS.font}}>08134271449</Text>
+              <Text style={{...FONTS.font}}>
+                2 bukola alomaja avenue, glory land estate, inside destiny homes
+                estate, Abijo
+              </Text>
+              <Text style={{...FONTS.font}}>Ajah</Text>
+              <Text style={{...FONTS.font}}>Lagos</Text>
+            </View>
+          </View>
+          <Divider />
+          <View style={{...GlobalStyleSheet.container, alignItems: 'flex-end'}}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('AddDeliveryAddress')}>
+              <AntDesignIcon name="edit" size={20} />
+              <Text style={{...FONTS.font}}>Edit</Text>
+            </TouchableOpacity>
+          </View>
+        </Card>
+      </ScrollView>
+    </SafeAreaView>
+  );
 };
 
 export default Address;

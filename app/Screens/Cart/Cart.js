@@ -276,7 +276,7 @@ const Cart = ({navigation}) => {
         <View style={{flex: 1}}>
           <CustomButton
             btnSm
-            onPress={() => navigation.navigate('AddDeliveryAddress')}
+            onPress={() => navigation.navigate('Confirm Order')}
             title="Checkout (3)"
           />
         </View>

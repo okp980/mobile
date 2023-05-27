@@ -46,6 +46,7 @@ import SwipeableScreen from '../Screens/Components/Swipeable';
 import Tabs from '../Screens/Components/Tabs';
 import Tables from '../Screens/Components/Tables';
 import Toggles from '../Screens/Components/Toggles';
+import ConfirmOrder from '../Screens/ConfirmOrder';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -74,6 +75,10 @@ const StackNavigator = () => {
         />
         <StackComponent.Screen name={'Featured'} component={Featured} />
         <StackComponent.Screen name={'Orders'} component={Orders} />
+        <StackComponent.Screen
+          name={'Confirm Order'}
+          component={ConfirmOrder}
+        />
         <StackComponent.Screen
           name={'DeliveryTracking'}
           component={DeliveryTracking}
