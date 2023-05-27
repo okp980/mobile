@@ -13,6 +13,8 @@ import {COLORS, FONTS} from '../../constants/theme';
 import Header from '../../layout/Header';
 import Card from '../../components/Card';
 import CustomInput from '../../components/CustomInput';
+import {Divider} from 'react-native-paper';
+import ShippingMethodItem from '../../components/ShippingMethodItem';
 
 const AddDeliveryAddress = ({navigation}) => {
   const [defaultAddress, setAddress] = useState('Home');
@@ -53,22 +55,7 @@ const AddDeliveryAddress = ({navigation}) => {
             <CustomInput label="City" placeholder="Select City" />
           </Card>
 
-          <Card style={GlobalStyleSheet.container}>
-            <View
-              style={{
-                paddingBottom: 10,
-                marginBottom: 10,
-              }}>
-              <Text
-                style={{
-                  ...FONTS.fontLg,
-                  ...FONTS.fontBold,
-                  color: COLORS.title,
-                }}>
-                Shipping Methods
-              </Text>
-            </View>
-          </Card>
+          <ShippingMethodItem />
         </ScrollView>
       </View>
       <View style={GlobalStyleSheet.container}>
