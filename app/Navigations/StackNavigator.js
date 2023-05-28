@@ -17,7 +17,7 @@ import Address from '../Screens/Account/Address';
 import AddDeliveryAddress from '../Screens/Account/AddDeliveryAddress';
 import Filter from '../Screens/Filter/Filter';
 import Items from '../Screens/Items/Items';
-import CategoryHome from '../Screens/Categories/CategoryHome';
+
 import Search from '../Screens/Search/Search';
 import Payment from '../Screens/Delivery/Payment';
 import Components from '../Screens/Components/Components';
@@ -47,6 +47,7 @@ import Tabs from '../Screens/Components/Tabs';
 import Tables from '../Screens/Components/Tables';
 import Toggles from '../Screens/Components/Toggles';
 import ConfirmOrder from '../Screens/ConfirmOrder';
+import BottomNavigation from './BottomNavigation';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -54,7 +55,7 @@ const StackNavigator = () => {
   return (
     <>
       <StackComponent.Navigator
-        initialRouteName={'DrawerNavigation'}
+        initialRouteName={'BottomNavigation'}
         detachInactiveScreens={true}
         screenOptions={{
           headerShown: false,
@@ -64,10 +65,12 @@ const StackNavigator = () => {
         <StackComponent.Screen name={'SignUp'} component={SignUp} />
         <StackComponent.Screen name={'SignIn'} component={SignIn} />
         <StackComponent.Screen
-          name={'DrawerNavigation'}
-          component={DrawerNavigation}
+          name="BottomNavigation"
+          component={BottomNavigation}
         />
-        <StackComponent.Screen name={'CategoryHome'} component={CategoryHome} />
+        {/* remove */}
+
+        {/* check, kinda useful */}
         <StackComponent.Screen name={'Products'} component={Products} />
         <StackComponent.Screen
           name={'ProductDetail'}
@@ -96,6 +99,8 @@ const StackNavigator = () => {
         <StackComponent.Screen name={'Filter'} component={Filter} />
         <StackComponent.Screen name={'Items'} component={Items} />
         <StackComponent.Screen name={'Search'} component={Search} />
+
+        {/* To be removed */}
         <StackComponent.Screen name={'Components'} component={Components} />
         <StackComponent.Screen name={'Accordion'} component={AccordionScreen} />
         <StackComponent.Screen name={'ActionSheet'} component={ActionSheet} />
@@ -111,6 +116,7 @@ const StackNavigator = () => {
           name={'DividerElements'}
           component={DividerElements}
         />
+
         <StackComponent.Screen name={'FileUploads'} component={FileUploads} />
         <StackComponent.Screen name={'Inputs'} component={Inputs} />
         <StackComponent.Screen name={'Headers'} component={Headers} />

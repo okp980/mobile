@@ -13,4 +13,5 @@ const extendedApi = apiSlice.injectEndpoints({
   overrideExisting: true,
 });
 
-export const {useGetCategoriesQuery, useGetSubCategoriesQuery} = extendedApi;
+export const {useGetCategoriesQuery, useLazyGetSubCategoriesQuery} =
+  extendedApi;

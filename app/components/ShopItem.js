@@ -4,7 +4,7 @@ import {COLORS, FONTS, SIZES} from '../constants/theme';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 
-const ShopItem = ({item, handleLike}) => {
+const ShopItem = ({item, handleLike, index}) => {
   const navigation = useNavigation();
 
   return (
@@ -12,8 +12,9 @@ const ShopItem = ({item, handleLike}) => {
       activeOpacity={0.9}
       onPress={() => navigation.navigate('ProductDetail')}
       style={{
-        width: 150,
-        marginRight: 20,
+        flex: 1,
+        // width: 150,
+        marginLeft: index % 2 !== 0 ? 10 : 0,
       }}>
       <View
         style={{

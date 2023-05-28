@@ -4,6 +4,7 @@ import {
   ImageBackground,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   Text,
   TouchableOpacity,
   View,
@@ -46,6 +47,7 @@ import HomeCategories from '../Components/HomeCategories';
 import FeaturedProductsSlide from '../Components/FeaturedProductsSlide';
 import Collections from '../Components/Collections';
 import {TopCollection} from './Home';
+import HorizontalCollections from '../../components/HorizontalCollections.js';
 
 const categoryData = [
   {
@@ -179,7 +181,7 @@ const MainHome = ({navigation}) => {
         flex: 1,
         backgroundColor: COLORS.backgroundColor,
       }}>
-      <View
+      {/* <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -260,7 +262,8 @@ const MainHome = ({navigation}) => {
           )}
           size={25}
         />
-      </View>
+      </View> */}
+      <StatusBar animated={true} translucent={true} />
       <ScrollView>
         <Swiper
           autoplay={true}
@@ -292,12 +295,12 @@ const MainHome = ({navigation}) => {
             );
           })}
         </Swiper>
-        <Collections
+        <HorizontalCollections products={TopCollection} title="New Arrivals" />
+        <HorizontalCollections
           products={TopCollection}
-          title="Trending"
-          subtitle="Based trending products"
+          title="Trending Products"
         />
-        <HomeCategories />
+        <Collections products={TopCollection} title="Recommended Products" />
       </ScrollView>
     </SafeAreaView>
   );

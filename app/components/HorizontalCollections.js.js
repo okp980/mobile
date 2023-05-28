@@ -1,26 +1,18 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import ShopItem from '../../components/ShopItem';
-import {COLORS, FONTS} from '../../constants/theme';
-import {GlobalStyleSheet} from '../../constants/StyleSheet';
+import ShopItem from '../components/ShopItem';
+import {COLORS, FONTS} from '../constants/theme';
+import {GlobalStyleSheet} from '../constants/StyleSheet';
 
-const Collections = ({products, title, subtitle, ishorinzontal = true}) => {
-  const handleLike2 = id => {
-    // let temp = products.map((data, index) => {
-    //   if (id === data.id) {
-    //     return {...data, isLike: !data.isLike};
-    //   }
-    //   return data;
-    // });
-    // setProductsData2(temp);
-  };
+const HorizontalCollections = ({products, title, subtitle}) => {
   return (
     <View style={{marginTop: 10, paddingHorizontal: 10}}>
       <View
         style={{
           flexDirection: 'row',
           marginBottom: 10,
+          marginTop: 10,
         }}>
         <View style={{flex: 1}}>
           {title && (
@@ -51,15 +43,13 @@ const Collections = ({products, title, subtitle, ishorinzontal = true}) => {
         showsHorizontalScrollIndicator={false}
         data={products}
         keyExtractor={item => item.id}
-        renderItem={({item, index}) => (
-          <ShopItem item={item} handleLike={handleLike2} index={index} />
-        )}
-        numColumns={2}
+        renderItem={({item, index}) => <ShopItem item={item} />}
+        horizontal
       />
     </View>
   );
 };
 
-export default Collections;
+export default HorizontalCollections;
 
 const styles = StyleSheet.create({});
