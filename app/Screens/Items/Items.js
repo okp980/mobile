@@ -26,90 +26,9 @@ import Ripple from 'react-native-material-ripple';
 import CheckBox from '@react-native-community/checkbox';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import CustomButton from '../../components/CustomButton';
-import MobilesData from '../../JSON/Mobiles.json';
-import ElectronicsData from '../../JSON/Electronics.json';
-import FashionData from '../../JSON/Fashion.json';
-import FurnitureData from '../../JSON/Furniture.json';
-import GroceryData from '../../JSON/Grocery.json';
-import AppliancesData from '../../JSON/Appliances.json';
-import BooksToysData from '../../JSON/BooksToys.json';
 
-const ProductData = [
-  {
-    image: pic1,
-    title: 'Peter England Causual',
-    desc: 'Printed Longline Pure Cotteon T-shirt',
-    price: '$151.15',
-    oldPrice: '$255.11',
-    rating: '4.2',
-    reviews: '245',
-  },
-  {
-    image: pic2,
-    title: 'Peter England Causual',
-    desc: 'Printed Longline Pure Cotteon T-shirt',
-    price: '$151.15',
-    oldPrice: '$255.11',
-    rating: '4.2',
-    reviews: '245',
-  },
-  {
-    image: pic3,
-    title: 'Peter England Causual',
-    desc: 'Printed Longline Pure Cotteon T-shirt',
-    price: '$151.15',
-    oldPrice: '$255.11',
-    rating: '4.2',
-    reviews: '245',
-    status: 'Trending',
-  },
-  {
-    image: pic4,
-    title: 'Peter England Causual',
-    desc: 'Printed Longline Pure Cotteon T-shirt',
-    price: '$151.15',
-    oldPrice: '$255.11',
-    rating: '4.2',
-    reviews: '245',
-  },
-  {
-    image: pic5,
-    title: 'Peter England Causual',
-    desc: 'Printed Longline Pure Cotteon T-shirt',
-    price: '$151.15',
-    oldPrice: '$255.11',
-    rating: '4.2',
-    reviews: '245',
-  },
-  {
-    image: pic6,
-    title: 'Peter England Causual',
-    desc: 'Printed Longline Pure Cotteon T-shirt',
-    price: '$151.15',
-    oldPrice: '$255.11',
-    rating: '4.2',
-    reviews: '245',
-    status: 'Sale',
-  },
-  {
-    image: pic7,
-    title: 'Peter England Causual',
-    desc: 'Printed Longline Pure Cotteon T-shirt',
-    price: '$151.15',
-    oldPrice: '$255.11',
-    rating: '4.2',
-    reviews: '245',
-  },
-  {
-    image: pic8,
-    title: 'Peter England Causual',
-    desc: 'Printed Longline Pure Cotteon T-shirt',
-    price: '$151.15',
-    oldPrice: '$255.11',
-    rating: '4.2',
-    reviews: '245',
-  },
-];
+import {useEffect} from 'react';
+import {useGetProductsQuery} from '../../../store/services/products';
 
 const discountFilterData = [
   {
@@ -175,26 +94,13 @@ const brandFilterData = [
 const Items = ({navigation, route}) => {
   const sheetRef = useRef();
 
-  const {type} = route.params;
+  const {type, subCategoriesId} = route.params;
 
-  const Products =
-    type == 'Mobiles'
-      ? MobilesData.items
-      : type == 'Electronics'
-      ? ElectronicsData.items
-      : type == 'Furniture'
-      ? FurnitureData.items
-      : type == 'Grocery'
-      ? GroceryData.items
-      : type == 'Appliances'
-      ? AppliancesData.items
-      : type == 'Books,Toys'
-      ? BooksToysData.items
-      : type == 'Fashion'
-      ? FashionData.items
-      : ProductData;
+  const {data, isLoading, isSuccess, isError} = useGetProductsQuery({
+    subCategory: subCategoriesId,
+  });
 
-  const [itemData, setItemData] = useState(Products);
+  const [itemData, setItemData] = useState([]);
 
   const [sortVal, setSortVal] = useState('');
   const [sheetType, setSheetType] = useState('');
@@ -203,6 +109,13 @@ const Items = ({navigation, route}) => {
   const [filterData, setFilterData] = useState([]);
   const [isSnackbar, setIsSnackbar] = useState(false);
   const [snackText, setSnackText] = useState('Loading...');
+
+  useEffect(() => {
+    if (isSuccess) {
+      setItemData(data?.data);
+    }
+    console.log(data?.data);
+  }, [isSuccess]);
 
   const handleItemLike = val => {
     let items = itemData.map(data => {
@@ -239,6 +152,10 @@ const Items = ({navigation, route}) => {
       sheetType == 'brand' ? Brand : sheetType == 'discount' ? Discount : [],
     );
   };
+
+  useEffect(() => {
+    navigation.setOptions({title: type});
+  }, []);
 
   return (
     <>
@@ -386,7 +303,7 @@ const Items = ({navigation, route}) => {
           flex: 1,
           backgroundColor: COLORS.backgroundColor,
         }}>
-        <Header titleLeft leftIcon={'back'} title={type} />
+        {/* Filter */}
         <View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View
@@ -455,6 +372,7 @@ const Items = ({navigation, route}) => {
             </View>
           </ScrollView>
         </View>
+        {/* Products */}
         <ScrollView>
           <View
             style={{
@@ -466,26 +384,22 @@ const Items = ({navigation, route}) => {
                 flexWrap: 'wrap',
                 paddingHorizontal: 5,
               }}>
-              {itemData.map((data, index) => (
+              {itemData.map((item, index) => (
                 <View key={index} style={{width: '50%', paddingHorizontal: 5}}>
                   <ProductItem
                     onPress={() =>
                       navigation.navigate('ProductDetail', {
-                        item: data,
-                        category: type,
+                        product: item._id,
                       })
                     }
                     imgLength={type == 'Fashion'}
-                    id={data.id}
-                    imageSrc={data.image}
-                    title={data.title}
-                    desc={data.desc}
-                    status={data.status}
-                    price={data.price}
-                    oldPrice={data.oldPrice}
-                    rating={data.rating}
-                    reviews={data.reviews}
-                    isLike={data.isLike}
+                    id={item._id}
+                    // imageSrc={item.image}
+                    title={item.name}
+                    status={item.status}
+                    price={item.price}
+                    oldPrice={item.oldPrice}
+                    // isLike={data.isLike}
                     handleItemLike={handleItemLike}
                   />
                 </View>
@@ -493,6 +407,8 @@ const Items = ({navigation, route}) => {
             </View>
           </View>
         </ScrollView>
+
+        {/* SnackBar */}
         <Snackbar
           visible={isSnackbar}
           duration={3000}

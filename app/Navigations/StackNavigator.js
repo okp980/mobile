@@ -47,7 +47,11 @@ import Tabs from '../Screens/Components/Tabs';
 import Tables from '../Screens/Components/Tables';
 import Toggles from '../Screens/Components/Toggles';
 import ConfirmOrder from '../Screens/ConfirmOrder';
-import BottomNavigation from './BottomNavigation';
+import BottomNavigation, {CustomHeader} from './BottomNavigation';
+import {View, Text} from 'react-native';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {COLORS} from '../constants/theme';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -58,8 +62,8 @@ const StackNavigator = () => {
         initialRouteName={'BottomNavigation'}
         detachInactiveScreens={true}
         screenOptions={{
+          headerStyle: COLORS.backgroundColor,
           headerShown: false,
-          cardStyle: {backgroundColor: 'transparent'},
         }}>
         <StackComponent.Screen name={'Splash'} component={Splash} />
         <StackComponent.Screen name={'SignUp'} component={SignUp} />
@@ -74,12 +78,28 @@ const StackNavigator = () => {
         <StackComponent.Screen name={'Products'} component={Products} />
         <StackComponent.Screen
           name={'ProductDetail'}
+          options={({navigation}) => ({
+            headerShown: true,
+            header: () => <CustomHeader showBackBtn navigation={navigation} />,
+          })}
           component={ProductDetail}
         />
         <StackComponent.Screen name={'Featured'} component={Featured} />
         <StackComponent.Screen name={'Orders'} component={Orders} />
         <StackComponent.Screen
           name={'Confirm Order'}
+          options={({navigation}) => ({
+            headerShown: true,
+            headerLeft: () => (
+              <TouchableOpacity onPress={navigation.goBack}>
+                <Ionicon
+                  name="chevron-back"
+                  size={30}
+                  style={{marginRight: 15}}
+                />
+              </TouchableOpacity>
+            ),
+          })}
           component={ConfirmOrder}
         />
         <StackComponent.Screen
@@ -97,7 +117,35 @@ const StackNavigator = () => {
           component={AddDeliveryAddress}
         />
         <StackComponent.Screen name={'Filter'} component={Filter} />
-        <StackComponent.Screen name={'Items'} component={Items} />
+        <StackComponent.Screen
+          name={'Items'}
+          component={Items}
+          options={({route, navigation}) => ({
+            headerShown: true,
+            headerStyle: COLORS.backgroundColor,
+            headerLeft: () => (
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TouchableOpacity onPress={navigation.goBack}>
+                  <Ionicon
+                    name="chevron-back"
+                    size={30}
+                    style={{marginRight: 15}}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+                  <Ionicon name="search" size={25} />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerRight: () => (
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+                  <Ionicon name="cart-outline" size={25} />
+                </TouchableOpacity>
+              </View>
+            ),
+          })}
+        />
         <StackComponent.Screen name={'Search'} component={Search} />
 
         {/* To be removed */}

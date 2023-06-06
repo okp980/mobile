@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Text, Touchable, TouchableOpacity, View} from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {COLORS, FONTS} from '../constants/theme';
+import {useUpdateCartCountMutation} from '../../store/services/cart';
 
 const CheckoutItem = ({
+  productId,
   image,
   title,
   price,
@@ -12,7 +14,17 @@ const CheckoutItem = ({
   type,
   onPress,
 }) => {
-  const [itemQuantity, setItemQuantity] = useState(1);
+  const [itemQuantity, setItemQuantity] = useState(quantity);
+  const [updateCartCount] = useUpdateCartCountMutation();
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      updateCartCount({productId, count: quantity});
+    }, 1000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [itemQuantity]);
 
   return (
     <TouchableOpacity
@@ -59,7 +71,7 @@ const CheckoutItem = ({
               alignItems: 'center',
               flex: 1,
             }}>
-            <Text style={{...FONTS.h6}}>{price}</Text>
+            <Text style={{...FONTS.h6}}>₦{price}</Text>
             <Text
               style={{
                 ...FONTS.fontSm,

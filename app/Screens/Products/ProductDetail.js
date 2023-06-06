@@ -29,11 +29,20 @@ import Collections from '../Components/Collections';
 import {TopCollection} from '../Home/Home';
 import Rating from '../../components/Rating';
 import Card from '../../components/Card';
+import {useGetSingleProductsQuery} from '../../../store/services/products';
+import {useAddToCartMutation} from '../../../store/services/cart';
 
 const productImage = [pic1, pic1, pic1];
 
 const ProductDetail = ({navigation, route}) => {
-  const {item, category} = route.params;
+  const {product} = route.params;
+  console.log('product', product);
+  const {data, isLoading, isError, isSuccess} =
+    useGetSingleProductsQuery(product);
+
+  const [addToCart] = useAddToCartMutation();
+
+  console.log(data);
 
   const productColors = ['#A29698', '#80C6A9', '#8E84CA', '#E5907D'];
 
@@ -62,12 +71,19 @@ const ProductDetail = ({navigation, route}) => {
     setIsLike(!isLike);
   };
 
+  if (isLoading)
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.backgroundColor}}>
       <ScrollView contentContainerStyle={{paddingBottom: 30}}>
-        <Header transparent={true} leftIcon={'back'} rightIcon={'more'} />
         <View>
-          <Swiper
+          {/* Product carousel */}
+          {/* <Swiper
             style={{height: SIZES.width}}
             dotStyle={{
               height: 10,
@@ -109,28 +125,19 @@ const ProductDetail = ({navigation, route}) => {
                 </View>
               );
             })}
-          </Swiper>
+          </Swiper> */}
         </View>
         <View>
           <Card style={{padding: 15}}>
             <View
               style={{
                 alignItems: 'flex-start',
-
-                //   borderBottomWidth: 1,
-                //   borderColor: COLORS.borderColor,
-                //   paddingBottom: 12,
               }}>
               <Text style={{...FONTS.fontLg, color: COLORS.dark}}>
-                {item.title}
+                {data?.data?.name}
               </Text>
               <View
                 style={{
-                  // backgroundColor: COLORS.primaryLight,
-                  // paddingHorizontal: 14,
-                  // paddingVertical: 6,
-                  // borderRadius: SIZES.radius,
-
                   marginBottom: 5,
                   marginTop: 5,
                   width: '100%',
@@ -140,7 +147,7 @@ const ProductDetail = ({navigation, route}) => {
                 }}>
                 <View>
                   <Text style={{...FONTS.fontXs, color: COLORS.text}}>
-                    Brand: {category}
+                    Brand:
                   </Text>
                 </View>
                 <Rating />
@@ -155,7 +162,7 @@ const ProductDetail = ({navigation, route}) => {
                     marginRight: 5,
                     color: COLORS.dark,
                   }}>
-                  {item.price}
+                  {data?.data?.price}
                 </Text>
                 <Text
                   style={{
@@ -164,7 +171,7 @@ const ProductDetail = ({navigation, route}) => {
                     color: COLORS.text,
                     marginRight: 8,
                   }}>
-                  {item.oldPrice}
+                  {data?.data?.oldPrice}
                 </Text>
               </View>
               <Text
@@ -224,8 +231,8 @@ const ProductDetail = ({navigation, route}) => {
         <CustomButton
           color={COLORS.dark}
           customStyles={{flex: 1}}
-          onPress={() => navigation.navigate('Cart')}
-          title="BUY NOW"
+          onPress={() => addToCart(product)}
+          title="ADD TO CART"
         />
       </View>
       <Snackbar

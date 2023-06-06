@@ -25,9 +25,6 @@ const ProductItem = ({
       activeOpacity={0.9}
       onPress={onPress}
       style={{
-        // borderWidth: 1,
-        // borderColor: COLORS.borderColor,
-        // borderRadius: 8,
         marginBottom: 10,
       }}>
       <View>
@@ -37,7 +34,6 @@ const ProductItem = ({
             height: undefined,
             aspectRatio: imgLength ? 1 / 1.3 : 1 / 1,
             borderRadius: 6,
-            // borderTopRightRadius:6,
           }}
           source={imageSrc ? {uri: imageSrc} : image}
         />
@@ -105,28 +101,6 @@ const ProductItem = ({
           }}>
           {title}
         </Text>
-        {/* <Text numberOfLines={1} style={{...FONTS.fontXs, marginBottom: 3}}>
-          {desc}
-        </Text> */}
-
-        {/* <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 4,
-          }}>
-          <Text
-            style={{...FONTS.font, ...FONTS.fontMedium, color: COLORS.title}}>
-            {rating}
-          </Text>
-          <FontAwesome
-            style={{marginLeft: 3, marginRight: 10}}
-            color={'#FFA800'}
-            size={14}
-            name="star"
-          />
-          <Text style={{...FONTS.fontSm}}>({reviews} Reviews)</Text>
-        </View> */}
         <View
           style={{
             marginTop: 4,

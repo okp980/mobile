@@ -31,6 +31,7 @@ const Categories = ({navigation}) => {
   useEffect(() => {
     setCategory(data?.data[0]._id);
   }, [data?.data]);
+
   useEffect(() => {
     handleGetSubCategories();
   }, [category]);
@@ -99,8 +100,11 @@ const Categories = ({navigation}) => {
         {data && (
           <ProductGrid
             products={subCategories}
-            onProductClick={product =>
-              navigation.navigate('Items', {type: product?.name})
+            onProductClick={item =>
+              navigation.navigate('Items', {
+                type: item?.name,
+                subCategoriesId: item._id,
+              })
             }
           />
         )}
