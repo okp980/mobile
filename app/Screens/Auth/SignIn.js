@@ -12,8 +12,25 @@ import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import {COLORS, FONTS, IMAGES, SIZES} from '../../constants/theme';
 import CustomInput from '../../components/CustomInput';
 import {Formik} from 'formik';
+import {useSignInMutation} from '../../../store/services/auth';
+import {useDispatch} from 'react-redux';
+import {setCredentials} from '../../../store/feature/auth/authSlice';
 
-const SignIn = props => {
+const SignIn = ({navigation, route}) => {
+  const {from} = route.params;
+  const [signIn] = useSignInMutation();
+  const dispatch = useDispatch();
+
+  const handleSignIn = async values => {
+    const {email, password} = values;
+    try {
+      const data = await signIn({email, password}).unwrap();
+      dispatch(setCredentials(data?.token));
+      navigation.navigate(from);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
       <SafeAreaView
@@ -31,9 +48,7 @@ const SignIn = props => {
           </View>
           <Formik
             initialValues={{email: '', password: ''}}
-            onSubmit={values => {
-              console.log(values);
-            }}>
+            onSubmit={handleSignIn}>
             {({handleChange, handleSubmit, values}) => (
               <>
                 <CustomInput
