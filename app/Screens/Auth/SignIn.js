@@ -4,20 +4,16 @@ import {
   SafeAreaView,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import {COLORS, FONTS, IMAGES, SIZES} from '../../constants/theme';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import CustomInput from '../../components/CustomInput';
+import {Formik} from 'formik';
 
 const SignIn = props => {
-  const [isFocused, setisFocused] = useState(false);
-  const [isFocused2, setisFocused2] = useState(false);
-  const [handlePassword, setHandlePassword] = useState(true);
-
   return (
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
       <SafeAreaView
@@ -33,62 +29,31 @@ const SignIn = props => {
           <View style={{marginBottom: 20}}>
             <Text style={{...FONTS.h1, textAlign: 'center'}}>Zuraaya</Text>
           </View>
+          <Formik
+            initialValues={{email: '', password: ''}}
+            onSubmit={values => {
+              console.log(values);
+            }}>
+            {({handleChange, handleSubmit, values}) => (
+              <>
+                <CustomInput
+                  label={'Email'}
+                  placeholder={'Enter Email'}
+                  onChangeText={handleChange('email')}
+                  value={values.email}
+                />
+                <CustomInput
+                  label={'Password'}
+                  placeholder={'Enter Password'}
+                  isPassword
+                  onChangeText={handleChange('password')}
+                  value={values.password}
+                />
 
-          <View style={GlobalStyleSheet.inputGroup}>
-            <Text style={GlobalStyleSheet.label}>Username</Text>
-            <TextInput
-              style={[
-                GlobalStyleSheet.formControl,
-                isFocused && GlobalStyleSheet.activeInput,
-              ]}
-              onFocus={() => setisFocused(true)}
-              onBlur={() => setisFocused(false)}
-              placeholder="Type Username Here"
-              placeholderTextColor={COLORS.label}
-            />
-          </View>
-          <View style={GlobalStyleSheet.inputGroup}>
-            <Text style={GlobalStyleSheet.label}>Password</Text>
-            <View>
-              <TouchableOpacity
-                onPress={() => setHandlePassword(!handlePassword)}
-                style={{
-                  position: 'absolute',
-                  zIndex: 1,
-                  height: 50,
-                  width: 50,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  right: 0,
-                }}>
-                {handlePassword ? (
-                  <FeatherIcon name="eye" color={COLORS.secondary} size={22} />
-                ) : (
-                  <FeatherIcon
-                    name="eye-off"
-                    color={COLORS.secondary}
-                    size={22}
-                  />
-                )}
-              </TouchableOpacity>
-              <TextInput
-                style={[
-                  GlobalStyleSheet.formControl,
-                  isFocused2 && GlobalStyleSheet.activeInput,
-                ]}
-                onFocus={() => setisFocused2(true)}
-                onBlur={() => setisFocused2(false)}
-                secureTextEntry={handlePassword}
-                placeholder="Type Password Here"
-                placeholderTextColor={COLORS.label}
-              />
-            </View>
-          </View>
-
-          <CustomButton
-            onPress={() => props.navigation.navigate('DrawerNavigation')}
-            title="Login"
-          />
+                <CustomButton onPress={handleSubmit} title="Sign In" />
+              </>
+            )}
+          </Formik>
 
           <View
             style={{
