@@ -24,6 +24,7 @@
     "appcenter": "^4.4.5",
     "appcenter-analytics": "^4.4.5",
     "appcenter-crashes": "^4.4.5",
+    "formik": "^2.4.1",
     "react": "18.1.0",
     "react-native": "0.70.1",
     "react-native-chart-kit": "^6.12.0",
