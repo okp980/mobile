@@ -52,6 +52,7 @@ import {View, Text} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {COLORS} from '../constants/theme';
+import {Confirm_Order, Sign_In, Sign_Up} from '../constants/routes';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -66,8 +67,16 @@ const StackNavigator = () => {
           headerShown: false,
         }}>
         <StackComponent.Screen name={'Splash'} component={Splash} />
-        <StackComponent.Screen name={'SignUp'} component={SignUp} />
-        <StackComponent.Screen name={'SignIn'} component={SignIn} />
+        <StackComponent.Screen
+          name={Sign_Up}
+          component={SignUp}
+          options={{gestureDirection: 'vertical'}}
+        />
+        <StackComponent.Screen
+          name={Sign_In}
+          component={SignIn}
+          options={{gestureDirection: 'vertical'}}
+        />
         <StackComponent.Screen
           name="BottomNavigation"
           component={BottomNavigation}
@@ -87,7 +96,7 @@ const StackNavigator = () => {
         <StackComponent.Screen name={'Featured'} component={Featured} />
         <StackComponent.Screen name={'Orders'} component={Orders} />
         <StackComponent.Screen
-          name={'Confirm Order'}
+          name={Confirm_Order}
           options={({navigation}) => ({
             headerShown: true,
             headerLeft: () => (
