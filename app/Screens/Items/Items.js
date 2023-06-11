@@ -114,7 +114,6 @@ const Items = ({navigation, route}) => {
     if (isSuccess) {
       setItemData(data?.data);
     }
-    console.log(data?.data);
   }, [isSuccess]);
 
   const handleItemLike = val => {

@@ -36,13 +36,10 @@ const productImage = [pic1, pic1, pic1];
 
 const ProductDetail = ({navigation, route}) => {
   const {product} = route.params;
-  console.log('product', product);
   const {data, isLoading, isError, isSuccess} =
     useGetSingleProductsQuery(product);
 
   const [addToCart] = useAddToCartMutation();
-
-  console.log(data);
 
   const productColors = ['#A29698', '#80C6A9', '#8E84CA', '#E5907D'];
 

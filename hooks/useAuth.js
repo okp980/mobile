@@ -1,9 +1,14 @@
-import {useSelector} from 'react-redux';
-import {selectAuth} from '../store/feature/auth/authSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectAuth, setCredentials} from '../store/feature/auth/authSlice';
 
 function useAuth() {
   const token = useSelector(selectAuth);
-  return {token};
+  const dispatch = useDispatch();
+
+  const setToken = token => {
+    dispatch(setCredentials(token));
+  };
+  return {token, setToken};
 }
 
 export default useAuth;

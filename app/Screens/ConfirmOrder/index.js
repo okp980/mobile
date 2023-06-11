@@ -1,6 +1,5 @@
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
-import {Header} from '@react-navigation/stack';
 import ShippingMethodItem from '../../components/ShippingMethodItem';
 import OrderSummary from '../../components/OrderSummary';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
@@ -10,21 +9,40 @@ import Card from '../../components/Card';
 import CustomInput from '../../components/CustomInput';
 import {FONTS} from '../../constants/theme';
 import useAuth from '../../../hooks/useAuth';
-import {Confirm_Order, Sign_In} from '../../constants/routes';
+import {
+  Add_Delivery_Address,
+  Confirm_Order,
+  Sign_In,
+} from '../../constants/routes';
+import {useGetDefaultShippingAddressQuery} from '../../../store/services/shippingAddress';
 
 const ConfirmOrder = ({navigation}) => {
   const {token} = useAuth();
+
+  const {
+    data: address,
+    isError: isAddressError,
+    isSuccess: isAddressSuccess,
+    error: addressError,
+  } = useGetDefaultShippingAddressQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   useEffect(() => {
     if (!token) {
       navigation.navigate(Sign_In, {from: Confirm_Order});
     }
   }, [token]);
+  useEffect(() => {
+    if (isAddressError && token) {
+      navigation.navigate(Add_Delivery_Address, {from: Confirm_Order});
+    }
+  }, [isAddressError, isAddressSuccess, token]);
   return (
     <SafeAreaView style={{flex: 1}}>
       {/* <Header titleLeft leftIcon={'back'} title={'Confirm Order'} /> */}
       <View style={{flex: 1}}>
         <ScrollView>
-          <ShippingAddress />
+          <ShippingAddress address={address?.data} />
           <ShippingMethodItem />
           <Card style={{...GlobalStyleSheet.container}}>
             <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>Coupon</Text>

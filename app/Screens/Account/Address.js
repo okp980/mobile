@@ -12,8 +12,27 @@ import Header from '../../layout/Header';
 import Card from '../../components/Card';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import {Divider} from 'react-native-paper';
+import {
+  useGetUserShippingAddressQuery,
+  useUpdateDefaultAddressMutation,
+} from '../../../store/services/shippingAddress';
+import {Add_Delivery_Address} from '../../constants/routes';
 
 const Address = ({navigation}) => {
+  const {data, isLoading, isError, isSuccess, error} =
+    useGetUserShippingAddressQuery();
+
+  const [updateDefault] = useUpdateDefaultAddressMutation();
+
+  const handleDefault = async info => {
+    if (info.default) return;
+    try {
+      await updateDefault(info.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -33,56 +52,67 @@ const Address = ({navigation}) => {
             +Add New Address
           </Text>
         </TouchableOpacity>
-        <Card>
-          <View
-            style={{
-              ...GlobalStyleSheet.container,
-              flexDirection: 'row',
-              alignItems: 'center',
-              paddingVertical: 10,
-            }}>
-            <View>
+        {data?.map((info, index) => (
+          <Card key={index}>
+            <TouchableOpacity onPress={() => handleDefault(info)}>
               <View
                 style={{
-                  width: 20,
-                  height: 20,
-                  borderColor: 'black',
-                  borderWidth: 1,
-                  borderRadius: 10,
-
+                  ...GlobalStyleSheet.container,
+                  flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  paddingVertical: 10,
                 }}>
-                <View
-                  style={{
-                    width: 12,
-                    height: 12,
-                    backgroundColor: 'black',
-                    borderRadius: 6,
-                  }}
-                />
+                <View>
+                  <View
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderColor: 'black',
+                      borderWidth: 1,
+                      borderRadius: 10,
+
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <View
+                      style={{
+                        width: 12,
+                        height: 12,
+                        backgroundColor: info?.default
+                          ? COLORS.dark
+                          : COLORS.white,
+                        borderRadius: 6,
+                      }}
+                    />
+                  </View>
+                </View>
+
+                <View style={{flex: 1, paddingHorizontal: 10}}>
+                  <Text style={{...FONTS.font}}>{info?.fullName}</Text>
+                  <Text style={{...FONTS.font}}>{info?.phoneNumber}</Text>
+                  <Text style={{...FONTS.font}}>{info?.address}</Text>
+                  <Text style={{...FONTS.font}}>{info?.city}</Text>
+                  <Text style={{...FONTS.font}}>{info?.state}</Text>
+                  <Text style={{...FONTS.font}}>{info?.country}</Text>
+                </View>
               </View>
-            </View>
-            <View style={{flex: 1, paddingHorizontal: 10}}>
-              <Text style={{...FONTS.font}}>Emmanuel Okpunor</Text>
-              <Text style={{...FONTS.font}}>08134271449</Text>
-              <Text style={{...FONTS.font}}>
-                2 bukola alomaja avenue, glory land estate, inside destiny homes
-                estate, Abijo
-              </Text>
-              <Text style={{...FONTS.font}}>Ajah</Text>
-              <Text style={{...FONTS.font}}>Lagos</Text>
-            </View>
-          </View>
-          <Divider />
-          <View style={{...GlobalStyleSheet.container, alignItems: 'flex-end'}}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('AddDeliveryAddress')}>
-              <AntDesignIcon name="edit" size={20} />
-              <Text style={{...FONTS.font}}>Edit</Text>
             </TouchableOpacity>
-          </View>
-        </Card>
+            <Divider />
+            <View
+              style={{...GlobalStyleSheet.container, alignItems: 'flex-end'}}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(Add_Delivery_Address, {
+                    edit: true,
+                    addressId: info?.id,
+                  })
+                }>
+                <AntDesignIcon name="edit" size={20} />
+                <Text style={{...FONTS.font}}>Edit</Text>
+              </TouchableOpacity>
+            </View>
+          </Card>
+        ))}
       </ScrollView>
     </SafeAreaView>
   );

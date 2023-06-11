@@ -7,7 +7,7 @@ import {Divider} from 'react-native-paper';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
-const ShippingAddress = () => {
+const ShippingAddress = ({address}) => {
   const navigation = useNavigation();
   return (
     <Card>
@@ -42,12 +42,10 @@ const ShippingAddress = () => {
           paddingVertical: 10,
         }}>
         <View style={{flex: 1, paddingHorizontal: 10}}>
-          <Text style={{...FONTS.font}}>
-            2 bukola alomaja avenue, glory land estate, inside destiny homes
-            estate, Abijo,
-          </Text>
-          <Text style={{...FONTS.font}}>Ajah,</Text>
-          <Text style={{...FONTS.font}}>Lagos.</Text>
+          <Text style={{...FONTS.font}}>{address?.address},</Text>
+          <Text style={{...FONTS.font}}>{address?.city},</Text>
+          <Text style={{...FONTS.font}}>{address?.state}.</Text>
+          <Text style={{...FONTS.font}}>{address?.country}.</Text>
         </View>
       </View>
     </Card>

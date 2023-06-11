@@ -52,7 +52,13 @@ import {View, Text} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {COLORS} from '../constants/theme';
-import {Confirm_Order, Sign_In, Sign_Up} from '../constants/routes';
+import {
+  Add_Delivery_Address,
+  Address_Route,
+  Confirm_Order,
+  Sign_In,
+  Sign_Up,
+} from '../constants/routes';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -119,10 +125,10 @@ const StackNavigator = () => {
         <StackComponent.Screen name={'Profile'} component={Profile} />
         <StackComponent.Screen name={'EditProfile'} component={EditProfile} />
         <StackComponent.Screen name={'Coupons'} component={Coupons} />
-        <StackComponent.Screen name={'Address'} component={Address} />
+        <StackComponent.Screen name={Address_Route} component={Address} />
         <StackComponent.Screen name={'Payment'} component={Payment} />
         <StackComponent.Screen
-          name={'AddDeliveryAddress'}
+          name={Add_Delivery_Address}
           component={AddDeliveryAddress}
         />
         <StackComponent.Screen name={'Filter'} component={Filter} />

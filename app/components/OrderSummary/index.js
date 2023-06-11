@@ -4,8 +4,11 @@ import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import {COLORS, FONTS} from '../../constants/theme';
 import Card from '../Card';
 import {Divider} from 'react-native-paper';
+import {useGetCartQuery} from '../../../store/services/cart';
 
 const OrderSummary = () => {
+  const {data, isLoading, isSuccess} = useGetCartQuery();
+
   return (
     <>
       <Card style={{...GlobalStyleSheet.container, backgroundColor: '#E6E6EA'}}>
@@ -14,27 +17,34 @@ const OrderSummary = () => {
         </Text>
         <Divider style={{marginVertical: 10}} />
 
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={{height: 80, width: 60, backgroundColor: COLORS.dark}} />
-          <View style={{flex: 1, paddingHorizontal: 10}}>
-            <Text
-              style={{
-                ...FONTS.fontLg,
-                ...FONTS.fontBold,
-                color: COLORS.dark,
-                marginBottom: 5,
-              }}>
-              BASMA (x2)
-            </Text>
-            <Text style={{...FONTS.fontXs}}>
-              Color:Red-Wine, Lens-Type:Photochromic With Anti Blue Light(for
-              Sun And Digital Screens)
-            </Text>
+        {data?.data?.products?.map((item, index) => (
+          <View
+            style={{flexDirection: 'row', alignItems: 'center'}}
+            key={index}>
+            <View
+              style={{height: 80, width: 60, backgroundColor: COLORS.dark}}
+            />
+            <View style={{flex: 1, paddingHorizontal: 10}}>
+              <Text
+                style={{
+                  ...FONTS.font,
+                  ...FONTS.fontBold,
+                  color: COLORS.dark,
+                  marginBottom: 5,
+                }}>
+                {item?.product?.name} (x{item?.count})
+              </Text>
+              <Text style={{...FONTS.fontXs}}>
+                {item?.product?.sub_category?.name}
+              </Text>
+            </View>
+            <View style={{paddingHorizontal: 5}}>
+              <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>
+                ₦{item?.price}
+              </Text>
+            </View>
           </View>
-          <View style={{paddingHorizontal: 5}}>
-            <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>$2000</Text>
-          </View>
-        </View>
+        ))}
       </Card>
       <Card style={{...GlobalStyleSheet.container, backgroundColor: '#E6E6EA'}}>
         <View
