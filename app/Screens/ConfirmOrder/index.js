@@ -1,5 +1,5 @@
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import ShippingMethodItem from '../../components/ShippingMethodItem';
 import OrderSummary from '../../components/OrderSummary';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
@@ -15,9 +15,12 @@ import {
   Sign_In,
 } from '../../constants/routes';
 import {useGetDefaultShippingAddressQuery} from '../../../store/services/shippingAddress';
+import {useLazyGetShippingMethodsQuery} from '../../../store/services/shippingMethod';
 
 const ConfirmOrder = ({navigation}) => {
   const {token} = useAuth();
+  const [methods, setMethods] = useState([]);
+  const [selectedMethod, setSelectedMethod] = useState(methods[0]);
 
   const {
     data: address,
@@ -27,6 +30,7 @@ const ConfirmOrder = ({navigation}) => {
   } = useGetDefaultShippingAddressQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+  const [getShippingMethods] = useLazyGetShippingMethodsQuery();
   useEffect(() => {
     if (!token) {
       navigation.navigate(Sign_In, {from: Confirm_Order});
@@ -37,13 +41,46 @@ const ConfirmOrder = ({navigation}) => {
       navigation.navigate(Add_Delivery_Address, {from: Confirm_Order});
     }
   }, [isAddressError, isAddressSuccess, token]);
+  useEffect(() => {
+    getShippingMethods()
+      .unwrap()
+      .then(data => {
+        console.log('shipping methods are', data);
+        const newMethods = data.map((item, index) =>
+          retrieveMethod(item, index === 0 ? true : false),
+        );
+        setMethods(newMethods);
+      });
+  }, []);
+
+  function retrieveMethod(methodData, selected = false) {
+    return {
+      id: methodData?.id,
+      title: methodData?.title,
+      description: methodData?.description,
+      amount: methodData?.charge,
+      selected,
+    };
+  }
+
+  function handleSetDefaultShippingMethod(id) {
+    const newMethods = methods.map(item =>
+      item.id === id ? {...item, selected: true} : {...item, selected: false},
+    );
+    const selected = newMethods.find(item => item.selected);
+    setSelectedMethod(selected);
+    setMethods(newMethods);
+  }
   return (
     <SafeAreaView style={{flex: 1}}>
       {/* <Header titleLeft leftIcon={'back'} title={'Confirm Order'} /> */}
       <View style={{flex: 1}}>
         <ScrollView>
           <ShippingAddress address={address?.data} />
-          <ShippingMethodItem />
+          <ShippingMethodItem
+            methods={methods}
+            onSelectMethod={handleSetDefaultShippingMethod}
+          />
           <Card style={{...GlobalStyleSheet.container}}>
             <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>Coupon</Text>
             <Text style={{...FONTS.font}}>
@@ -52,7 +89,7 @@ const ConfirmOrder = ({navigation}) => {
             <CustomInput />
             <CustomButton title="Apply" />
           </Card>
-          <OrderSummary />
+          <OrderSummary shippingMethod={selectedMethod} />
         </ScrollView>
       </View>
       <View style={GlobalStyleSheet.container}>

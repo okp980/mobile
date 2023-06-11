@@ -6,8 +6,11 @@ import Card from '../Card';
 import {Divider} from 'react-native-paper';
 import {useGetCartQuery} from '../../../store/services/cart';
 
-const OrderSummary = () => {
+const OrderSummary = ({shippingMethod}) => {
   const {data, isLoading, isSuccess} = useGetCartQuery();
+  const total = parseFloat(
+    Number(data?.data.total) + Number(shippingMethod?.amount),
+  ).toFixed(2);
 
   return (
     <>
@@ -53,8 +56,10 @@ const OrderSummary = () => {
             justifyContent: 'space-between',
             paddingVertical: 5,
           }}>
-          <Text style={{...FONTS.font}}>Retail Price:</Text>
-          <Text style={{...FONTS.font, ...FONTS.fontBold}}>$22.00</Text>
+          <Text style={{...FONTS.font}}>Subtotal:</Text>
+          <Text style={{...FONTS.font, ...FONTS.fontBold}}>
+            ₦{parseFloat(data?.data?.total).toFixed(2)}
+          </Text>
         </View>
         <View
           style={{
@@ -63,18 +68,14 @@ const OrderSummary = () => {
             paddingVertical: 5,
           }}>
           <Text style={{...FONTS.font}}>Shipping fee:</Text>
-          <Text style={{...FONTS.font, ...FONTS.fontBold}}>$22.00</Text>
+          <Text style={{...FONTS.font, ...FONTS.fontBold}}>
+            ₦{shippingMethod?.amount}
+          </Text>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingVertical: 5,
-          }}>
-          <Text style={{...FONTS.font}}>Shipping Guarantee:</Text>
-          <Text style={{...FONTS.font, ...FONTS.fontBold}}>$22.00</Text>
-        </View>
-        <View
+
+        {/* Discount - activate later */}
+
+        {/* <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -85,7 +86,7 @@ const OrderSummary = () => {
             <Text style={{...FONTS.fontXs}}>(Coupon Code:[she30])</Text>
           </View>
           <Text style={{...FONTS.font, ...FONTS.fontBold}}>$22.00</Text>
-        </View>
+        </View> */}
         <Divider style={{marginVertical: 10}} />
         {/* total */}
         <View
@@ -95,9 +96,9 @@ const OrderSummary = () => {
             paddingVertical: 5,
           }}>
           <View>
-            <Text style={{...FONTS.h4, ...FONTS.fontBold}}>SUB-TOTAL</Text>
+            <Text style={{...FONTS.h4, ...FONTS.fontBold}}>TOTAL</Text>
           </View>
-          <Text style={{...FONTS.h5, ...FONTS.fontBold}}>$2200.00</Text>
+          <Text style={{...FONTS.h5, ...FONTS.fontBold}}>₦{total}</Text>
         </View>
       </Card>
     </>
