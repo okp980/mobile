@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -29,27 +29,43 @@ import phonepe from '../../assets/images/icons/phonepe.png';
 import CustomButton from '../../components/CustomButton';
 import Card from '../../components/Card';
 import PaymentMethod from '../../components/PaymentMethod';
+import {useLazyGetPaymentMethodQuery} from '../../../store/services/paymentMethod';
 //import DropShadow from 'react-native-drop-shadow';
 
-const Payment = props => {
-  const [paymentOption, setPaymentOption] = useState('');
+const Payment = ({navigation, route}) => {
+  const orderId = route?.params?.orderId;
+  const [selectedMethod, setSelectedMethod] = useState([]);
+  const [methods, setMethods] = useState([]);
+  const [getPaymentMethods] = useLazyGetPaymentMethodQuery();
 
-  const [payActive, setPayActive] = useState('');
+  useEffect(() => {
+    getPaymentMethods()
+      .unwrap()
+      .then(data => {
+        const newMethods = data.map((item, index) =>
+          retrieveMethod(item, index === 0 ? true : false),
+        );
+        setMethods(newMethods);
+        setSelectedMethod(newMethods[0]);
+      });
+  }, []);
 
-  const PhonePeOption = [
-    {
-      image: phonepe,
-      title: 'Phone Pe',
-    },
-    {
-      image: phonepe,
-      title: 'Paytm',
-    },
-    {
-      image: phonepe,
-      title: 'Enter UPI ID',
-    },
-  ];
+  function retrieveMethod(methodData, selected = false) {
+    return {
+      id: methodData?.id,
+      name: methodData?.name,
+      selected,
+    };
+  }
+
+  function handleSetDefaultPaymentMethod(id) {
+    const newMethods = methods.map(item =>
+      item.id === id ? {...item, selected: true} : {...item, selected: false},
+    );
+    const selected = newMethods.find(item => item.selected);
+    setSelectedMethod(selected);
+    setMethods(newMethods);
+  }
 
   return (
     <>
@@ -57,7 +73,10 @@ const Payment = props => {
         <Header titleLeft leftIcon={'back'} title={'Payment'} />
 
         <View>
-          <PaymentMethod />
+          <PaymentMethod
+            methods={methods}
+            onSelectMethod={handleSetDefaultPaymentMethod}
+          />
 
           <View style={[GlobalStyleSheet.container]}>
             <View
@@ -67,7 +86,7 @@ const Payment = props => {
               }}>
               <View style={{flex: 1}}>
                 <CustomButton
-                  onPress={() => props.navigation.navigate('DeliveryTracking')}
+                  onPress={() => navigation.navigate('DeliveryTracking')}
                   title={'Proceed to Pay'}
                   color={COLORS.primary}
                 />

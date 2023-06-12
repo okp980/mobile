@@ -12,15 +12,18 @@ import useAuth from '../../../hooks/useAuth';
 import {
   Add_Delivery_Address,
   Confirm_Order,
+  Payment_Route,
   Sign_In,
 } from '../../constants/routes';
 import {useGetDefaultShippingAddressQuery} from '../../../store/services/shippingAddress';
 import {useLazyGetShippingMethodsQuery} from '../../../store/services/shippingMethod';
+import {useCreateOrderMutation} from '../../../store/services/order';
 
 const ConfirmOrder = ({navigation}) => {
   const {token} = useAuth();
   const [methods, setMethods] = useState([]);
-  const [selectedMethod, setSelectedMethod] = useState(methods[0]);
+  const [selectedMethod, setSelectedMethod] = useState([]);
+  const [createOrder] = useCreateOrderMutation();
 
   const {
     data: address,
@@ -45,11 +48,11 @@ const ConfirmOrder = ({navigation}) => {
     getShippingMethods()
       .unwrap()
       .then(data => {
-        console.log('shipping methods are', data);
         const newMethods = data.map((item, index) =>
           retrieveMethod(item, index === 0 ? true : false),
         );
         setMethods(newMethods);
+        setSelectedMethod(newMethods[0]);
       });
   }, []);
 
@@ -70,6 +73,19 @@ const ConfirmOrder = ({navigation}) => {
     const selected = newMethods.find(item => item.selected);
     setSelectedMethod(selected);
     setMethods(newMethods);
+  }
+
+  async function handleConfirmOrder() {
+    try {
+      const data = await createOrder({
+        shippingAddressId: address.id,
+        shippingMethodId: selectedMethod.id,
+      }).unwrap();
+      navigation.navigate(Payment_Route, {orderId: data?.id});
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -93,10 +109,7 @@ const ConfirmOrder = ({navigation}) => {
         </ScrollView>
       </View>
       <View style={GlobalStyleSheet.container}>
-        <CustomButton
-          onPress={() => navigation.navigate('Payment')}
-          title={'Proceed'}
-        />
+        <CustomButton onPress={handleConfirmOrder} title={'Proceed'} />
       </View>
     </SafeAreaView>
   );

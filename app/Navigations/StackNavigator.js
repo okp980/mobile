@@ -56,6 +56,7 @@ import {
   Add_Delivery_Address,
   Address_Route,
   Confirm_Order,
+  Payment_Route,
   Sign_In,
   Sign_Up,
 } from '../constants/routes';
@@ -126,7 +127,7 @@ const StackNavigator = () => {
         <StackComponent.Screen name={'EditProfile'} component={EditProfile} />
         <StackComponent.Screen name={'Coupons'} component={Coupons} />
         <StackComponent.Screen name={Address_Route} component={Address} />
-        <StackComponent.Screen name={'Payment'} component={Payment} />
+        <StackComponent.Screen name={Payment_Route} component={Payment} />
         <StackComponent.Screen
           name={Add_Delivery_Address}
           component={AddDeliveryAddress}

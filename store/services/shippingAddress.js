@@ -21,6 +21,7 @@ const extendedApi = apiSlice.injectEndpoints({
       query: () => ({
         url: '/shipping-address/user/default',
       }),
+      transformResponse: response => response.data,
       //   providesTags: [{type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS}],
     }),
     updateDefaultAddress: build.mutation({
