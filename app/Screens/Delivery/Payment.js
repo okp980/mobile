@@ -30,6 +30,8 @@ import CustomButton from '../../components/CustomButton';
 import Card from '../../components/Card';
 import PaymentMethod from '../../components/PaymentMethod';
 import {useLazyGetPaymentMethodQuery} from '../../../store/services/paymentMethod';
+import {useOrderPaymentMutation} from '../../../store/services/order';
+import {PaystackPayment_Route} from '../../constants/routes';
 //import DropShadow from 'react-native-drop-shadow';
 
 const Payment = ({navigation, route}) => {
@@ -37,6 +39,9 @@ const Payment = ({navigation, route}) => {
   const [selectedMethod, setSelectedMethod] = useState([]);
   const [methods, setMethods] = useState([]);
   const [getPaymentMethods] = useLazyGetPaymentMethodQuery();
+  console.log(orderId);
+
+  const [makePayment] = useOrderPaymentMutation();
 
   useEffect(() => {
     getPaymentMethods()
@@ -57,6 +62,20 @@ const Payment = ({navigation, route}) => {
       selected,
     };
   }
+
+  const handlePayment = async () => {
+    try {
+      const data = await makePayment({
+        id: orderId,
+        data: {paymentMethod: selectedMethod?.id},
+      }).unwrap();
+      console.log('data ooo', data);
+      const checkoutUrl = data?.authorization_url;
+      navigation.navigate(PaystackPayment_Route, {checkoutUrl});
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   function handleSetDefaultPaymentMethod(id) {
     const newMethods = methods.map(item =>
@@ -86,7 +105,7 @@ const Payment = ({navigation, route}) => {
               }}>
               <View style={{flex: 1}}>
                 <CustomButton
-                  onPress={() => navigation.navigate('DeliveryTracking')}
+                  onPress={handlePayment}
                   title={'Proceed to Pay'}
                   color={COLORS.primary}
                 />
