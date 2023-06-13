@@ -56,6 +56,7 @@ import {
   Add_Delivery_Address,
   Address_Route,
   Confirm_Order,
+  Orders_Route,
   Payment_Route,
   PaystackPayment_Route,
   Sign_In,
@@ -103,7 +104,7 @@ const StackNavigator = () => {
           component={ProductDetail}
         />
         <StackComponent.Screen name={'Featured'} component={Featured} />
-        <StackComponent.Screen name={'Orders'} component={Orders} />
+        <StackComponent.Screen name={Orders_Route} component={Orders} />
         <StackComponent.Screen
           name={Confirm_Order}
           options={({navigation}) => ({

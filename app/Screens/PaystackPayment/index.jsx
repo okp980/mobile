@@ -33,9 +33,8 @@ const PaystackPayment = ({navigation, route}) => {
 
     if (url.includes('/verify')) {
       console.log('url changed', url);
-      // handle webview removal
-      // You can either unmount the component, or
-      // Use a navigator to pop off the view
+
+      // remember to Use a navigator to pop off the view
       navigation.navigate('Orders');
     }
   };
