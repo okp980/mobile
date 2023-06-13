@@ -4,9 +4,12 @@ import {COLORS, FONTS} from '../../constants/theme';
 import OrderProductItem from './OrderProductItem';
 import {Divider} from 'react-native-paper';
 import CustomButton from '../CustomButton';
+import {useNavigation} from '@react-navigation/native';
+import {DeliveryTracking_Route} from '../../constants/routes';
 
 const OrderItem = () => {
   const [show, setShow] = useState(false);
+  const navigation = useNavigation();
   return (
     <View>
       <View style={styles.container}>
@@ -77,6 +80,7 @@ const OrderItem = () => {
             />
             <View style={{width: 10}} />
             <CustomButton
+              onPress={() => navigation.navigate(DeliveryTracking_Route)}
               title="Track Order"
               customStyles={{flex: 1, backgroundColor: COLORS.dark}}
             />
