@@ -9,6 +9,7 @@ import {COLORS, FONTS, SIZES} from '../constants/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {useGetCartQuery} from '../../store/services/cart';
+import {Settings_Route} from '../constants/routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -134,7 +135,36 @@ const BottomNavigation = () => {
           ),
         })}
       />
-      <Tab.Screen name="Account" component={Profile} />
+      <Tab.Screen
+        name="Account"
+        component={Profile}
+        options={({navigation}) => ({
+          headerTitle: 'Account',
+          headerShown: true,
+          headerLeft: props => (
+            <TouchableOpacity
+              onPress={navigation.goBack}
+              style={{paddingHorizontal: 10}}>
+              <Ionicons
+                name="ios-arrow-back"
+                size={25}
+                style={{paddingHorizontal: 10}}
+              />
+            </TouchableOpacity>
+          ),
+          headerRight: props => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate(Settings_Route)}
+              style={{paddingHorizontal: 10}}>
+              <Ionicons
+                name="settings-outline"
+                size={25}
+                style={{paddingHorizontal: 10}}
+              />
+            </TouchableOpacity>
+          ),
+        })}
+      />
     </Tab.Navigator>
   );
 };

@@ -56,16 +56,22 @@ import {
   Add_Delivery_Address,
   Address_Route,
   Confirm_Order,
+  Coupons_Route,
   DeliveryTracking_Route,
+  EditProfile_Route,
   OrderDetail_Route,
   Orders_Route,
   Payment_Route,
   PaystackPayment_Route,
+  Profile_Route,
+  Settings_Route,
   Sign_In,
   Sign_Up,
+  Wishlist_Route,
 } from '../constants/routes';
 import PaystackPayment from '../Screens/PaystackPayment';
 import OrderDetail from '../Screens/Orders/OrderDetail';
+import Settings from '../Screens/Account/Settings';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -135,10 +141,31 @@ const StackNavigator = () => {
           name={DeliveryTracking_Route}
           component={DeliveryTracking}
         />
-        <StackComponent.Screen name={'Wishlist'} component={Wishlist} />
-        <StackComponent.Screen name={'Profile'} component={Profile} />
-        <StackComponent.Screen name={'EditProfile'} component={EditProfile} />
-        <StackComponent.Screen name={'Coupons'} component={Coupons} />
+        <StackComponent.Screen name={Wishlist_Route} component={Wishlist} />
+        <StackComponent.Screen
+          name={Settings_Route}
+          component={Settings}
+          options={({navigation}) => ({
+            headerTitle: 'Settings',
+            headerShown: true,
+            headerLeft: props => (
+              <TouchableOpacity
+                onPress={navigation.goBack}
+                style={{paddingHorizontal: 10}}>
+                <Ionicon
+                  name="ios-arrow-back"
+                  size={25}
+                  style={{paddingHorizontal: 10}}
+                />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <StackComponent.Screen
+          name={EditProfile_Route}
+          component={EditProfile}
+        />
+        <StackComponent.Screen name={Coupons_Route} component={Coupons} />
         <StackComponent.Screen name={Address_Route} component={Address} />
         <StackComponent.Screen name={Payment_Route} component={Payment} />
         <StackComponent.Screen
