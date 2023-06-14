@@ -57,6 +57,7 @@ import {
   Address_Route,
   Confirm_Order,
   DeliveryTracking_Route,
+  OrderDetail_Route,
   Orders_Route,
   Payment_Route,
   PaystackPayment_Route,
@@ -64,6 +65,7 @@ import {
   Sign_Up,
 } from '../constants/routes';
 import PaystackPayment from '../Screens/PaystackPayment';
+import OrderDetail from '../Screens/Orders/OrderDetail';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -106,6 +108,13 @@ const StackNavigator = () => {
         />
         <StackComponent.Screen name={'Featured'} component={Featured} />
         <StackComponent.Screen name={Orders_Route} component={Orders} />
+        <StackComponent.Screen
+          name={OrderDetail_Route}
+          component={OrderDetail}
+          options={({navigation}) => ({
+            headerShown: true,
+          })}
+        />
         <StackComponent.Screen
           name={Confirm_Order}
           options={({navigation}) => ({

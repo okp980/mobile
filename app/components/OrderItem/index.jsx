@@ -5,7 +5,10 @@ import OrderProductItem from './OrderProductItem';
 import {Divider} from 'react-native-paper';
 import CustomButton from '../CustomButton';
 import {useNavigation} from '@react-navigation/native';
-import {DeliveryTracking_Route} from '../../constants/routes';
+import {
+  DeliveryTracking_Route,
+  OrderDetail_Route,
+} from '../../constants/routes';
 
 const OrderItem = () => {
   const [show, setShow] = useState(false);
@@ -75,12 +78,17 @@ const OrderItem = () => {
           </View>
           <View style={styles.cta}>
             <CustomButton
+              onPress={() =>
+                navigation.navigate(OrderDetail_Route, {orderId: ''})
+              }
               title="View Order"
               customStyles={{flex: 1, backgroundColor: COLORS.dark}}
             />
             <View style={{width: 10}} />
             <CustomButton
-              onPress={() => navigation.navigate(DeliveryTracking_Route)}
+              onPress={() =>
+                navigation.navigate(DeliveryTracking_Route, {trackingId: ''})
+              }
               title="Track Order"
               customStyles={{flex: 1, backgroundColor: COLORS.dark}}
             />

@@ -7,3 +7,4 @@ export const Payment_Route = 'Payment';
 export const PaystackPayment_Route = 'PaystackPayment';
 export const Orders_Route = 'Orders';
 export const DeliveryTracking_Route = 'DeliveryTracking';
+export const OrderDetail_Route = 'OrderDetail';
