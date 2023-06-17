@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
+  FlatList,
   Image,
   ImageBackground,
   SafeAreaView,
@@ -10,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import {IconButton} from 'react-native-paper';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import LinearGradient from 'react-native-linear-gradient';
 import mobile from '../../assets/images/category/mobile.png';
@@ -20,8 +21,6 @@ import furniture from '../../assets/images/category/furniture.png';
 import grocery from '../../assets/images/category/grocery.png';
 import appliances from '../../assets/images/category/appliances.png';
 import toys from '../../assets/images/category/toys.png';
-import bg1 from '../../assets/images/background/bg2.png';
-import offer from '../../assets/images/offer/pic1.png';
 import banner1 from '../../assets/images/banner/pic1.png';
 import banner2 from '../../assets/images/banner/pic2.png';
 import banner3 from '../../assets/images/banner/pic3.png';
@@ -32,22 +31,14 @@ import product4 from '../../assets/images/product/pic4.jpg';
 import item1 from '../../assets/images/product/pic9.png';
 import item2 from '../../assets/images/product/pic10.png';
 import item3 from '../../assets/images/product/pic11.png';
-import item4 from '../../assets/images/product/pic12.png';
-import item5 from '../../assets/images/product/pic13.png';
-import item6 from '../../assets/images/product/pic14.png';
-import item7 from '../../assets/images/product/pic15.png';
 import {COLORS, FONTS} from '../../constants/theme';
 import Swiper from 'react-native-swiper';
-import ProductCardStyle1 from '../../components/ProductCardStyle1';
-import ProductCardStyle2 from '../../components/ProductCardStyle2';
-import ProductListItem from '../../components/ProductListItem';
-import {GlobalStyleSheet} from '../../constants/StyleSheet';
-import StopWatch from '../../components/StopWatch';
-import HomeCategories from '../Components/HomeCategories';
-import FeaturedProductsSlide from '../Components/FeaturedProductsSlide';
 import Collections from '../Components/Collections';
 import {TopCollection} from './Home';
 import HorizontalCollections from '../../components/HorizontalCollections.js';
+import {useGetCategoriesQuery} from '../../../store/services/category';
+import Card from '../../components/Card';
+import {GlobalStyleSheet} from '../../constants/StyleSheet';
 
 const categoryData = [
   {
@@ -147,124 +138,83 @@ const ProductData = [
   },
 ];
 
-const PopularItemsData = [
+const benefits = [
   {
-    imagePath: item4,
-    title: 'Havells Swing Fan',
-    desc: '400mm , Blue tone',
-    offer: '20% off',
-    price: '₹1,299',
-    oldPrice: '1500',
+    name: 'buyer protection',
+    icon: 'ribbon-sharp',
   },
   {
-    imagePath: item5,
-    title: 'OnePlus Nord 2T 5G',
-    desc: '8GB RAM, 128GB Storage',
-    offer: '50% off',
-    price: '₹24,099',
-    oldPrice: '30,000',
+    name: 'customer benefits',
+    icon: 'ribbon-sharp',
   },
   {
-    imagePath: item6,
-    title: 'ThinkPad L13 Yoga Gen 3',
-    desc: 'Dual dore , Red tone',
-    offer: '20% off',
-    price: '₹85,555',
-    oldPrice: '95,000',
+    name: 'fast shipping',
+    icon: 'ribbon-sharp',
   },
 ];
 
 const MainHome = ({navigation}) => {
+  const {data, isError, isLoading} = useGetCategoriesQuery();
+  const [category, setCategory] = useState('');
+
+  const Item = ({title, id}) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          setCategory(id);
+        }}>
+        <View
+          style={{
+            height: 40,
+            // width: 80,
+            marginHorizontal: 10,
+            justifyContent: 'center',
+            position: 'relative',
+          }}>
+          <Text
+            style={{
+              ...FONTS.font,
+              ...FONTS.fontBold,
+              textTransform: 'uppercase',
+              color: category === id ? COLORS.dark : '#8D99AE',
+            }}>
+            {title}
+          </Text>
+          {category === id && (
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                height: 3,
+                width: '100%',
+                backgroundColor: COLORS.dark,
+              }}
+            />
+          )}
+        </View>
+      </TouchableOpacity>
+    );
+  };
   return (
     <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: COLORS.backgroundColor,
       }}>
-      {/* <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          height: 45,
-          borderBottomWidth: 1,
-          borderBottomColor: COLORS.borderColor,
-        }}>
-        <IconButton
-          icon={() => (
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: COLORS.borderColor,
-                height: 30,
-                width: 30,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 8,
-              }}>
-              <FeatherIcon color={COLORS.title} size={18} name="menu" />
-            </View>
-          )}
-          size={25}
-          onPress={() => navigation.openDrawer()}
-        />
-        <Text
-          style={{
-            ...FONTS.font,
-            ...FONTS.fontBold,
-            color: COLORS.title,
-            flex: 1,
-            bottom: 1,
-            marginLeft: 5,
-          }}>
-          Home
-        </Text>
-        <IconButton
-          icon={() => (
-            <FeatherIcon color={COLORS.title} size={20} name="search" />
-          )}
-          size={25}
-          onPress={() => navigation.navigate('Search')}
-        />
-        <IconButton
-          icon={() => (
-            <FeatherIcon color={COLORS.title} size={20} name="heart" />
-          )}
-          size={25}
-          onPress={() => navigation.navigate('Wishlist')}
-        />
-        <IconButton
-          onPress={() => navigation.navigate('Cart')}
-          icon={() => (
-            <View>
-              <FeatherIcon
-                color={COLORS.title}
-                size={20}
-                name="shopping-cart"
-              />
-              <View
-                style={{
-                  height: 14,
-                  width: 14,
-                  borderRadius: 14,
-                  backgroundColor: COLORS.primary,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'absolute',
-                  top: -4,
-                  right: -6,
-                }}>
-                <Text
-                  style={{...FONTS.fontXs, fontSize: 10, color: COLORS.white}}>
-                  2
-                </Text>
-              </View>
-            </View>
-          )}
-          size={25}
-        />
-      </View> */}
       <StatusBar animated={true} translucent={true} />
+
       <ScrollView>
+        <View style={{marginBottom: 10}}>
+          <FlatList
+            data={data?.data}
+            renderItem={({item}) => <Item title={item.name} id={item._id} />}
+            keyExtractor={item => item._id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            extraData={category}
+          />
+        </View>
         <Swiper
           autoplay={true}
           autoplayTimeout={6}
@@ -295,6 +245,22 @@ const MainHome = ({navigation}) => {
             );
           })}
         </Swiper>
+        <Card
+          style={{
+            ...GlobalStyleSheet.container,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginVertical: 15,
+          }}>
+          {benefits.map((item, index) => (
+            <View key={index} style={{alignItems: 'center'}}>
+              <Ionicon name={item?.icon} size={30} />
+              <Text style={{...FONTS.fontSm, textTransform: 'uppercase'}}>
+                {item?.name}
+              </Text>
+            </View>
+          ))}
+        </Card>
         <HorizontalCollections products={TopCollection} title="New Arrivals" />
         <HorizontalCollections
           products={TopCollection}

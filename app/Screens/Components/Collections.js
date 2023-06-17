@@ -4,6 +4,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import ShopItem from '../../components/ShopItem';
 import {COLORS, FONTS} from '../../constants/theme';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
+import Card from '../../components/Card';
 
 const Collections = ({products, title, subtitle, ishorinzontal = true}) => {
   const handleLike2 = id => {
@@ -16,7 +17,7 @@ const Collections = ({products, title, subtitle, ishorinzontal = true}) => {
     // setProductsData2(temp);
   };
   return (
-    <View style={{marginTop: 10, paddingHorizontal: 10}}>
+    <Card style={{marginTop: 10, padding: 10}}>
       <View
         style={{
           flexDirection: 'row',
@@ -26,10 +27,9 @@ const Collections = ({products, title, subtitle, ishorinzontal = true}) => {
           {title && (
             <Text
               style={{
-                ...FONTS.h5,
-                ...FONTS.fontBold,
+                ...FONTS.fontLg,
                 color: COLORS.dark,
-                textTransform: 'uppercase',
+                textTransform: 'capitalize',
               }}>
               {title}
             </Text>
@@ -56,7 +56,7 @@ const Collections = ({products, title, subtitle, ishorinzontal = true}) => {
         )}
         numColumns={2}
       />
-    </View>
+    </Card>
   );
 };
 

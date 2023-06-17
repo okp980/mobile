@@ -8,7 +8,7 @@ export const COLORS = {
   success: '#18BF29',
   danger: '#E12344',
   warning: '#ffb02c',
-  dark: '#2f2f2f',
+  dark: '#2B2D42',
   light: '#E6E6E6',
   info: '#2B39B9',
   white: '#fff',

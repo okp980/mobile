@@ -4,24 +4,25 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import ShopItem from '../components/ShopItem';
 import {COLORS, FONTS} from '../constants/theme';
 import {GlobalStyleSheet} from '../constants/StyleSheet';
+import Card from './Card';
 
 const HorizontalCollections = ({products, title, subtitle}) => {
   return (
-    <View style={{marginTop: 10, paddingHorizontal: 10}}>
+    <Card style={{marginTop: 10, padding: 10}}>
       <View
         style={{
           flexDirection: 'row',
           marginBottom: 10,
-          marginTop: 10,
+          // marginTop: 10,
         }}>
         <View style={{flex: 1}}>
           {title && (
             <Text
               style={{
-                ...FONTS.h5,
-                ...FONTS.fontBold,
+                ...FONTS.fontLg,
+                // ...FONTS.fontBold,
                 color: COLORS.dark,
-                textTransform: 'uppercase',
+                textTransform: 'capitalize',
               }}>
               {title}
             </Text>
@@ -46,7 +47,7 @@ const HorizontalCollections = ({products, title, subtitle}) => {
         renderItem={({item, index}) => <ShopItem item={item} />}
         horizontal
       />
-    </View>
+    </Card>
   );
 };
 
