@@ -38,7 +38,7 @@ const Routes = () => {
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
-      setIsConnected(state.isConnected);
+      setIsConnected({isConnected: state.isConnected});
       !state.isConnected &&
         handleMessageToast({message: 'Oops!. Lost internet connection 😢'});
       console.log(`connection is ${state.isConnected}`);

@@ -1,12 +1,11 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import ShopItem from '../components/ShopItem';
 import {COLORS, FONTS} from '../constants/theme';
-import {GlobalStyleSheet} from '../constants/StyleSheet';
 import Card from './Card';
 
-const HorizontalCollections = ({products, title, subtitle}) => {
+const HorizontalCollections = ({products, title, subtitle, category}) => {
   return (
     <Card style={{marginTop: 10, padding: 10}}>
       <View
@@ -39,14 +38,21 @@ const HorizontalCollections = ({products, title, subtitle}) => {
           )}
         </View>
       </View>
-      <FlatList
-        ItemSeparatorComponent={<View style={{height: 20}} />}
-        showsHorizontalScrollIndicator={false}
-        data={products}
-        keyExtractor={item => item.id}
-        renderItem={({item, index}) => <ShopItem item={item} />}
-        horizontal
-      />
+      {products?.length > 0 && (
+        <FlatList
+          ItemSeparatorComponent={<View style={{height: 20}} />}
+          showsHorizontalScrollIndicator={false}
+          data={products}
+          keyExtractor={item => item.id}
+          renderItem={({item, index}) => <ShopItem item={item} />}
+          horizontal
+          extraData={category}
+        />
+      )}
+      {!products ||
+        (products.length === 0 && (
+          <Text style={{...FONTS.font}}>No Products to display</Text>
+        ))}
     </Card>
   );
 };

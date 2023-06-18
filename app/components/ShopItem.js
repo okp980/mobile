@@ -3,6 +3,7 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../constants/theme';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
+import {baseURL} from '../../config/api';
 
 const ShopItem = ({item, handleLike, index}) => {
   const navigation = useNavigation();
@@ -46,7 +47,7 @@ const ShopItem = ({item, handleLike, index}) => {
             height: 150,
             // borderRadius: SIZES.radius,
           }}
-          source={item.image}
+          source={{uri: `http://localhost:4000/uploads/${item?.image}`}}
         />
       </View>
       <View
@@ -55,13 +56,18 @@ const ShopItem = ({item, handleLike, index}) => {
           paddingVertical: 15,
         }}>
         {/* <Text style={{...FONTS.h6, marginBottom: 6}}>{item.title}</Text> */}
-        <Text style={{...FONTS.fontXs, color: COLORS.text}}>{item.title}</Text>
+        <Text style={{...FONTS.fontXs, color: COLORS.text}}>{item.name}</Text>
         <View
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
           <View style={{flexDirection: 'row', flex: 1}}>
             <Text
-              style={{...FONTS.h6, color: COLORS.secondary, marginRight: 5}}>
-              {item.price}
+              style={{
+                ...FONTS.fontLg,
+                ...FONTS.fontBold,
+                color: COLORS.dark,
+                marginRight: 5,
+              }}>
+              ₦{item.price}
             </Text>
             {/* <Text style={{...FONTS.font, top: 3}}>{item.oldPrice}</Text> */}
           </View>
