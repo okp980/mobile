@@ -5,7 +5,8 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLORS, FONTS} from '../../../constants/theme';
 import {Divider} from 'react-native-paper';
 
-const ShippingMethod = () => {
+const ShippingMethod = ({shippingCosts}) => {
+  console.log(shippingCosts);
   return (
     <Card>
       <View style={{paddingHorizontal: 10, paddingVertical: 15}}>
@@ -14,7 +15,7 @@ const ShippingMethod = () => {
         </Text>
       </View>
       <Divider />
-      {[...Array(2).keys()].map((item, index) => (
+      {shippingCosts?.map((item, index) => (
         <>
           <View style={styles.layout} key={index}>
             <View style={styles.icon}>
@@ -23,14 +24,14 @@ const ShippingMethod = () => {
             <View style={styles.details}>
               <Text
                 style={{...FONTS.font, ...FONTS.fontBold, color: COLORS.dark}}>
-                Door Delivery
+                {item?.title}
               </Text>
               <Text style={{...FONTS.fontSm, color: COLORS.text}}>
-                Delivery time from 2-05-2023 to 12-05-2023
+                {item?.duration}
               </Text>
             </View>
             <View>
-              <Text style={styles.price}>₦2500</Text>
+              <Text style={styles.price}>₦{item?.charge}</Text>
             </View>
           </View>
           {/* <Divider /> */}

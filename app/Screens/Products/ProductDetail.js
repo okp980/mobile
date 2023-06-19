@@ -35,6 +35,7 @@ import {useAddToCartMutation} from '../../../store/services/cart';
 import Loading from '../../components/Loading/Loading';
 import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
 import useNetwork from '../../../hooks/useNetwork';
+import {useGetShippingMethodsCostQuery} from '../../../store/services/shippingMethod';
 
 const productImage = [pic1, pic1, pic1];
 
@@ -42,6 +43,8 @@ const ProductDetail = ({navigation, route}) => {
   const product = route?.params?.product;
   const {data, isLoading, isError, isSuccess, error} =
     useGetSingleProductsQuery(product);
+
+  const {data: shippingCosts} = useGetShippingMethodsCostQuery(product);
 
   const [addToCart] = useAddToCartMutation();
 
@@ -181,7 +184,13 @@ const ProductDetail = ({navigation, route}) => {
                     Brand:
                   </Text>
                 </View>
+
                 <Rating />
+              </View>
+              <View>
+                <Text style={{...FONTS.fontXs, color: COLORS.text}}>
+                  Color: Black
+                </Text>
               </View>
             </View>
             <View style={styles.price}>
@@ -209,7 +218,6 @@ const ProductDetail = ({navigation, route}) => {
                 style={{
                   ...FONTS.fontXs,
                   color: COLORS.success,
-                  ...FONTS.fontBold,
                 }}>
                 Available in stock
               </Text>
@@ -229,7 +237,7 @@ const ProductDetail = ({navigation, route}) => {
                 </Text>
               </View>
             </View>
-            <Sizes />
+            {/* <Sizes /> */}
             <Divider />
             <TouchableOpacity>
               <View style={{flexDirection: 'row', paddingVertical: 15}}>
@@ -250,10 +258,10 @@ const ProductDetail = ({navigation, route}) => {
             </TouchableOpacity>
           </Card>
 
-          <ProductMeasure />
+          {/* <ProductMeasure /> */}
 
           <Description />
-          <ShippingMethod />
+          <ShippingMethod shippingCosts={shippingCosts} />
           <Collections
             products={TopCollection}
             // title="similar products"

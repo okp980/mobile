@@ -8,8 +8,15 @@ const extendedApi = apiSlice.injectEndpoints({
       }),
       transformResponse: response => response.data,
     }),
+    getShippingMethodsCost: build.query({
+      query: id => ({
+        url: `/products/${id}/shipping-methods`,
+      }),
+      transformResponse: response => response.data,
+    }),
   }),
   overrideExisting: true,
 });
 
-export const {useLazyGetShippingMethodsQuery} = extendedApi;
+export const {useLazyGetShippingMethodsQuery, useGetShippingMethodsCostQuery} =
+  extendedApi;
