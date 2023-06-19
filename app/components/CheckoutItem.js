@@ -44,7 +44,7 @@ const CheckoutItem = ({
           borderRadius: 2,
           marginRight: 12,
         }}
-        source={image}
+        source={{uri: `http://localhost:4000/uploads/${image}`}}
       />
       <View style={{flex: 1, paddingVertical: 7}}>
         <Text
@@ -56,7 +56,7 @@ const CheckoutItem = ({
           }}>
           {title}
         </Text>
-        <Text numberOfLines={1} style={{...FONTS.fontXs, color: '#BCBCBC'}}>
+        <Text numberOfLines={1} style={{...FONTS.fontXs, color: COLORS.gray}}>
           {type}
         </Text>
         <View

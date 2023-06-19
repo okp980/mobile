@@ -40,6 +40,7 @@ import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
 import useNetwork from '../../../hooks/useNetwork';
 import {useGetShippingMethodsCostQuery} from '../../../store/services/shippingMethod';
 import HorizontalCollections from '../../components/HorizontalCollections.js';
+import useToast from '../../../hooks/useToast';
 
 const productImage = [pic1, pic1, pic1];
 
@@ -47,8 +48,6 @@ const ProductDetail = ({navigation, route}) => {
   const product = route?.params?.product;
   const {data, isLoading, isError, isSuccess, error} =
     useGetSingleProductsQuery(product);
-
-  console.log(data?.data?.gallery);
 
   const {data: shippingCosts} = useGetShippingMethodsCostQuery(product);
   const {
@@ -63,16 +62,17 @@ const ProductDetail = ({navigation, route}) => {
   const [isSnackbar, setIsSnackbar] = useState(false);
   const [snackText, setSnackText] = useState('Loading...');
 
-  const [expanded, setExpanded] = React.useState(true);
-
   const {isConnected} = useNetwork();
+  const {handleMessageToast, handleErrorToast} = useToast();
 
-  const handlePress = () => setExpanded(!expanded);
-
-  var ratingArry = [];
-  for (var i = 0; i < 4; i++) {
-    ratingArry.push(i);
-  }
+  const handleAddToCart = async product => {
+    try {
+      await addToCart(product).unwrap();
+      handleMessageToast({message: 'Added to Cart'});
+    } catch (error) {
+      handleErrorToast({message: 'Failed to add to cart'});
+    }
+  };
 
   const handleLike = () => {
     if (isLike) {
@@ -318,7 +318,7 @@ const ProductDetail = ({navigation, route}) => {
         <CustomButton
           color={COLORS.dark}
           customStyles={{flex: 1}}
-          onPress={() => addToCart(product)}
+          onPress={() => handleAddToCart(product)}
           title="ADD TO CART"
         />
       </View>
