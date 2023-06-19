@@ -30,12 +30,16 @@ import Collections from '../Components/Collections';
 import {TopCollection} from '../Home/Home';
 import Rating from '../../components/Rating';
 import Card from '../../components/Card';
-import {useGetSingleProductsQuery} from '../../../store/services/products';
+import {
+  useGetProductsQuery,
+  useGetSingleProductsQuery,
+} from '../../../store/services/products';
 import {useAddToCartMutation} from '../../../store/services/cart';
 import Loading from '../../components/Loading/Loading';
 import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
 import useNetwork from '../../../hooks/useNetwork';
 import {useGetShippingMethodsCostQuery} from '../../../store/services/shippingMethod';
+import HorizontalCollections from '../../components/HorizontalCollections.js';
 
 const productImage = [pic1, pic1, pic1];
 
@@ -44,11 +48,16 @@ const ProductDetail = ({navigation, route}) => {
   const {data, isLoading, isError, isSuccess, error} =
     useGetSingleProductsQuery(product);
 
+  console.log(data?.data?.gallery);
+
   const {data: shippingCosts} = useGetShippingMethodsCostQuery(product);
+  const {
+    data: products,
+    isLoading: isLoadingProducts,
+    error: productError,
+  } = useGetProductsQuery(undefined);
 
   const [addToCart] = useAddToCartMutation();
-
-  const productColors = ['#A29698', '#80C6A9', '#8E84CA', '#E5907D'];
 
   const [isLike, setIsLike] = useState(false);
   const [isSnackbar, setIsSnackbar] = useState(false);
@@ -65,8 +74,6 @@ const ProductDetail = ({navigation, route}) => {
     ratingArry.push(i);
   }
 
-  const [activeColor, setActiveColor] = useState(productColors[0]);
-
   const handleLike = () => {
     if (isLike) {
       setSnackText('Item removed to Favourite.');
@@ -77,7 +84,7 @@ const ProductDetail = ({navigation, route}) => {
     setIsLike(!isLike);
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingProducts) {
     return (
       <SafeAreaView
         style={{
@@ -130,13 +137,13 @@ const ProductDetail = ({navigation, route}) => {
               backgroundColor: COLORS.white,
               borderRadius: 10,
             }}>
-            {productImage.map((item, index) => {
+            {data?.data?.gallery?.map((item, index) => {
               return (
                 <View key={index}>
                   <Image
-                    source={
-                      item?.imagePath ? item?.imagePath : {uri: item?.image}
-                    }
+                    source={{
+                      uri: `http://localhost:4000/uploads/${item}`,
+                    }}
                     style={{
                       width: '100%',
                       height: undefined,
@@ -180,17 +187,19 @@ const ProductDetail = ({navigation, route}) => {
                   alignItems: 'center',
                 }}>
                 <View>
-                  <Text style={{...FONTS.fontXs, color: COLORS.text}}>
-                    Brand:
+                  <Text
+                    style={{
+                      ...FONTS.fontXs,
+
+                      color: COLORS.text,
+                      textTransform: 'capitalize',
+                    }}>
+                    <Text style={{...FONTS.fontBold}}> Brand: </Text>
+                    {data?.data?.brand}
                   </Text>
                 </View>
 
                 <Rating />
-              </View>
-              <View>
-                <Text style={{...FONTS.fontXs, color: COLORS.text}}>
-                  Color: Black
-                </Text>
               </View>
             </View>
             <View style={styles.price}>
@@ -214,6 +223,7 @@ const ProductDetail = ({navigation, route}) => {
                   {data?.data?.oldPrice}
                 </Text>
               </View>
+
               <Text
                 style={{
                   ...FONTS.fontXs,
@@ -221,7 +231,13 @@ const ProductDetail = ({navigation, route}) => {
                 }}>
                 Available in stock
               </Text>
-              <View style={{marginVertical: 10}}>
+              <View>
+                <Text style={{...FONTS.fontSm, color: COLORS.text}}>
+                  <Text style={{...FONTS.fontBold}}>Color: </Text>
+                  {data?.data?.color}
+                </Text>
+              </View>
+              <View style={{marginBottom: 10}}>
                 <Text
                   style={{
                     ...FONTS.font,
@@ -262,21 +278,22 @@ const ProductDetail = ({navigation, route}) => {
 
           <Description />
           <ShippingMethod shippingCosts={shippingCosts} />
-          <Collections
-            products={TopCollection}
-            // title="similar products"
-            subtitle="similar products under this category"
+
+          <HorizontalCollections
+            products={products?.data}
+            title="Similar products under this category"
+            category={products}
           />
+
           <Reviews />
-          <Collections
-            products={TopCollection}
-            title="recently viewed products"
+
+          <HorizontalCollections
+            products={products?.data}
+            title="Recently viewed products"
+            category={products}
           />
-          <Collections
-            products={TopCollection}
-            title="recommended products"
-            ishorinzontal={false}
-          />
+
+          <Collections products={products?.data} title="Recommended Products" />
         </View>
       </ScrollView>
       <View style={styles.buy}>

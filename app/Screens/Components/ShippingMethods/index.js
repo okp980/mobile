@@ -6,7 +6,6 @@ import {COLORS, FONTS} from '../../../constants/theme';
 import {Divider} from 'react-native-paper';
 
 const ShippingMethod = ({shippingCosts}) => {
-  console.log(shippingCosts);
   return (
     <Card>
       <View style={{paddingHorizontal: 10, paddingVertical: 15}}>

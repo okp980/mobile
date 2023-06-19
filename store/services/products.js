@@ -3,9 +3,9 @@ import {apiSlice} from '../api';
 const extendedApi = apiSlice.injectEndpoints({
   endpoints: build => ({
     getProducts: build.query({
-      query: ({category, subCategory}) => ({
+      query: () => ({
         url: '/products',
-        params: {category, sub_category: subCategory},
+        // params: {category, sub_category: subCategory},
       }),
     }),
     getProductsByCategory: build.query({
