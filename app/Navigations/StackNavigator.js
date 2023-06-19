@@ -63,6 +63,7 @@ import {
   Orders_Route,
   Payment_Route,
   PaystackPayment_Route,
+  ProductDetail_Route,
   Profile_Route,
   Settings_Route,
   Sign_In,
@@ -105,7 +106,7 @@ const StackNavigator = () => {
         {/* check, kinda useful */}
         <StackComponent.Screen name={'Products'} component={Products} />
         <StackComponent.Screen
-          name={'ProductDetail'}
+          name={ProductDetail_Route}
           options={({navigation}) => ({
             headerShown: true,
             header: () => <CustomHeader showBackBtn navigation={navigation} />,

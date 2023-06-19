@@ -4,6 +4,7 @@ import {COLORS, FONTS, SIZES} from '../constants/theme';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import {baseURL} from '../../config/api';
+import {ProductDetail_Route} from '../constants/routes';
 
 const ShopItem = ({item, handleLike, index}) => {
   const navigation = useNavigation();
@@ -11,7 +12,9 @@ const ShopItem = ({item, handleLike, index}) => {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
-      onPress={() => navigation.navigate('ProductDetail')}
+      onPress={() =>
+        navigation.navigate(ProductDetail_Route, {product: item.id})
+      }
       style={{
         flex: 1,
         // width: 150,
@@ -20,8 +23,8 @@ const ShopItem = ({item, handleLike, index}) => {
       <View
         style={{
           backgroundColor: COLORS.white,
+          width: 150,
           elevation: 10,
-          // borderRadius:SIZES.radius,
         }}>
         {/* <TouchableOpacity
           style={{
@@ -45,7 +48,7 @@ const ShopItem = ({item, handleLike, index}) => {
           style={{
             width: '100%',
             height: 150,
-            // borderRadius: SIZES.radius,
+            borderRadius: SIZES.radius_sm,
           }}
           source={{uri: `http://localhost:4000/uploads/${item?.image}`}}
         />
@@ -55,7 +58,6 @@ const ShopItem = ({item, handleLike, index}) => {
           paddingHorizontal: 10,
           paddingVertical: 15,
         }}>
-        {/* <Text style={{...FONTS.h6, marginBottom: 6}}>{item.title}</Text> */}
         <Text style={{...FONTS.fontXs, color: COLORS.text}}>{item.name}</Text>
         <View
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 5}}>

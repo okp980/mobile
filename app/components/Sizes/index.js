@@ -1,51 +1,156 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Card from '../Card';
-import {COLORS, FONTS} from '../../constants/theme';
+import {COLORS, FONTS, SIZES} from '../../constants/theme';
 import {Divider} from 'react-native-paper';
+import {GlobalStyleSheet} from '../../constants/StyleSheet';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+
+const sizes = ['s', 'm', 'l', 'xl'];
+
+const colors = ['#D6F6DD', '#DAC4F7', '#F4989C', '#EBD2B4'];
+
+const Size = ({size}) => {
+  return (
+    <View style={{paddingLeft: 5}}>
+      <TouchableOpacity>
+        <View
+          style={{
+            width: 40,
+            height: 30,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderWidth: 1,
+            borderColor: COLORS.borderColor,
+          }}>
+          <Text
+            style={{
+              ...FONTS.font,
+              color: COLORS.gray,
+              textTransform: 'uppercase',
+            }}>
+            {size}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};
+const Colors = ({color}) => {
+  return (
+    <View
+      style={{
+        paddingLeft: 5,
+      }}>
+      <TouchableOpacity>
+        <View
+          style={{
+            width: 30,
+            height: 30,
+            borderRadius: 30 / 2,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderWidth: 2,
+            borderColor: COLORS.borderColor,
+            backgroundColor: color,
+          }}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const Sizes = () => {
   return (
-    <Card>
-      <View style={{paddingHorizontal: 10, paddingVertical: 10}}>
+    <View style={{paddingBottom: 10}}>
+      {/* <View style={{paddingHorizontal: 10, paddingVertical: 10}}>
         <Text
           style={{
             ...FONTS.fontLg,
             color: COLORS.dark,
           }}>
-          Sizes
+          Product Variants
         </Text>
       </View>
-      <Divider />
+      <Divider /> */}
       <View
         style={{
           flexDirection: 'row',
+          flex: 1,
+          alignItems: 'center',
           marginTop: 10,
-          paddingHorizontal: 10,
-          paddingBottom: 10,
+          // paddingHorizontal: 10,
         }}>
-        <TouchableOpacity
+        <View style={{}}>
+          <Text
+            style={{
+              ...FONTS.font,
+              ...FONTS.fontBold,
+              color: COLORS.dark,
+            }}>
+            Sizes :
+          </Text>
+        </View>
+        <View
           style={{
-            paddingHorizontal: 15,
-            paddingVertical: 5,
-            borderWidth: 1,
-            borderColor: COLORS.text,
-            marginRight: 5,
+            flexDirection: 'row',
+            flex: 1,
+            alignItems: 'center',
+            // marginTop: 10,
+            // paddingHorizontal: 10,
           }}>
-          <Text style={{...FONTS.fontSm, color: COLORS.text}}>XXL</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            paddingHorizontal: 15,
-            paddingVertical: 5,
-            borderWidth: 1,
-            borderColor: COLORS.text,
-            marginRight: 5,
-          }}>
-          <Text style={{...FONTS.fontSm, color: COLORS.text}}>XS</Text>
+          {sizes.map((item, i) => (
+            <Size size={item} key={i} />
+          ))}
+        </View>
+      </View>
+      <View>
+        <TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+            }}>
+            <Text style={{...FONTS.fontSm, color: COLORS.gray}}>
+              Size Guide
+            </Text>
+            <Ionicon name="chevron-forward" size={18} color={COLORS.gray} />
+          </View>
         </TouchableOpacity>
       </View>
-    </Card>
+      <View
+        style={{
+          flexDirection: 'row',
+          flex: 1,
+          alignItems: 'center',
+          // marginTop: 10,
+          // paddingHorizontal: 10,
+        }}>
+        <View style={{}}>
+          <Text
+            style={{
+              ...FONTS.font,
+              ...FONTS.fontBold,
+              color: COLORS.dark,
+            }}>
+            Colors :
+          </Text>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            paddingLeft: 10,
+          }}>
+          {colors.map((item, i) => (
+            <Colors color={item} key={i} />
+          ))}
+        </View>
+      </View>
+    </View>
   );
 };
 

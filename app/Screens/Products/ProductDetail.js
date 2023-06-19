@@ -3,22 +3,23 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons//MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Octicons from 'react-native-vector-icons/Octicons';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 import {COLORS, FONTS, SIZES} from '../../constants/theme';
 import Header from '../../layout/Header';
 import pic1 from '../../assets/images/shop/detail/pic1.png';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import CustomButton from '../../components/CustomButton';
 import LinearGradient from 'react-native-linear-gradient';
-import {Snackbar} from 'react-native-paper';
+import {Divider, Snackbar} from 'react-native-paper';
 import ShippingMethod from '../Components/ShippingMethods';
 import Sizes from '../../components/Sizes';
 import ProductMeasure from '../../components/ProductMeasure';
@@ -31,12 +32,15 @@ import Rating from '../../components/Rating';
 import Card from '../../components/Card';
 import {useGetSingleProductsQuery} from '../../../store/services/products';
 import {useAddToCartMutation} from '../../../store/services/cart';
+import Loading from '../../components/Loading/Loading';
+import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
+import useNetwork from '../../../hooks/useNetwork';
 
 const productImage = [pic1, pic1, pic1];
 
 const ProductDetail = ({navigation, route}) => {
-  const {product} = route.params;
-  const {data, isLoading, isError, isSuccess} =
+  const product = route?.params?.product;
+  const {data, isLoading, isError, isSuccess, error} =
     useGetSingleProductsQuery(product);
 
   const [addToCart] = useAddToCartMutation();
@@ -48,6 +52,8 @@ const ProductDetail = ({navigation, route}) => {
   const [snackText, setSnackText] = useState('Loading...');
 
   const [expanded, setExpanded] = React.useState(true);
+
+  const {isConnected} = useNetwork();
 
   const handlePress = () => setExpanded(!expanded);
 
@@ -68,19 +74,45 @@ const ProductDetail = ({navigation, route}) => {
     setIsLike(!isLike);
   };
 
-  if (isLoading)
+  if (isLoading) {
     return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: COLORS.backgroundColor,
+        }}>
+        <StatusBar animated={true} translucent={true} />
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Loading size="large" />
+        </View>
+      </SafeAreaView>
     );
+  }
+
+  if (isError) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: COLORS.backgroundColor,
+        }}>
+        <StatusBar animated={true} translucent={true} />
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ErrorOccurred
+            isConnected={isConnected}
+            caption={error?.data?.error}
+          />
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.backgroundColor}}>
       <ScrollView contentContainerStyle={{paddingBottom: 30}}>
         <View>
           {/* Product carousel */}
-          {/* <Swiper
+          <Swiper
             style={{height: SIZES.width}}
             dotStyle={{
               height: 10,
@@ -95,11 +127,13 @@ const ProductDetail = ({navigation, route}) => {
               backgroundColor: COLORS.white,
               borderRadius: 10,
             }}>
-            {productImage.map((data, index) => {
+            {productImage.map((item, index) => {
               return (
                 <View key={index}>
                   <Image
-                    source={item.imagePath ? item.imagePath : {uri: item.image}}
+                    source={
+                      item?.imagePath ? item?.imagePath : {uri: item?.image}
+                    }
                     style={{
                       width: '100%',
                       height: undefined,
@@ -122,7 +156,7 @@ const ProductDetail = ({navigation, route}) => {
                 </View>
               );
             })}
-          </Swiper> */}
+          </Swiper>
         </View>
         <View>
           <Card style={{padding: 15}}>
@@ -159,7 +193,7 @@ const ProductDetail = ({navigation, route}) => {
                     marginRight: 5,
                     color: COLORS.dark,
                   }}>
-                  {data?.data?.price}
+                  ₦{data?.data?.price}
                 </Text>
                 <Text
                   style={{
@@ -177,18 +211,49 @@ const ProductDetail = ({navigation, route}) => {
                   color: COLORS.success,
                   ...FONTS.fontBold,
                 }}>
-                20% OFF
+                Available in stock
               </Text>
+              <View style={{marginVertical: 10}}>
+                <Text
+                  style={{
+                    ...FONTS.font,
+                    color: COLORS.dark,
+                  }}>
+                  <Text
+                    style={{
+                      ...FONTS.fontBold,
+                    }}>
+                    SKU
+                  </Text>{' '}
+                  : sw28220390280239230230
+                </Text>
+              </View>
             </View>
+            <Sizes />
+            <Divider />
+            <TouchableOpacity>
+              <View style={{flexDirection: 'row', paddingVertical: 15}}>
+                <View
+                  style={{flexDirection: 'row', alignItems: 'center', flex: 1}}>
+                  <MaterialCommunityIcons
+                    name="shield-sync-outline"
+                    size={18}
+                  />
+                  <Text style={{...FONTS.font, marginLeft: 10}}>
+                    Return Policy
+                  </Text>
+                </View>
+                <View>
+                  <Ionicon name="chevron-forward" size={18} />
+                </View>
+              </View>
+            </TouchableOpacity>
           </Card>
-
-          <Sizes />
-
-          <ShippingMethod />
 
           <ProductMeasure />
 
           <Description />
+          <ShippingMethod />
           <Collections
             products={TopCollection}
             // title="similar products"

@@ -9,8 +9,8 @@ const ShippingMethod = () => {
   return (
     <Card>
       <View style={{paddingHorizontal: 10, paddingVertical: 15}}>
-        <Text style={{...FONTS.fontLg, color: COLORS.dark}}>
-          Shipping Methods
+        <Text style={{...FONTS.font, ...FONTS.fontBold, color: COLORS.dark}}>
+          Shipping Information
         </Text>
       </View>
       <Divider />
@@ -18,22 +18,22 @@ const ShippingMethod = () => {
         <>
           <View style={styles.layout} key={index}>
             <View style={styles.icon}>
-              <MaterialIcon name="truck-delivery-outline" size={30} />
+              <MaterialIcon name="truck-delivery-outline" size={20} />
             </View>
             <View style={styles.details}>
-              <Text style={{...FONTS.fontBold, color: COLORS.text}}>
+              <Text
+                style={{...FONTS.font, ...FONTS.fontBold, color: COLORS.dark}}>
                 Door Delivery
               </Text>
               <Text style={{...FONTS.fontSm, color: COLORS.text}}>
-                Item will be delivered to home and it will be fast and
-                interedting and smooth
+                Delivery time from 2-05-2023 to 12-05-2023
               </Text>
             </View>
-            <View style={styles.price}>
-              <Text>₦2500</Text>
+            <View>
+              <Text style={styles.price}>₦2500</Text>
             </View>
           </View>
-          <Divider />
+          {/* <Divider /> */}
         </>
       ))}
     </Card>
@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   price: {
-    ...FONTS.fontMedium,
+    ...FONTS.font,
+    ...FONTS.fontBold,
     marginLeft: 10,
   },
 });

@@ -13,19 +13,17 @@ const ReviewItem = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
           paddingHorizontal: 10,
-          paddingVertical: 15,
-          backgroundColor: COLORS.dark,
+          paddingVertical: 5,
+          backgroundColor: COLORS.light,
         }}>
         <View
           style={{
             flexDirection: 'row',
           }}>
-          <Text style={{...FONTS.fontSm, color: COLORS.white, marginRight: 10}}>
-            John
-          </Text>
+          <Text style={{...FONTS.fontSm, marginRight: 10}}>John</Text>
           <Rating />
         </View>
-        <Text style={{...FONTS.fontXs, color: COLORS.white}}>2/05/2022</Text>
+        <Text style={{...FONTS.fontXs}}>2/05/2022</Text>
       </View>
       <Divider />
       <View style={{paddingHorizontal: 10, paddingVertical: 15}}>

@@ -14,3 +14,4 @@ export const EditProfile_Route = 'EditProfile';
 export const Coupons_Route = 'Coupons';
 export const Settings_Route = 'Settings';
 export const ManageAccount_Route = 'ManageAccount';
+export const ProductDetail_Route = 'ProductDetail';
