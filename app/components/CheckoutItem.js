@@ -5,26 +5,50 @@ import {COLORS, FONTS} from '../constants/theme';
 import {useUpdateCartCountMutation} from '../../store/services/cart';
 
 const CheckoutItem = ({
-  productId,
+  cartProductId,
   image,
   title,
   price,
+  cartId,
   oldPrice,
   quantity,
   type,
   onPress,
 }) => {
-  const [itemQuantity, setItemQuantity] = useState(quantity);
+  const [itemQuantity, setItemQuantity] = useState(Number(quantity));
+  const [loading, setLoading] = useState(false);
   const [updateCartCount] = useUpdateCartCountMutation();
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      updateCartCount({productId, count: quantity});
-    }, 1000);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [itemQuantity]);
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     updateCartCount({cartProductId, cartId, count: quantity});
+  //   }, 1000);
+  //   return () => {
+  //     clearTimeout(timeout);
+  //   };
+  // }, [itemQuantity]);
+
+  const handleUpdateCart = async type => {
+    try {
+      setLoading(true);
+      const newCount =
+        type === 'add'
+          ? Number(itemQuantity) + 1
+          : type === 'minus'
+          ? Number(itemQuantity) - 1
+          : Number(itemQuantity);
+      const res = await updateCartCount({
+        cartProductId,
+        cartId,
+        count: newCount,
+      }).unwrap();
+      setItemQuantity(newCount);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -87,9 +111,8 @@ const CheckoutItem = ({
               alignItems: 'center',
             }}>
             <TouchableOpacity
-              onPress={() =>
-                itemQuantity > 1 && setItemQuantity(itemQuantity - 1)
-              }
+              disabled={loading}
+              onPress={() => handleUpdateCart('minus')}
               style={{
                 height: 25,
                 width: 25,
@@ -112,7 +135,8 @@ const CheckoutItem = ({
               {itemQuantity}
             </Text>
             <TouchableOpacity
-              onPress={() => setItemQuantity(itemQuantity + 1)}
+              disabled={loading}
+              onPress={() => handleUpdateCart('add')}
               style={{
                 height: 25,
                 width: 25,

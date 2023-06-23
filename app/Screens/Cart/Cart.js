@@ -56,7 +56,8 @@ const Cart = ({navigation}) => {
                       product: item.product._id,
                     })
                   }
-                  productId={item.product._id}
+                  cartId={data?.data?._id}
+                  cartProductId={item._id}
                   key={index}
                   image={item?.product?.image}
                   title={item.product.name}
@@ -115,7 +116,7 @@ const Cart = ({navigation}) => {
           }}>
           <View style={{flex: 1, paddingHorizontal: 20}}>
             <Text style={{...FONTS.h4}}>₦{data?.data?.total}</Text>
-            <Text style={{...FONTS.fontSm}}>Saved: $15.5</Text>
+            {/* <Text style={{...FONTS.fontSm}}>Saved: $15.5</Text> */}
           </View>
           <View style={{flex: 1}}>
             <CustomButton
