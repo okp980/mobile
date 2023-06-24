@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {Image, Text, Touchable, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {COLORS, FONTS} from '../constants/theme';
 import {useUpdateCartCountMutation} from '../../store/services/cart';
+import useModal from '../../hooks/useModal';
 
 const CheckoutItem = ({
   cartProductId,
@@ -18,15 +19,7 @@ const CheckoutItem = ({
   const [itemQuantity, setItemQuantity] = useState(Number(quantity));
   const [loading, setLoading] = useState(false);
   const [updateCartCount] = useUpdateCartCountMutation();
-
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     updateCartCount({cartProductId, cartId, count: quantity});
-  //   }, 1000);
-  //   return () => {
-  //     clearTimeout(timeout);
-  //   };
-  // }, [itemQuantity]);
+  const {handleOpenModal} = useModal();
 
   const handleUpdateCart = async type => {
     try {
@@ -37,12 +30,18 @@ const CheckoutItem = ({
           : type === 'minus'
           ? Number(itemQuantity) - 1
           : Number(itemQuantity);
-      const res = await updateCartCount({
-        cartProductId,
-        cartId,
-        count: newCount,
-      }).unwrap();
-      setItemQuantity(newCount);
+
+      if (newCount === 0) {
+        handleOpenModal({cartProductId, cartId});
+      } else {
+        await updateCartCount({
+          cartProductId,
+          cartId,
+          count: newCount,
+        }).unwrap();
+        setItemQuantity(newCount);
+      }
+
       setLoading(false);
     } catch (error) {
       setLoading(false);

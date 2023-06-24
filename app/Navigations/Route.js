@@ -11,6 +11,7 @@ import {View} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import useNetwork from '../../hooks/useNetwork';
 import {useEffect} from 'react';
+import ModalManager from '../components/ModalManager';
 
 const Drawer = createDrawerNavigator();
 
@@ -89,6 +90,7 @@ const Routes = () => {
           {toastMessage}
         </Snackbar>
       </View>
+      <ModalManager />
       <SafeAreaProvider>
         <NavigationContainer>
           <StackNavigator />
