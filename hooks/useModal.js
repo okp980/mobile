@@ -2,13 +2,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   closeModal,
   selectModalPayload,
+  selectModalType,
   selectModalVisible,
   showModal,
 } from '../store/feature/modal/modalSlice';
 
 export default function useModal() {
   const isVisible = useSelector(selectModalVisible);
-
+  const modalType = useSelector(selectModalType);
   const modalPayload = useSelector(selectModalPayload);
 
   const dispatch = useDispatch();
@@ -20,5 +21,11 @@ export default function useModal() {
     dispatch(closeModal());
   };
 
-  return {isVisible, modalPayload, handleCloseModal, handleOpenModal};
+  return {
+    isVisible,
+    modalType,
+    modalPayload,
+    handleCloseModal,
+    handleOpenModal,
+  };
 }

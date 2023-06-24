@@ -3,7 +3,7 @@ import React from 'react';
 import {ActivityIndicator} from 'react-native-paper';
 import {COLORS, FONTS} from '../../constants/theme';
 
-const Loading = ({caption, size = 'small'}) => {
+const Loading = ({caption, size = 'small', color = COLORS.dark}) => {
   return (
     <View
       style={{
@@ -11,7 +11,7 @@ const Loading = ({caption, size = 'small'}) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <ActivityIndicator color={COLORS.dark} size={size} />
+      <ActivityIndicator color={color} size={size} />
       {caption && (
         <Text style={{...FONTS.fontLg, marginTop: 10}}>{caption}</Text>
       )}

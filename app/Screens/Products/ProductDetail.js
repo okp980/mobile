@@ -41,6 +41,8 @@ import useNetwork from '../../../hooks/useNetwork';
 import {useGetShippingMethodsCostQuery} from '../../../store/services/shippingMethod';
 import HorizontalCollections from '../../components/HorizontalCollections.js';
 import useToast from '../../../hooks/useToast';
+import useModal from '../../../hooks/useModal';
+import {FULL_SCREEN_LOADER} from '../../constants/modal';
 
 const productImage = [pic1, pic1, pic1];
 
@@ -64,12 +66,16 @@ const ProductDetail = ({navigation, route}) => {
 
   const {isConnected} = useNetwork();
   const {handleMessageToast, handleErrorToast} = useToast();
+  const {handleOpenModal, handleCloseModal} = useModal();
 
   const handleAddToCart = async product => {
     try {
+      handleOpenModal({type: FULL_SCREEN_LOADER});
       await addToCart(product).unwrap();
+      handleCloseModal();
       handleMessageToast({message: 'Added to Cart'});
     } catch (error) {
+      handleCloseModal();
       handleErrorToast({message: 'Failed to add to cart'});
     }
   };

@@ -16,11 +16,15 @@ const Tab = createBottomTabNavigator();
 export function CustomHeader({showBackBtn, ...props}) {
   const [cartCount, setCartCount] = useState(0);
   const {data, isLoading, isSuccess, isError} = useGetCartQuery();
+  const length = data?.data?.products?.length;
   useEffect(() => {
     if (isSuccess && data?.data !== null) {
-      setCartCount(data?.data?.products.length);
+      setCartCount(length);
+    } else {
+      setCartCount(0);
     }
-  }, [isSuccess]);
+  }, [isSuccess, length]);
+
   return (
     <View
       style={{

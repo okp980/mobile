@@ -4,6 +4,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {COLORS, FONTS} from '../constants/theme';
 import {useUpdateCartCountMutation} from '../../store/services/cart';
 import useModal from '../../hooks/useModal';
+import {DELETE_ITEM_CONTENT} from '../constants/modal';
 
 const CheckoutItem = ({
   cartProductId,
@@ -32,7 +33,10 @@ const CheckoutItem = ({
           : Number(itemQuantity);
 
       if (newCount === 0) {
-        handleOpenModal({cartProductId, cartId});
+        handleOpenModal({
+          type: DELETE_ITEM_CONTENT,
+          modalPayload: {cartProductId, cartId},
+        });
       } else {
         await updateCartCount({
           cartProductId,

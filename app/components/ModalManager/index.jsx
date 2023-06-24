@@ -1,16 +1,20 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
+import React from 'react';
 import Modal from 'react-native-modal';
 import DeleteCartItem from './DeleteCartItem';
-import {DELETE_ITEM_CONTENT} from '../../constants/modal';
+import {DELETE_ITEM_CONTENT, FULL_SCREEN_LOADER} from '../../constants/modal';
 import useModal from '../../../hooks/useModal';
+import FullScreenLoader from './FullScreenLoader';
 
 const ModalManager = () => {
-  const {isVisible} = useModal();
+  const {isVisible, modalType} = useModal();
 
-  const type = DELETE_ITEM_CONTENT;
-
-  const content = type === DELETE_ITEM_CONTENT ? <DeleteCartItem /> : null;
+  const content =
+    modalType === DELETE_ITEM_CONTENT ? (
+      <DeleteCartItem />
+    ) : modalType === FULL_SCREEN_LOADER ? (
+      <FullScreenLoader />
+    ) : null;
   return <Modal isVisible={isVisible}>{content}</Modal>;
 };
 
