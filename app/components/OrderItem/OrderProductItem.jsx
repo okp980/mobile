@@ -21,7 +21,7 @@ const OrderProductItem = ({item}) => {
       <View style={styles.info}>
         <View>
           <Text style={{...FONTS.font, ...FONTS.fontBold}}>
-            {item.product?.name}
+            {item?.product?.name}
           </Text>
         </View>
         <View style={styles.productDetails}>

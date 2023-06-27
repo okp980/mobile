@@ -21,7 +21,7 @@ const Orders = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {key: 'All', title: 'All'},
-    {key: 'OnDelivery', title: 'On Delivery'},
+    {key: 'OnDelivery', title: 'On-going'},
     {key: 'Completed', title: 'Completed'},
     {key: 'Canceled', title: 'Canceled'},
   ]);

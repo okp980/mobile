@@ -10,7 +10,7 @@ import Card from '../../components/Card';
 import {useNavigation} from '@react-navigation/native';
 import {Orders_Route, Sign_In} from '../../constants/routes';
 
-const SampleOrders = () => {
+const SampleOrders = ({type}) => {
   const [Orders, setOrders] = useState([]);
   const [getOrders, {error}] = useLazyGetOrdersQuery();
   const [offSet, setOffSet] = useState(1);
@@ -22,17 +22,17 @@ const SampleOrders = () => {
   const {handleErrorToast} = useToast();
 
   useEffect(() => {
-    handleGetOrders();
-  }, []);
+    type ? handleGetOrders({status: type}) : handleGetOrders({});
+  }, [type]);
   useEffect(() => {
     console.log(offSet);
     console.log('offSet changed');
   }, [offSet]);
 
-  const handleGetOrders = async () => {
+  const handleGetOrders = async params => {
     try {
       setLoading(true);
-      const res = await getOrders().unwrap();
+      const res = await getOrders(params).unwrap();
       setOrders(res?.data);
       setOffSet(prev => prev + 1);
       if (!res?.data?.pagination?.next) {

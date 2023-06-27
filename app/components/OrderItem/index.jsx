@@ -104,7 +104,7 @@ const OrderItem = props => {
           <View style={styles.cta}>
             <CustomButton
               onPress={() =>
-                navigation.navigate(OrderDetail_Route, {orderId: ''})
+                navigation.navigate(OrderDetail_Route, {orderId: props?.id})
               }
               title="View Order"
               customStyles={{flex: 1, backgroundColor: COLORS.dark}}

@@ -9,6 +9,10 @@ const extendedApi = apiSlice.injectEndpoints({
       query: values => ({url: '/orders', method: 'POST', body: values}),
       transformResponse: response => response.data,
     }),
+    getSingleOrder: build.query({
+      query: id => `/orders/${id}`,
+      transformResponse: response => response.data,
+    }),
     OrderPayment: build.mutation({
       query: ({id, data}) => ({
         url: `/orders/${id}/pay`,
@@ -25,5 +29,6 @@ const extendedApi = apiSlice.injectEndpoints({
 export const {
   useCreateOrderMutation,
   useOrderPaymentMutation,
+  useGetSingleOrderQuery,
   useLazyGetOrdersQuery,
 } = extendedApi;

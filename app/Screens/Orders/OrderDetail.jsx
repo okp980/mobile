@@ -5,8 +5,29 @@ import {Divider} from 'react-native-paper';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import {COLORS, FONTS} from '../../constants/theme';
 import CustomButton from '../../components/CustomButton';
+import {useGetSingleOrderQuery} from '../../../store/services/order';
+import Loading from '../../components/Loading/Loading';
+import {format} from 'date-fns';
+import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
 
-const OrderDetail = () => {
+const OrderDetail = ({navigation, route}) => {
+  const {orderId} = route.params;
+  const {data, isLoading, isError, error} = useGetSingleOrderQuery(orderId);
+
+  if (isLoading) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Loading size="large" />
+      </View>
+    );
+  }
+  if (isError) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ErrorOccurred />
+      </View>
+    );
+  }
   return (
     <SafeAreaView>
       <ScrollView>
@@ -14,7 +35,9 @@ const OrderDetail = () => {
           <Text style={[FONTS.fontLg, FONTS.fontBold]}>
             Estimated Delivery Time:
           </Text>
-          <Text style={[FONTS.font]}>About Jul 01 2023 - Jul 04 2023</Text>
+          <Text style={[FONTS.font]}>
+            About {data?.shippingMethod?.duration} working days.
+          </Text>
         </View>
         <View>
           <View
@@ -36,7 +59,9 @@ const OrderDetail = () => {
                 marginBottom: 5,
               }}>
               <Text style={[FONTS.font]}>Shipping Method</Text>
-              <Text style={[FONTS.font]}>HOME DELIVERY</Text>
+              <Text style={[FONTS.font, {textTransform: 'uppercase'}]}>
+                {data?.shippingMethod?.title}
+              </Text>
             </View>
             <View
               style={{
@@ -46,18 +71,25 @@ const OrderDetail = () => {
                 marginBottom: 5,
               }}>
               <Text style={[FONTS.font]}>Payment Method:</Text>
-              <Text style={[FONTS.font]}>Online Payment</Text>
+              <Text style={[FONTS.font]}>
+                {data?.payment?.paymentMethod?.name}
+              </Text>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: 5,
-              }}>
-              <Text style={[FONTS.font]}>Order Time</Text>
-              <Text style={[FONTS.font]}>Jun 12 2023 00:17:40</Text>
-            </View>
+            {data?.createdAt && (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 5,
+                }}>
+                <Text style={[FONTS.font]}>Order Time</Text>
+                <Text style={[FONTS.font]}>
+                  {format(new Date(data?.createdAt), 'MMM dd yyyy hh:mm a')}
+                </Text>
+              </View>
+            )}
+
             <View
               style={{
                 flexDirection: 'row',
@@ -76,7 +108,7 @@ const OrderDetail = () => {
                 marginBottom: 5,
               }}>
               <Text style={[FONTS.font]}>Order Total</Text>
-              <Text style={[FONTS.font]}>₦12,000</Text>
+              <Text style={[FONTS.font]}>₦{data?.totalAmount}</Text>
             </View>
             <View
               style={{
@@ -86,7 +118,14 @@ const OrderDetail = () => {
                 marginBottom: 5,
               }}>
               <Text style={[FONTS.font]}>Order Status</Text>
-              <Text style={[FONTS.font]}>Shipped</Text>
+              <Text
+                style={[
+                  FONTS.font,
+                  FONTS.fontBold,
+                  {textTransform: 'uppercase'},
+                ]}>
+                {data?.status}
+              </Text>
             </View>
           </View>
         </View>
@@ -94,7 +133,9 @@ const OrderDetail = () => {
         <View
           style={[GlobalStyleSheet.container, {backgroundColor: COLORS.light}]}>
           <Text style={[FONTS.fontLg, FONTS.fontBold]}>Products</Text>
-          <OrderProductItem />
+          {data?.items?.map((item, index) => (
+            <OrderProductItem key={index} item={item} />
+          ))}
         </View>
         <View>
           <View
@@ -105,13 +146,18 @@ const OrderDetail = () => {
             <Text style={[FONTS.font, FONTS.fontBold]}>Shipping Address</Text>
           </View>
           <View style={[GlobalStyleSheet.container]}>
-            <Text style={[FONTS.font]}>Emmanuel Okpunor</Text>
-            <Text style={[FONTS.font]}>
-              2 bukola alomaja avenue, glory land estate
+            <Text style={[FONTS.font, {textTransform: 'capitalize'}]}>
+              {data?.shippingAddress[0]?.fullName}
             </Text>
-            <Text style={[FONTS.font]}>Ajah</Text>
-            <Text style={[FONTS.font]}>Lagos</Text>
-            <Text style={[FONTS.font]}>Nigeria</Text>
+            <Text style={[FONTS.font]}>
+              {data?.shippingAddress[0]?.address}
+            </Text>
+            <Text style={[FONTS.font]}>{data?.shippingAddress[0]?.city}</Text>
+            <Text style={[FONTS.font]}> {data?.shippingAddress[0]?.state}</Text>
+            <Text style={[FONTS.font]}>
+              {' '}
+              {data?.shippingAddress[0]?.country}
+            </Text>
           </View>
         </View>
         <View>
@@ -131,7 +177,7 @@ const OrderDetail = () => {
                 marginBottom: 5,
               }}>
               <Text style={[FONTS.font]}>Subtotal:</Text>
-              <Text style={[FONTS.font]}>₦12,000</Text>
+              <Text style={[FONTS.font]}>₦{data?.totalAmount}</Text>
             </View>
             <View
               style={{
@@ -141,7 +187,7 @@ const OrderDetail = () => {
                 marginBottom: 5,
               }}>
               <Text style={[FONTS.font]}>Shippping fee:</Text>
-              <Text style={[FONTS.font]}>₦2,000</Text>
+              <Text style={[FONTS.font]}>₦{data?.shippingMethod?.charge}</Text>
             </View>
             <Divider />
             <View
@@ -152,7 +198,9 @@ const OrderDetail = () => {
                 marginVertical: 10,
               }}>
               <Text style={[FONTS.fontLg, FONTS.fontBold]}>TOTAL</Text>
-              <Text style={[FONTS.font]}>₦14,000</Text>
+              <Text style={[FONTS.font]}>
+                ₦{data?.totalAmount + data?.shippingMethod?.charge}
+              </Text>
             </View>
           </View>
         </View>
