@@ -24,7 +24,9 @@ import german from '../../assets/images/flags/german.png';
 import italian from '../../assets/images/flags/italian.png';
 import spanish from '../../assets/images/flags/spanish.png';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {Orders_Route} from '../../constants/routes';
+import {Orders_Route, Sign_In} from '../../constants/routes';
+import CustomButton from '../../components/CustomButton';
+import useAuth from '../../../hooks/useAuth';
 
 const languagetData = [
   {
@@ -143,6 +145,8 @@ const Profile = ({navigation}) => {
   const RBSheetLanguage = useRef();
   const layout = useWindowDimensions();
 
+  const {token} = useAuth();
+
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {key: 'wishlist', title: 'Wishlist'},
@@ -212,9 +216,43 @@ const Profile = ({navigation}) => {
           backgroundColor: COLORS.backgroundColor,
         }}>
         <ScrollView>
-          <View style={{...GlobalStyleSheet.container}}>
-            <View style={{paddingVertical: 30}}>
-              <Text style={{...FONTS.h3}}>Hi, Emmanuel</Text>
+          <View
+            style={{
+              ...GlobalStyleSheet.container,
+              backgroundColor: COLORS.dark,
+            }}>
+            <View style={{paddingVertical: 10}}>
+              {token ? (
+                <Text style={{...FONTS.fontLg, color: COLORS.white}}>
+                  Welcome
+                </Text>
+              ) : (
+                <View style={{flexDirection: 'row'}}>
+                  <View style={{flex: 1}}>
+                    <Text
+                      style={{
+                        ...FONTS.fontLg,
+                        color: COLORS.white,
+                        marginBottom: 5,
+                      }}>
+                      Welcome
+                    </Text>
+                    <Text style={{...FONTS.fontXs, color: COLORS.white}}>
+                      Log in to your account
+                    </Text>
+                  </View>
+                  <View>
+                    <CustomButton
+                      title="Sign In"
+                      btnSm
+                      outline
+                      customStyles={{borderColor: COLORS.white}}
+                      textColor={COLORS.white}
+                      onPress={() => navigation.navigate(Sign_In)}
+                    />
+                  </View>
+                </View>
+              )}
             </View>
           </View>
           <Row

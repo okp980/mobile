@@ -55,6 +55,7 @@ import {COLORS} from '../constants/theme';
 import {
   Add_Delivery_Address,
   Address_Route,
+  BottomNavigation_Route,
   Confirm_Order,
   Coupons_Route,
   DeliveryTracking_Route,
@@ -80,7 +81,7 @@ const StackNavigator = () => {
   return (
     <>
       <StackComponent.Navigator
-        initialRouteName={'BottomNavigation'}
+        initialRouteName={BottomNavigation_Route}
         detachInactiveScreens={true}
         screenOptions={{
           headerStyle: COLORS.backgroundColor,

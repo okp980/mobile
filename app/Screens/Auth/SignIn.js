@@ -9,26 +9,31 @@ import {
 } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
-import {COLORS, FONTS, IMAGES, SIZES} from '../../constants/theme';
+import {COLORS, FONTS} from '../../constants/theme';
 import CustomInput from '../../components/CustomInput';
 import {Formik} from 'formik';
 import {useSignInMutation} from '../../../store/services/auth';
-import {useDispatch} from 'react-redux';
-import {setCredentials} from '../../../store/feature/auth/authSlice';
 import useAuth from '../../../hooks/useAuth';
+import {BottomNavigation_Route, Sign_Up} from '../../constants/routes';
+import useModal from '../../../hooks/useModal';
+import {FULL_SCREEN_LOADER} from '../../constants/modal';
 
 const SignIn = ({navigation, route}) => {
-  const {from} = route.params;
+  const from = route?.params?.from;
   const [signIn] = useSignInMutation();
   const {setToken} = useAuth();
+  const {handleOpenModal, handleCloseModal} = useModal();
 
   const handleSignIn = async values => {
     const {email, password} = values;
     try {
+      handleOpenModal({type: FULL_SCREEN_LOADER});
       const data = await signIn({email, password}).unwrap();
       setToken(data?.token);
-      navigation.navigate(from);
+      navigation.navigate(from || BottomNavigation_Route);
+      handleCloseModal();
     } catch (error) {
+      handleCloseModal();
       console.log(error);
     }
   };
@@ -96,7 +101,7 @@ const SignIn = ({navigation, route}) => {
               Don’t have an account?
             </Text>
             <CustomButton
-              onPress={() => props.navigation.navigate('SignUp')}
+              onPress={() => navigation.navigate(Sign_Up)}
               outline
               title="Register now"
             />

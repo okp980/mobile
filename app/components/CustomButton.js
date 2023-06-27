@@ -45,7 +45,7 @@ const CustomButton = props => {
           {...FONTS.fontLg, color: COLORS.white},
           props.btnLight && {color: '#646464'},
           props.textColor && {color: props.textColor},
-          props.outline && {color: COLORS.primary},
+          props.outline && !props.textColor && {color: COLORS.primary},
         ]}>
         {props.title}
       </Text>
