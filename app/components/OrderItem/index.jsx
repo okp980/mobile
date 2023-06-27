@@ -9,10 +9,12 @@ import {
   DeliveryTracking_Route,
   OrderDetail_Route,
 } from '../../constants/routes';
+import {format} from 'date-fns';
 
-const OrderItem = () => {
+const OrderItem = props => {
   const [show, setShow] = useState(false);
   const navigation = useNavigation();
+
   return (
     <View>
       <View style={styles.container}>
@@ -22,14 +24,34 @@ const OrderItem = () => {
               ORDER #352602
             </Text>
             <View style={styles.delivered}>
-              <View style={styles.dot} />
-              <Text style={{...FONTS.fontXs}}>Delivered</Text>
+              <View
+                style={[
+                  styles.dot,
+                  {
+                    backgroundColor:
+                      props?.status === 'success'
+                        ? COLORS.success
+                        : props?.status === 'processing'
+                        ? COLORS.warning
+                        : COLORS.dark,
+                  },
+                ]}
+              />
+              <Text style={{...FONTS.fontXs, textTransform: 'capitalize'}}>
+                {props?.status}
+              </Text>
             </View>
           </View>
-          <View>
-            <Text style={{...FONTS.font}}>23 May, 2023</Text>
-            <Text style={{...FONTS.font}}>05:23pm</Text>
-          </View>
+          {props?.createdAt && (
+            <View>
+              <Text style={{...FONTS.font}}>
+                {format(new Date(props?.createdAt), 'dd MMM, yyyy')}
+              </Text>
+              <Text style={{...FONTS.font}}>
+                {format(new Date(props?.createdAt), 'hh:mm a')}
+              </Text>
+            </View>
+          )}
         </View>
         <View>
           <TouchableOpacity onPress={() => setShow(prev => !prev)}>
@@ -51,8 +73,9 @@ const OrderItem = () => {
             ...styles.container,
             backgroundColor: COLORS.light,
           }}>
-          <OrderProductItem />
-          <OrderProductItem />
+          {props?.items?.map((item, index) => (
+            <OrderProductItem key={index} item={item} />
+          ))}
           <View style={styles.cost}>
             <View style={styles.costItem}>
               <View>
@@ -61,7 +84,9 @@ const OrderItem = () => {
                 </Text>
               </View>
               <View>
-                <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>₦3,500</Text>
+                <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>
+                  ₦{props?.shippingMethod?.charge}
+                </Text>
               </View>
             </View>
             <Divider />
@@ -71,7 +96,7 @@ const OrderItem = () => {
               </View>
               <View>
                 <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>
-                  ₦30,500
+                  ₦{props?.totalAmount}
                 </Text>
               </View>
             </View>
@@ -116,7 +141,7 @@ const styles = StyleSheet.create({
     height: 8,
     width: 8,
     borderRadius: 4,
-    backgroundColor: COLORS.dark,
+
     marginRight: 5,
   },
   delivered: {

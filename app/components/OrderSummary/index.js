@@ -22,7 +22,11 @@ const OrderSummary = ({shippingMethod}) => {
 
         {data?.data?.products?.map((item, index) => (
           <View
-            style={{flexDirection: 'row', alignItems: 'center'}}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 3,
+            }}
             key={index}>
             <View
               style={{height: 80, width: 60, backgroundColor: COLORS.dark}}

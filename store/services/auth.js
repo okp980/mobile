@@ -1,3 +1,4 @@
+import {DEFAULT_ADDRESS, SHIPPING_ADDRESS} from '../../app/constants/Tags';
 import {apiSlice} from '../api';
 
 const authApi = apiSlice.injectEndpoints({
@@ -15,6 +16,7 @@ const authApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: {email, password},
       }),
+      invalidatesTags: [DEFAULT_ADDRESS],
     }),
     forgotPassword: build.mutation({
       query: ({email}) => ({

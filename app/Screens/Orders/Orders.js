@@ -25,6 +25,10 @@ const Orders = () => {
     {key: 'Completed', title: 'Completed'},
     {key: 'Canceled', title: 'Canceled'},
   ]);
+  // All
+  // Ongoing
+  // Completed
+  // Cancelled
 
   return (
     <SafeAreaView
@@ -44,14 +48,14 @@ const Orders = () => {
           <TabBar
             {...props}
             activeColor={COLORS.title}
-            indicatorStyle={{backgroundColor: COLORS.primary}}
+            indicatorStyle={{backgroundColor: COLORS.dark}}
             labelStyle={{
               ...FONTS.font,
-              ...FONTS.fontBold,
-              textTransform: 'capitalize',
+
+              textTransform: 'uppercase',
             }}
             scrollEnabled={true}
-            tabStyle={{width: 120}}
+            tabStyle={{width: 120, height: 40}}
             style={{
               backgroundColor: 'transparent',
               elevation: 0,

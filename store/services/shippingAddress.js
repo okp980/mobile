@@ -8,13 +8,14 @@ const extendedApi = apiSlice.injectEndpoints({
         url: '/shipping-address/user',
       }),
       transformResponse: response => response.data,
-      //   providesTags: result =>
-      //     result
-      //       ? [
-      //           ...result.map(({id}) => ({type: SHIPPING_ADDRESS, id})),
-      //           {type: SHIPPING_ADDRESS, id: 'LIST'},
-      //         ]
-      //       : [{type: SHIPPING_ADDRESS, id: 'LIST'}],
+      // providesTags: result =>
+      //   result
+      //     ? [
+      //         ...result.map(({id}) => ({type: SHIPPING_ADDRESS, id})),
+      //         {type: SHIPPING_ADDRESS, id: 'LIST'},
+      //       ]
+      //     : [{type: SHIPPING_ADDRESS, id: 'LIST'}],
+      providesTags: [SHIPPING_ADDRESS],
     }),
 
     getDefaultShippingAddress: build.query({
@@ -22,7 +23,7 @@ const extendedApi = apiSlice.injectEndpoints({
         url: '/shipping-address/user/default',
       }),
       transformResponse: response => response.data,
-      //   providesTags: [{type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS}],
+      providesTags: [{type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS}],
     }),
     updateDefaultAddress: build.mutation({
       query: id => ({
@@ -89,7 +90,7 @@ export const {
   useUpdateDefaultAddressMutation,
   useUpdateSingleAddressMutation,
   useLazyGetSingleShippingAddressQuery,
-  useGetUserShippingAddressQuery,
+  useLazyGetUserShippingAddressQuery,
   useGetDefaultShippingAddressQuery,
   useLazyGetDefaultShippingAddressQuery,
   useCreateShippingAddressMutation,

@@ -1,15 +1,27 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 import {COLORS, FONTS} from '../../constants/theme';
 
-const OrderProductItem = () => {
+const OrderProductItem = ({item}) => {
   return (
     <View style={styles.container}>
-      <View style={styles.image} />
+      <View>
+        <Image
+          style={{
+            width: 70,
+            height: 80,
+            borderRadius: 2,
+            marginRight: 12,
+          }}
+          source={{
+            uri: `http://localhost:4000/uploads/${item?.product?.image}`,
+          }}
+        />
+      </View>
       <View style={styles.info}>
         <View>
           <Text style={{...FONTS.font, ...FONTS.fontBold}}>
-            has temporarily joined the chat
+            {item.product?.name}
           </Text>
         </View>
         <View style={styles.productDetails}>
@@ -20,12 +32,12 @@ const OrderProductItem = () => {
             </View>
           </View>
           <View>
-            <Text tyle={{...FONTS.fontLg}}>(X2)</Text>
+            <Text tyle={{...FONTS.fontLg}}>{`(X${item?.quantity})`}</Text>
           </View>
         </View>
       </View>
       <View style={styles.price}>
-        <Text style={{...FONTS.font, ...FONTS.fontBold}}>₦2,000</Text>
+        <Text style={{...FONTS.font, ...FONTS.fontBold}}>₦{item?.price}</Text>
       </View>
     </View>
   );
@@ -35,7 +47,6 @@ export default OrderProductItem;
 
 const styles = StyleSheet.create({
   container: {flexDirection: 'row', alignItems: 'center', marginVertical: 10},
-  image: {width: 70, height: 80, backgroundColor: COLORS.dark},
   info: {flex: 1, paddingHorizontal: 5},
   price: {width: 70, alignItems: 'center'},
 

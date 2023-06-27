@@ -30,6 +30,7 @@ import {
 import Loading from '../../components/Loading/Loading';
 import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
 import useNetwork from '../../../hooks/useNetwork';
+import Recommended from '../../components/Recommended';
 
 const bannerData = [
   {
@@ -238,6 +239,7 @@ const MainHome = ({navigation}) => {
               category={category}
             />
             <Collections products={recommended} title="Recommended Products" />
+            {/* <Recommended /> */}
           </ScrollView>
         )}
       </View>

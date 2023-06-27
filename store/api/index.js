@@ -1,6 +1,10 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {baseURL} from '../../config/api';
-import {CART, SHIPPING_ADDRESS} from '../../app/constants/Tags';
+import {
+  CART,
+  DEFAULT_ADDRESS,
+  SHIPPING_ADDRESS,
+} from '../../app/constants/Tags';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: baseURL,
@@ -16,6 +20,6 @@ const baseQuery = fetchBaseQuery({
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQuery,
-  tagTypes: [CART, SHIPPING_ADDRESS],
+  tagTypes: [CART, SHIPPING_ADDRESS, DEFAULT_ADDRESS],
   endpoints: () => ({}),
 });

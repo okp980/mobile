@@ -6,14 +6,16 @@ import {useNavigation} from '@react-navigation/native';
 import {baseURL} from '../../config/api';
 import {ProductDetail_Route} from '../constants/routes';
 
-const ShopItem = ({item, handleLike, index}) => {
+const ShopItem = ({item, handleLike, index, ...props}) => {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       onPress={() =>
-        navigation.navigate(ProductDetail_Route, {product: item.id})
+        navigation.navigate(ProductDetail_Route, {
+          product: props?.id || item.id,
+        })
       }
       style={{
         flex: 1,
@@ -50,7 +52,9 @@ const ShopItem = ({item, handleLike, index}) => {
             height: 150,
             borderRadius: SIZES.radius_sm,
           }}
-          source={{uri: `http://localhost:4000/uploads/${item?.image}`}}
+          source={{
+            uri: `http://localhost:4000/uploads/${props?.image || item?.image}`,
+          }}
         />
       </View>
       <View
@@ -58,7 +62,9 @@ const ShopItem = ({item, handleLike, index}) => {
           paddingHorizontal: 10,
           paddingVertical: 15,
         }}>
-        <Text style={{...FONTS.fontXs, color: COLORS.text}}>{item.name}</Text>
+        <Text style={{...FONTS.fontXs, color: COLORS.text}}>
+          {props?.name || item?.name}
+        </Text>
         <View
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
           <View style={{flexDirection: 'row', flex: 1}}>
@@ -69,7 +75,7 @@ const ShopItem = ({item, handleLike, index}) => {
                 color: COLORS.dark,
                 marginRight: 5,
               }}>
-              ₦{item.price}
+              ₦{props?.price || item?.price}
             </Text>
             {/* <Text style={{...FONTS.font, top: 3}}>{item.oldPrice}</Text> */}
           </View>

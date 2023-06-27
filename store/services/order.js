@@ -2,6 +2,9 @@ import {apiSlice} from '../api';
 
 const extendedApi = apiSlice.injectEndpoints({
   endpoints: build => ({
+    getOrders: build.query({
+      query: params => ({url: '/orders/user', params}),
+    }),
     createOrder: build.mutation({
       query: values => ({url: '/orders', method: 'POST', body: values}),
       transformResponse: response => response.data,
@@ -19,4 +22,8 @@ const extendedApi = apiSlice.injectEndpoints({
   overrideExisting: true,
 });
 
-export const {useCreateOrderMutation, useOrderPaymentMutation} = extendedApi;
+export const {
+  useCreateOrderMutation,
+  useOrderPaymentMutation,
+  useLazyGetOrdersQuery,
+} = extendedApi;

@@ -15,9 +15,10 @@ import {
   Payment_Route,
   Sign_In,
 } from '../../constants/routes';
-import {useGetDefaultShippingAddressQuery} from '../../../store/services/shippingAddress';
+import {useLazyGetDefaultShippingAddressQuery} from '../../../store/services/shippingAddress';
 import {useLazyGetShippingMethodsQuery} from '../../../store/services/shippingMethod';
 import {useCreateOrderMutation} from '../../../store/services/order';
+import Loading from '../../components/Loading/Loading';
 
 const ConfirmOrder = ({navigation}) => {
   const {token} = useAuth();
@@ -25,26 +26,36 @@ const ConfirmOrder = ({navigation}) => {
   const [selectedMethod, setSelectedMethod] = useState([]);
   const [createOrder] = useCreateOrderMutation();
 
-  const {
-    data: address,
-    isError: isAddressError,
-    isSuccess: isAddressSuccess,
-    error: addressError,
-  } = useGetDefaultShippingAddressQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
-  const [getShippingMethods] = useLazyGetShippingMethodsQuery();
+  const [
+    getDefaultAddress,
+    {
+      data: address,
+      isLoading: isLoadingAddress,
+      isError: isAddressError,
+      isSuccess: isAddressSuccess,
+      error: addressError,
+    },
+  ] = useLazyGetDefaultShippingAddressQuery();
+
+  const [getShippingMethods, {isLoading: isLoadingShippingMethods}] =
+    useLazyGetShippingMethodsQuery({
+      refetchOnFocus: true,
+    });
+
   useEffect(() => {
     if (!token) {
       navigation.navigate(Sign_In, {from: Confirm_Order});
+    } else {
+      if (isAddressError) {
+        navigation.navigate(Add_Delivery_Address, {from: Confirm_Order});
+      }
     }
-  }, [token]);
+  }, [isAddressError, token, isLoadingAddress]);
+  console.log('isErrorrrr', isAddressError);
+  console.log('adressErorr ===>', addressError);
+
   useEffect(() => {
-    if (isAddressError && token) {
-      navigation.navigate(Add_Delivery_Address, {from: Confirm_Order});
-    }
-  }, [isAddressError, isAddressSuccess, token]);
-  useEffect(() => {
+    getDefaultAddress();
     getShippingMethods()
       .unwrap()
       .then(data => {
@@ -87,12 +98,20 @@ const ConfirmOrder = ({navigation}) => {
       console.log(error);
     }
   }
+
+  if (isLoadingAddress || isLoadingShippingMethods) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Loading size="large" />
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={{flex: 1}}>
       {/* <Header titleLeft leftIcon={'back'} title={'Confirm Order'} /> */}
       <View style={{flex: 1}}>
         <ScrollView>
-          <ShippingAddress address={address?.data} />
+          <ShippingAddress address={address} />
           <ShippingMethodItem
             methods={methods}
             onSelectMethod={handleSetDefaultShippingMethod}

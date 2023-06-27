@@ -24,6 +24,7 @@ import german from '../../assets/images/flags/german.png';
 import italian from '../../assets/images/flags/italian.png';
 import spanish from '../../assets/images/flags/spanish.png';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {Orders_Route} from '../../constants/routes';
 
 const languagetData = [
   {
@@ -70,11 +71,25 @@ const information = [
   {title: 'Feedback', icon: 'ios-sync'},
 ];
 
-const Row = ({title, items}) => {
+const Row = ({title, items, more, onHandleMore}) => {
   return (
     <View style={{backgroundColor: COLORS.white, marginBottom: 10}}>
       <View style={{...GlobalStyleSheet.container}}>
-        <Text style={{...FONTS.font, ...FONTS.fontBold}}>{title}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <Text style={{...FONTS.font, ...FONTS.fontBold}}>{title}</Text>
+          {more && (
+            <TouchableOpacity onPress={onHandleMore}>
+              <Text style={{...FONTS.Xs, textDecorationLine: 'underline'}}>
+                {more}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
         <View style={{flexDirection: 'row', marginTop: 10}}>
           {items?.map((item, index) => (
             <TouchableOpacity style={{flex: 1}}>
@@ -202,7 +217,14 @@ const Profile = ({navigation}) => {
               <Text style={{...FONTS.h3}}>Hi, Emmanuel</Text>
             </View>
           </View>
-          <Row title="My Orders" items={myOrders} />
+          <Row
+            title="My Orders"
+            items={myOrders}
+            more={'View All'}
+            onHandleMore={() => {
+              navigation.navigate(Orders_Route);
+            }}
+          />
           <Row title="Support" items={support} />
           <Row title="Connect with us" items={socials} />
           <Row title="Give us your feedback" items={information} />
