@@ -1,0 +1,89 @@
+[{
+  "_id": {
+    "$oid": "6448068e9480bfd5e01a81ab"
+  },
+  "name": "Apple 2021 Macbook pro",
+  "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum",
+  "price": 32,
+  "image": "img-url",
+  "category": {
+    "$oid": "6447ec2febaa84f586efd41d"
+  },
+  "quantity": 200,
+  "brand": "Apple",
+  "meta": {
+    "colors": [
+      "silver"
+    ],
+    "sizes": [
+      "mini"
+    ],
+    "weight": "2kg"
+  },
+  "status": "in stock",
+  "createdAt": {
+    "$date": "2023-04-25T16:52:31.434Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "644817357284801132ceb1fb"
+  },
+  "name": "Apple 2020 Macbook pro",
+  "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum",
+  "price": 32,
+  "image": "img-url",
+  "category": {
+    "$oid": "6447ec2febaa84f586efd41d"
+  },
+  "quantity": 200,
+  "brand": "Apple",
+  "meta": {
+    "colors": [
+      "silver",
+      "white",
+      "red"
+    ],
+    "sizes": [
+      "large"
+    ],
+    "weight": "5kg"
+  },
+  "status": "in stock",
+  "createdAt": {
+    "$date": "2023-04-25T18:04:17.020Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64482f51243e83aa39e98b4f"
+  },
+  "name": "Apple 2023 Macbook pro",
+  "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum",
+  "price": 32,
+  "image": "img-url",
+  "category": {
+    "$oid": "6447ec2febaa84f586efd41d"
+  },
+  "quantity": 200,
+  "brand": "Apple",
+  "meta": {
+    "colors": [
+      "silver",
+      "white",
+      "red"
+    ],
+    "sizes": [
+      "large"
+    ],
+    "weight": {
+      "value": 10,
+      "unit": "kg"
+    }
+  },
+  "status": "in stock",
+  "createdAt": {
+    "$date": "2023-04-25T19:50:27.666Z"
+  },
+  "__v": 0
+}]

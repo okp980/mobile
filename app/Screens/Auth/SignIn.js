@@ -1,119 +1,115 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
-    Image,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import CustomButton from '../../components/CustomButton';
-import { GlobalStyleSheet } from '../../constants/StyleSheet';
-import { COLORS, FONTS, IMAGES, SIZES } from '../../constants/theme';
-import FeatherIcon from "react-native-vector-icons/Feather";
+import {GlobalStyleSheet} from '../../constants/StyleSheet';
+import {COLORS, FONTS} from '../../constants/theme';
+import CustomInput from '../../components/CustomInput';
+import {Formik} from 'formik';
+import {useSignInMutation} from '../../../store/services/auth';
+import useAuth from '../../../hooks/useAuth';
+import {BottomNavigation_Route, Sign_Up} from '../../constants/routes';
+import useModal from '../../../hooks/useModal';
+import {FULL_SCREEN_LOADER} from '../../constants/modal';
 
-const SignIn = (props) => {
+const SignIn = ({navigation, route}) => {
+  const from = route?.params?.from;
+  const [signIn] = useSignInMutation();
+  const {setToken} = useAuth();
+  const {handleOpenModal, handleCloseModal} = useModal();
 
-    const [isFocused , setisFocused] = useState(false);
-    const [isFocused2 , setisFocused2] = useState(false);
-    const [handlePassword,setHandlePassword] = useState(true);
+  const handleSignIn = async values => {
+    const {email, password} = values;
+    try {
+      handleOpenModal({type: FULL_SCREEN_LOADER});
+      const data = await signIn({email, password}).unwrap();
+      setToken(data?.token);
+      navigation.navigate(from || BottomNavigation_Route);
+      handleCloseModal();
+    } catch (error) {
+      handleCloseModal();
+      console.log(error);
+    }
+  };
+  return (
+    <ScrollView contentContainerStyle={{flexGrow: 1}}>
+      <SafeAreaView
+        style={{
+          backgroundColor: COLORS.white,
+          flex: 1,
+          justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            ...GlobalStyleSheet.container,
+          }}>
+          <View style={{marginBottom: 20}}>
+            <Text style={{...FONTS.h1, textAlign: 'center'}}>Zuraaya</Text>
+          </View>
+          <Formik
+            initialValues={{email: '', password: ''}}
+            onSubmit={handleSignIn}>
+            {({handleChange, handleSubmit, values}) => (
+              <>
+                <CustomInput
+                  label={'Email'}
+                  placeholder={'Enter Email'}
+                  onChangeText={handleChange('email')}
+                  value={values.email}
+                />
+                <CustomInput
+                  label={'Password'}
+                  placeholder={'Enter Password'}
+                  isPassword
+                  onChangeText={handleChange('password')}
+                  value={values.password}
+                />
 
-    return (
-        <ScrollView contentContainerStyle={{flexGrow:1}}>
-            <View style={{...GlobalStyleSheet.container,flex:1,backgroundColor:COLORS.white}}>
-                <View
-                    style={{
-                        alignItems:'center',
-                        paddingVertical:30,
-                    }}
-                >
-                    <Image
-                        style={{height:70,resizeMode:'contain'}}
-                        source={IMAGES.logo}
-                    />
-                </View>
-                <View style={{marginBottom:20}}>
-                    <Text style={{...FONTS.h3}}>Welcome back!</Text>
-                    <Text style={{...FONTS.font}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </Text>
-                </View>
-                
-                <View style={GlobalStyleSheet.inputGroup}>
-                    <Text style={GlobalStyleSheet.label}>Username</Text>
-                    <TextInput
-                        style={[GlobalStyleSheet.formControl,
-                            isFocused && GlobalStyleSheet.activeInput
-                        ]}
-                        onFocus={() => setisFocused(true)}
-                        onBlur={() => setisFocused(false)}
-                        placeholder='Type Username Here'
-                        placeholderTextColor={COLORS.label}
-                    />
-                </View>
-                <View style={GlobalStyleSheet.inputGroup}>
-                    <Text style={GlobalStyleSheet.label}>Password</Text>
-                    <View>
-                        <TouchableOpacity
-                            onPress={() => setHandlePassword(!handlePassword)}
-                            style={{
-                                position:'absolute',
-                                zIndex:1,
-                                height:50,
-                                width:50,
-                                alignItems:'center',
-                                justifyContent:'center',
-                                right:0,
-                            }}
-                        >
-                            {handlePassword ?
-                                <FeatherIcon name='eye' color={COLORS.secondary} size={22}/>
-                                :
-                                <FeatherIcon name='eye-off' color={COLORS.secondary} size={22}/>
-                            }
-                        </TouchableOpacity>
-                        <TextInput
-                            style={[GlobalStyleSheet.formControl,
-                                isFocused2 && GlobalStyleSheet.activeInput
-                            ]}
-                            onFocus={() => setisFocused2(true)}
-                            onBlur={() => setisFocused2(false)}
-                            secureTextEntry={handlePassword}
-                            placeholder='Type Password Here'
-                            placeholderTextColor={COLORS.label}
-                        />
-                    </View>
-                </View>
-                
-                <CustomButton 
-                    onPress={() => props.navigation.navigate('DrawerNavigation')}
-                    title="Login"/>
-                
-                <View
-                    style={{
-                        flexDirection:'row',
-                        alignItems:'center',
-                        justifyContent:'space-between',
-                        marginTop:15,
-                    }}
-                >
-                    <Text style={{...FONTS.font}}>Forgot password?</Text>
-                    <TouchableOpacity>
-                        <Text style={{...FONTS.fontLg,color:COLORS.primary}}>Reset here</Text>
-                    </TouchableOpacity>
-                </View>
-                
-                <View style={{marginTop:20}}>
-                    <Text style={{...FONTS.font,color:COLORS.title,textAlign:'center',marginBottom:12}}>Don’t have an account?</Text>
-                    <CustomButton 
-                        onPress={() => props.navigation.navigate('SignUp')}
-                        outline 
-                        title="Register now"/>
-                    
-                </View>
+                <CustomButton onPress={handleSubmit} title="Sign In" />
+              </>
+            )}
+          </Formik>
 
-            </View>
-        </ScrollView>
-    );
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              marginTop: 15,
+            }}>
+            <TouchableOpacity>
+              <Text style={{...FONTS.fontLg, color: COLORS.primary}}>
+                Forgot password?
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={{marginTop: 20}}>
+            <Text
+              style={{
+                ...FONTS.font,
+                color: COLORS.title,
+                textAlign: 'center',
+                marginBottom: 12,
+              }}>
+              Don’t have an account?
+            </Text>
+            <CustomButton
+              onPress={() => navigation.navigate(Sign_Up)}
+              outline
+              title="Register now"
+            />
+          </View>
+        </View>
+      </SafeAreaView>
+    </ScrollView>
+  );
 };
-
 
 export default SignIn;

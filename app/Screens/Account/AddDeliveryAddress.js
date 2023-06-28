@@ -1,168 +1,184 @@
-import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, {useState} from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import CustomButton from '../../components/CustomButton';
-import { GlobalStyleSheet } from '../../constants/StyleSheet';
-import { COLORS, FONTS } from '../../constants/theme';
+import {GlobalStyleSheet} from '../../constants/StyleSheet';
+import {COLORS, FONTS} from '../../constants/theme';
 import Header from '../../layout/Header';
+import Card from '../../components/Card';
+import CustomInput from '../../components/CustomInput';
+import {KeyboardAvoidingView} from 'react-native';
+import {Formik} from 'formik';
+import {useRef} from 'react';
+import {
+  useCreateShippingAddressMutation,
+  useLazyGetSingleShippingAddressQuery,
+  useUpdateSingleAddressMutation,
+} from '../../../store/services/shippingAddress';
+import {Address_Route} from '../../constants/routes';
+import {useEffect} from 'react';
 
-const AddDeliveryAddress = ({navigation}) => {
+const addressValues = {
+  firstName: '',
+  lastName: '',
+  phoneNumber: '',
+  email: '',
+  country: '',
+  state: '',
+  city: '',
+  address: '',
+};
 
-    const [defaultAddress, setAddress] = useState('Home');
+const AddDeliveryAddress = ({navigation, route}) => {
+  const from = route?.params?.from;
+  const edit = route?.params?.edit;
+  const addressId = route?.params?.addressId;
+  const [createAddress] = useCreateShippingAddressMutation();
+  const [getAddress] = useLazyGetSingleShippingAddressQuery();
+  const [updateAddress] = useUpdateSingleAddressMutation();
+  const [initialValues, setInitialValues] = useState(addressValues);
+  const formRef = useRef();
 
-    return (
-        <SafeAreaView
-            style={{
-                flex:1,
-                backgroundColor:COLORS.backgroundColor,
-            }}
-        >
-            <Header
-                titleLeft
-                leftIcon={'back'}
-                title={'Add delivery address'}
-            />
-            <View style={{flex:1}}>
-                <ScrollView>
-                    <View
-                        style={GlobalStyleSheet.container}
-                    >
-                        <View
-                            style={{
-                                borderBottomWidth:1,
-                                borderBottomColor:COLORS.borderColor,
-                                paddingBottom:10,
-                                marginBottom:20,
-                            }}
-                        >
-                            <Text style={{...FONTS.font,...FONTS.fontBold,color:COLORS.title}}>Contact Details</Text>
-                        </View>
-                        <View style={GlobalStyleSheet.inputGroup}>
-                            <Text style={GlobalStyleSheet.label}>Full Name</Text>
-                            <TextInput
-                                style={GlobalStyleSheet.formControl}
-                                placeholder='Type your name'
-                                placeholderTextColor={COLORS.label}
-                            />
-                        </View>
-                        <View style={GlobalStyleSheet.inputGroup}>
-                            <Text style={GlobalStyleSheet.label}>Mobile No.</Text>
-                            <TextInput
-                                style={GlobalStyleSheet.formControl}
-                                placeholder='Type your mobile no.'
-                                placeholderTextColor={COLORS.label}
-                            />
-                        </View>
-                        <View
-                            style={{
-                                borderBottomWidth:1,
-                                borderBottomColor:COLORS.borderColor,
-                                paddingBottom:10,
-                                marginBottom:20,
-                            }}
-                        >
-                            <Text style={{...FONTS.font,...FONTS.fontBold,color:COLORS.title}}>Address</Text>
-                        </View>
-                        <View style={GlobalStyleSheet.inputGroup}>
-                            <Text style={GlobalStyleSheet.label}>Pin Code</Text>
-                            <TextInput
-                                style={GlobalStyleSheet.formControl}
-                                placeholder='Pin Code'
-                                placeholderTextColor={COLORS.label}
-                            />
-                        </View>
-                        <View style={GlobalStyleSheet.inputGroup}>
-                            <Text style={GlobalStyleSheet.label}>Address</Text>
-                            <TextInput
-                                style={GlobalStyleSheet.formControl}
-                                placeholder='Address'
-                                placeholderTextColor={COLORS.label}
-                            />
-                        </View>
-                        <View style={GlobalStyleSheet.inputGroup}>
-                            <Text style={GlobalStyleSheet.label}>Locality/Town</Text>
-                            <TextInput
-                                style={GlobalStyleSheet.formControl}
-                                placeholder='Locality/Town'
-                                placeholderTextColor={COLORS.label}
-                            />
-                        </View>
-                        <View style={[GlobalStyleSheet.row]}>
-                            <View style={[GlobalStyleSheet.col50]}>
-                                <View style={GlobalStyleSheet.inputGroup}>
-                                    <Text style={GlobalStyleSheet.label}>City/District</Text>
-                                    <TextInput
-                                        style={GlobalStyleSheet.formControl}
-                                        placeholder='City/District'
-                                        placeholderTextColor={COLORS.label}
-                                    />
-                                </View>
-                            </View>
-                            <View style={[GlobalStyleSheet.col50]}>
-                                <View style={GlobalStyleSheet.inputGroup}>
-                                    <Text style={GlobalStyleSheet.label}>State</Text>
-                                    <TextInput
-                                        style={GlobalStyleSheet.formControl}
-                                        placeholder='State'
-                                        placeholderTextColor={COLORS.label}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                        <View
-                            style={{
-                                borderBottomWidth:1,
-                                borderBottomColor:COLORS.borderColor,
-                                paddingBottom:10,
-                                marginBottom:20,
-                            }}
-                        >
-                            <Text style={{...FONTS.font,...FONTS.fontBold,color:COLORS.title}}>Save Address As</Text>
-                        </View>
-                        <View
-                            style={{
-                                flexDirection:'row',
-                            }}
-                        >
-                            <TouchableOpacity
-                                onPress={() => setAddress('Home')}
-                                style={[{
-                                    borderWidth:1,
-                                    borderColor:COLORS.borderColor,
-                                    borderRadius:30,
-                                    paddingHorizontal:10,
-                                    paddingVertical:2,
-                                    marginRight:10,
-                                }, defaultAddress === "Home" && {
-                                    borderColor:COLORS.primary,
-                                }]}
-                            >
-                                <Text style={[{...FONTS.font,color:COLORS.title,paddingBottom:2}, defaultAddress === "Home" && {color:COLORS.primary}]}>Home</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => setAddress('Work')}
-                                style={[{
-                                    borderWidth:1,
-                                    borderColor:COLORS.borderColor,
-                                    borderRadius:30,
-                                    paddingHorizontal:10,
-                                    paddingVertical:2,
-                                }, defaultAddress === "Work" && {
-                                    borderColor:COLORS.primary,
-                                }]}
-                            >
-                                <Text style={[{...FONTS.font,color:COLORS.title,paddingBottom:2}, defaultAddress === "Work" && {color:COLORS.primary}]}>Work</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </ScrollView>
+  useEffect(() => {
+    if (edit && addressId) {
+      getAddress(addressId)
+        .unwrap()
+        .then(data => {
+          setInitialValues(getAddressInfo(data));
+        });
+    }
+  }, []);
+
+  function getAddressInfo(data) {
+    return {
+      firstName: data?.firstName,
+      lastName: data?.lastName,
+      phoneNumber: data?.phoneNumber,
+      email: data?.email,
+      country: data?.country,
+      state: data?.state,
+      city: data?.city,
+      address: data?.address,
+    };
+  }
+
+  const submit = async values => {
+    try {
+      let res;
+      if (edit) {
+        res = await updateAddress({id: addressId, values}).unwrap();
+      } else {
+        res = await createAddress(values).unwrap();
+      }
+      from ? navigation.navigate(from) : navigation.navigate(Address_Route);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmitBtn = () => {
+    if (formRef.current) {
+      formRef.current.handleSubmit();
+    }
+  };
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: COLORS.backgroundColor,
+      }}>
+      <Header titleLeft leftIcon={'back'} title={'Add delivery address'} />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{flex: 1}}>
+        <ScrollView>
+          <View style={GlobalStyleSheet.container}>
+            <View
+              style={{
+                paddingBottom: 10,
+                marginBottom: 10,
+              }}>
+              <Text
+                style={{
+                  ...FONTS.fontLg,
+                  ...FONTS.fontBold,
+                  color: COLORS.title,
+                }}>
+                Shipping Address
+              </Text>
             </View>
-            <View style={GlobalStyleSheet.container}>
-                <CustomButton 
-                    onPress={() => navigation.navigate('Payment')}
-                    title={'Save Address'}/>
-            </View>
-        </SafeAreaView>
-    );
+            <Formik
+              initialValues={initialValues}
+              onSubmit={submit}
+              innerRef={formRef}
+              enableReinitialize>
+              {({handleChange, handleSubmit, values}) => (
+                <>
+                  <CustomInput
+                    label="First Name"
+                    placeholder="Enter First name"
+                    onChangeText={handleChange('firstName')}
+                    value={values.firstName}
+                  />
+                  <CustomInput
+                    label="Last Name"
+                    placeholder="Enter Last name"
+                    onChangeText={handleChange('lastName')}
+                    value={values.lastName}
+                  />
+                  <CustomInput
+                    label="Phone Number"
+                    placeholder="Enter Phone Number"
+                    onChangeText={handleChange('phoneNumber')}
+                    value={values.phoneNumber}
+                  />
+                  <CustomInput
+                    label="Email"
+                    placeholder="Enter Email Address"
+                    onChangeText={handleChange('email')}
+                    value={values.email}
+                  />
+                  <CustomInput
+                    label="Country"
+                    placeholder="Select Country"
+                    onChangeText={handleChange('country')}
+                    value={values.country}
+                  />
+                  <CustomInput
+                    label="State"
+                    placeholder="Select State"
+                    onChangeText={handleChange('state')}
+                    value={values.state}
+                  />
+                  <CustomInput
+                    label="City"
+                    placeholder="Select City"
+                    onChangeText={handleChange('city')}
+                    value={values.city}
+                  />
+                  <CustomInput
+                    label="Address"
+                    placeholder="Enter Address"
+                    onChangeText={handleChange('address')}
+                    value={values.address}
+                  />
+                </>
+              )}
+            </Formik>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+      <View style={GlobalStyleSheet.container}>
+        <CustomButton onPress={handleSubmitBtn} title={'Save Address'} />
+      </View>
+    </SafeAreaView>
+  );
 };
 
 export default AddDeliveryAddress;
