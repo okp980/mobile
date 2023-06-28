@@ -264,6 +264,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation "androidx.core:core-splashscreen:1.0.0" 
 
     // implementation(project(':react-native-onesignal')){
     //     exclude group: 'com.google.android.gms'

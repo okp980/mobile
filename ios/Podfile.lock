@@ -1,4 +1,22 @@
 PODS:
+  - appcenter-analytics (4.4.5):
+    - AppCenter/Analytics (~> 4.0)
+    - AppCenterReactNativeShared (~> 4.0)
+    - React-Core
+  - appcenter-core (4.4.5):
+    - AppCenterReactNativeShared (~> 4.0)
+    - React-Core
+  - appcenter-crashes (4.4.5):
+    - AppCenter/Crashes (~> 4.0)
+    - AppCenterReactNativeShared (~> 4.0)
+    - React-Core
+  - AppCenter/Analytics (4.4.3):
+    - AppCenter/Core
+  - AppCenter/Core (4.4.3)
+  - AppCenter/Crashes (4.4.3):
+    - AppCenter/Core
+  - AppCenterReactNativeShared (4.4.5):
+    - AppCenter/Core (= 4.4.3)
   - BEMCheckBox (1.4.1)
   - boost (1.76.0)
   - BVLinearGradient (2.6.2):
@@ -307,7 +325,9 @@ PODS:
     - glog
   - react-native-image-picker (5.3.1):
     - React-Core
-  - react-native-maps (1.5.0):
+  - react-native-maps (1.6.0):
+    - React-Core
+  - react-native-netinfo (9.3.10):
     - React-Core
   - react-native-pager-view (6.2.0):
     - React-Core
@@ -317,6 +337,8 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
+  - react-native-webview (13.2.1):
+    - React-Core
   - React-perflogger (0.70.1)
   - React-RCTActionSheet (0.70.1):
     - React-Core/RCTActionSheetHeaders (= 0.70.1)
@@ -383,12 +405,14 @@ PODS:
     - React-jsi (= 0.70.1)
     - React-logger (= 0.70.1)
     - React-perflogger (= 0.70.1)
+  - RNBootSplash (4.7.3):
+    - React-Core
   - RNCCheckbox (0.5.15):
     - BEMCheckBox (~> 1.4)
     - React-Core
   - RNGestureHandler (2.9.0):
     - React-Core
-  - RNReanimated (2.15.0):
+  - RNReanimated (2.16.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -428,6 +452,9 @@ PODS:
     - Yoga (~> 1.14)
 
 DEPENDENCIES:
+  - appcenter-analytics (from `../node_modules/appcenter-analytics`)
+  - appcenter-core (from `../node_modules/appcenter`)
+  - appcenter-crashes (from `../node_modules/appcenter-crashes`)
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
@@ -477,8 +504,10 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -491,6 +520,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -501,6 +531,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppCenter
+    - AppCenterReactNativeShared
     - BEMCheckBox
     - CocoaAsyncSocket
     - Flipper
@@ -519,6 +551,12 @@ SPEC REPOS:
     - YogaKit
 
 EXTERNAL SOURCES:
+  appcenter-analytics:
+    :path: "../node_modules/appcenter-analytics"
+  appcenter-core:
+    :path: "../node_modules/appcenter"
+  appcenter-crashes:
+    :path: "../node_modules/appcenter-crashes"
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   BVLinearGradient:
@@ -567,10 +605,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -595,6 +637,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNBootSplash:
+    :path: "../node_modules/react-native-bootsplash"
   RNCCheckbox:
     :path: "../node_modules/@react-native-community/checkbox"
   RNGestureHandler:
@@ -611,6 +655,11 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AppCenter: 3fd04aa1b166e16fdb03ec81dabe488aece83fbd
+  appcenter-analytics: 1aea9ada8922d2e2df3e069a28eda21157c9d30d
+  appcenter-core: c593b2e4ac28d6a21b6a217c4a5e6b3de7b0b00f
+  appcenter-crashes: d9ae1c9296974c1c433600fa2f320e0ba1f12bdf
+  AppCenterReactNativeShared: f395caeabde0dc3a11609dbcb737d0f14cd40e79
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
@@ -648,9 +697,11 @@ SPEC CHECKSUMS:
   React-jsinspector: 1363be638eccfe1aea1b10dd42e632b0397e5ec8
   React-logger: 7bd569e3857d74ed412ce0a5c51f421ff7d4ca7f
   react-native-image-picker: ec9b713e248760bfa0f879f0715391de4651a7cb
-  react-native-maps: d9a11cd3ed520155029c37516b68e5acc696d407
+  react-native-maps: fe40d1b421dd3ac86d2b8f526b2abc994e93a8d9
+  react-native-netinfo: ccbe1085dffd16592791d550189772e13bf479e2
   react-native-pager-view: 0ccb8bf60e2ebd38b1f3669fa3650ecce81db2df
   react-native-safe-area-context: f5549f36508b1b7497434baa0cd97d7e470920d4
+  react-native-webview: 289700225ad0377cc6897b59724dfee8af515bf9
   React-perflogger: 48c6b363e867d64b682e84f80ca45636bd65e19c
   React-RCTActionSheet: 33c74fe5c754835e3715c300618da9aa2f7203fa
   React-RCTAnimation: 2dbf0120d4d1ab7716079b4180f2ca89c465e46b
@@ -663,9 +714,10 @@ SPEC CHECKSUMS:
   React-RCTVibration: e9164827303fb6a5cf79e4c4af4846a09956b11f
   React-runtimeexecutor: a11d0c2e14140baf1e449264ca9168ae9ae6bbd0
   ReactCommon: 7f86326b92009925c6dcf93f8e825060171c379f
+  RNBootSplash: eef59f5de1e0d5a6e149d24a1476e42481f9c1e1
   RNCCheckbox: 43bcc6493611468af0e19f19f029dab3da8561c4
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
-  RNReanimated: 716842722e1c5b0b7c56cf718e586b7f6a712879
+  RNReanimated: 436a3a1eca0e6dd0ab7507189f62c87f601daba6
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSnackbar: be3333a21a453ccc272f41a8add5a71f7d44dfcd
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
