@@ -9,6 +9,7 @@ import {useGetSingleOrderQuery} from '../../../store/services/order';
 import Loading from '../../components/Loading/Loading';
 import {format} from 'date-fns';
 import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
+import Root from '../../components/Root';
 
 const OrderDetail = ({navigation, route}) => {
   const {orderId} = route.params;
@@ -16,20 +17,24 @@ const OrderDetail = ({navigation, route}) => {
 
   if (isLoading) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Loading size="large" />
-      </View>
+      <Root>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Loading size="large" />
+        </View>
+      </Root>
     );
   }
   if (isError) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ErrorOccurred />
-      </View>
+      <Root>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ErrorOccurred />
+        </View>
+      </Root>
     );
   }
   return (
-    <SafeAreaView>
+    <Root noPadding>
       <ScrollView>
         <View style={[GlobalStyleSheet.container, {marginBottom: 10}]}>
           <Text style={[FONTS.fontLg, FONTS.fontBold]}>
@@ -207,11 +212,11 @@ const OrderDetail = ({navigation, route}) => {
         <View style={GlobalStyleSheet.container}>
           <CustomButton
             title="Cancel Order"
-            customStyles={{backgroundColor: COLORS.dark}}
+            customStyles={{backgroundColor: COLORS.primary}}
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </Root>
   );
 };
 

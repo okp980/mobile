@@ -1,12 +1,12 @@
 import React from 'react';
-import {SafeAreaView, useWindowDimensions} from 'react-native';
+import {useWindowDimensions} from 'react-native';
 import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import {COLORS, FONTS} from '../../constants/theme';
-import Header from '../../layout/Header';
 import AllCart from './AllCart';
 import Canceled from './Canceled';
 import Completed from './Completed';
 import OnDelivery from './OnDelivery';
+import Root from '../../components/Root';
 
 const renderScene = SceneMap({
   All: AllCart,
@@ -31,18 +31,7 @@ const Orders = () => {
   // Cancelled
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.backgroundColor,
-      }}>
-      <Header
-        titleLeft
-        leftIcon={'back'}
-        title={'Orders'}
-        rightIcon={'more'}
-        rightIcon2={'search'}
-      />
+    <Root noPadding>
       <TabView
         renderTabBar={props => (
           <TabBar
@@ -69,7 +58,7 @@ const Orders = () => {
         onIndexChange={setIndex}
         initialLayout={{width: layout.width}}
       />
-    </SafeAreaView>
+    </Root>
   );
 };
 

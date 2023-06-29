@@ -4,7 +4,6 @@ import SignUp from '../Screens/Auth/SignUp';
 import SignIn from '../Screens/Auth/SignIn';
 import DrawerNavigation from './DrawerNavigation';
 import ProductDetail from '../Screens/Products/ProductDetail';
-import Featured from '../Screens/Featured/Featured';
 import Orders from '../Screens/Orders/Orders';
 import DeliveryTracking from '../Screens/Delivery/DeliveryTracking';
 import Wishlist from '../Screens/Wishlist/Wishlist';
@@ -123,14 +122,32 @@ const StackNavigator = () => {
         })}
         component={ProductDetail}
       />
-      <StackComponent.Screen name={'Featured'} component={Featured} />
-      <StackComponent.Screen name={Orders_Route} component={Orders} />
+
+      <StackComponent.Screen
+        name={Orders_Route}
+        component={Orders}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {
+              headerTitle: 'My Orders',
+            },
+          })
+        }
+      />
       <StackComponent.Screen
         name={OrderDetail_Route}
         component={OrderDetail}
-        options={({navigation}) => ({
-          headerShown: true,
-        })}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {
+              headerTitle: 'Order Details',
+            },
+          })
+        }
       />
       <StackComponent.Screen
         name={Confirm_Order}
