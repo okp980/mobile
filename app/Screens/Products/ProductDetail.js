@@ -44,6 +44,7 @@ import useToast from '../../../hooks/useToast';
 import useModal from '../../../hooks/useModal';
 import {FULL_SCREEN_LOADER} from '../../constants/modal';
 import {BASE} from '../../../config/api';
+import Root from '../../components/Root';
 
 const productImage = [pic1, pic1, pic1];
 
@@ -93,39 +94,29 @@ const ProductDetail = ({navigation, route}) => {
 
   if (isLoading || isLoadingProducts) {
     return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: COLORS.backgroundColor,
-        }}>
-        <StatusBar animated={true} translucent={true} />
+      <Root noPadding>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Loading size="large" />
         </View>
-      </SafeAreaView>
+      </Root>
     );
   }
 
   if (isError) {
     return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: COLORS.backgroundColor,
-        }}>
-        <StatusBar animated={true} translucent={true} />
+      <Root noPadding>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ErrorOccurred
             isConnected={isConnected}
             caption={error?.data?.error}
           />
         </View>
-      </SafeAreaView>
+      </Root>
     );
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.backgroundColor}}>
+    <Root noPadding>
       <ScrollView contentContainerStyle={{paddingBottom: 30}}>
         <View>
           {/* Product carousel */}
@@ -323,7 +314,7 @@ const ProductDetail = ({navigation, route}) => {
           )}
         </TouchableOpacity>
         <CustomButton
-          color={COLORS.dark}
+          color={COLORS.primary}
           customStyles={{flex: 1}}
           onPress={() => handleAddToCart(product)}
           title="ADD TO CART"
@@ -341,7 +332,7 @@ const ProductDetail = ({navigation, route}) => {
         }}>
         {snackText}
       </Snackbar>
-    </SafeAreaView>
+    </Root>
   );
 };
 

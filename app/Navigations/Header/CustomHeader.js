@@ -4,8 +4,9 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../constants/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {ProductDetail_Route} from '../../constants/routes';
 
-export function CustomHeader({showBackBtn, navigation, ...props}) {
+export function CustomHeader({showBackBtn, navigation, route, ...props}) {
   const [cartCount, setCartCount] = useState(0);
   const {data, isLoading, isSuccess, isError} = useGetCartQuery();
   const length = data?.data?.products?.length;
@@ -29,8 +30,8 @@ export function CustomHeader({showBackBtn, navigation, ...props}) {
       }}>
       {showBackBtn && (
         <TouchableOpacity onPress={navigation.goBack}>
-          <View style={{paddingLeft: 10}}>
-            <MaterialIcons name="west" size={28} color={COLORS.primary} />
+          <View style={{marginRight: 10}}>
+            <MaterialIcons name="west" size={28} color={COLORS.white} />
           </View>
         </TouchableOpacity>
       )}

@@ -2,7 +2,6 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignUp from '../Screens/Auth/SignUp';
 import SignIn from '../Screens/Auth/SignIn';
-import Products from '../Screens/Products/Products';
 import DrawerNavigation from './DrawerNavigation';
 import ProductDetail from '../Screens/Products/ProductDetail';
 import Featured from '../Screens/Featured/Featured';
@@ -46,7 +45,6 @@ import Tabs from '../Screens/Components/Tabs';
 import Tables from '../Screens/Components/Tables';
 import Toggles from '../Screens/Components/Toggles';
 import ConfirmOrder from '../Screens/ConfirmOrder';
-import BottomNavigation, {CustomHeader} from './BottomNavigation';
 import {View, Text} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -75,6 +73,8 @@ import PaystackPayment from '../Screens/PaystackPayment';
 import OrderDetail from '../Screens/Orders/OrderDetail';
 import Settings from '../Screens/Account/Settings';
 import {screenOptions} from './Header/screenOptions';
+import {CustomHeader} from './Header/CustomHeader';
+import BottomNavigation from './BottomNavigation';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -109,18 +109,17 @@ const StackNavigator = () => {
         }
       />
       <StackComponent.Screen
-        name="BottomNavigation"
+        name={BottomNavigation_Route}
         component={BottomNavigation}
       />
-      {/* remove */}
 
-      {/* check, kinda useful */}
-      <StackComponent.Screen name={'Products'} component={Products} />
       <StackComponent.Screen
         name={ProductDetail_Route}
-        options={({navigation}) => ({
+        options={({navigation, route}) => ({
           headerShown: true,
-          header: () => <CustomHeader showBackBtn navigation={navigation} />,
+          header: () => (
+            <CustomHeader showBackBtn navigation={navigation} route={route} />
+          ),
         })}
         component={ProductDetail}
       />
