@@ -48,6 +48,7 @@ import {View, Text} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {COLORS} from '../constants/theme';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {
   Add_Delivery_Address,
@@ -80,7 +81,7 @@ const StackComponent = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <StackComponent.Navigator
-      initialRouteName={Coupons_Route}
+      initialRouteName={PaystackPayment_Route}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
@@ -217,11 +218,43 @@ const StackNavigator = () => {
           })
         }
       />
-      <StackComponent.Screen name={Address_Route} component={Address} />
-      <StackComponent.Screen name={Payment_Route} component={Payment} />
+      <StackComponent.Screen
+        name={Address_Route}
+        component={Address}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {headerTitle: 'Address'},
+          })
+        }
+      />
+      <StackComponent.Screen
+        name={Payment_Route}
+        component={Payment}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {headerTitle: 'Payment'},
+          })
+        }
+      />
       <StackComponent.Screen
         name={PaystackPayment_Route}
         component={PaystackPayment}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {
+              headerTitle: 'Payment',
+              headerLeft: () => (
+                <AntDesign name="close" size={28} color={COLORS.primary} />
+              ),
+            },
+          })
+        }
       />
       <StackComponent.Screen
         name={Add_Delivery_Address}

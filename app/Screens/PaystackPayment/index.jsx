@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import React, {useEffect, useRef} from 'react';
+import Root from '../../components/Root';
 
 const PaystackPayment = ({navigation, route}) => {
   const webViewRef = useRef(null);
@@ -56,7 +57,7 @@ const PaystackPayment = ({navigation, route}) => {
   //   };
   // }, []);
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <Root noPadding>
       <WebView
         ref={webViewRef}
         source={{uri: checkoutUrl}}
@@ -67,7 +68,7 @@ const PaystackPayment = ({navigation, route}) => {
         renderLoading={() => <ActivityIndicator />}
         startInLoadingState={true}
       />
-    </SafeAreaView>
+    </Root>
   );
 };
 

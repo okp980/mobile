@@ -17,6 +17,7 @@ import {
   useUpdateDefaultAddressMutation,
 } from '../../../store/services/shippingAddress';
 import {Add_Delivery_Address} from '../../constants/routes';
+import Root from '../../components/Root';
 
 const Address = ({navigation}) => {
   const {data, isLoading, isError, isSuccess, error} =
@@ -34,13 +35,8 @@ const Address = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.backgroundColor,
-      }}>
-      <Header titleLeft leftIcon={'back'} title={'Address'} />
-      <ScrollView style={GlobalStyleSheet.container}>
+    <Root>
+      <ScrollView>
         <TouchableOpacity
           onPress={() => navigation.navigate('AddDeliveryAddress')}
           style={{
@@ -114,7 +110,7 @@ const Address = ({navigation}) => {
           </Card>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </Root>
   );
 };
 
