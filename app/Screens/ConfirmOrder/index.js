@@ -19,6 +19,7 @@ import {useLazyGetDefaultShippingAddressQuery} from '../../../store/services/shi
 import {useLazyGetShippingMethodsQuery} from '../../../store/services/shippingMethod';
 import {useCreateOrderMutation} from '../../../store/services/order';
 import Loading from '../../components/Loading/Loading';
+import Root from '../../components/Root';
 
 const ConfirmOrder = ({navigation}) => {
   const {token} = useAuth();
@@ -101,14 +102,15 @@ const ConfirmOrder = ({navigation}) => {
 
   if (isLoadingAddress || isLoadingShippingMethods) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Loading size="large" />
-      </View>
+      <Root>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Loading size="large" />
+        </View>
+      </Root>
     );
   }
   return (
-    <SafeAreaView style={{flex: 1}}>
-      {/* <Header titleLeft leftIcon={'back'} title={'Confirm Order'} /> */}
+    <Root noPadding>
       <View style={{flex: 1}}>
         <ScrollView>
           <ShippingAddress address={address} />
@@ -130,7 +132,7 @@ const ConfirmOrder = ({navigation}) => {
       <View style={GlobalStyleSheet.container}>
         <CustomButton onPress={handleConfirmOrder} title={'Proceed'} />
       </View>
-    </SafeAreaView>
+    </Root>
   );
 };
 

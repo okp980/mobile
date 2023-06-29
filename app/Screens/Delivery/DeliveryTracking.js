@@ -14,16 +14,11 @@ import Header from '../../layout/Header';
 import CheckoutItem from '../../components/CheckoutItem';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import DeliveryMap from './DeliveryMap';
+import Root from '../../components/Root';
 
 const DeliveryTracking = () => {
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.backgroundColor}}>
-      <Header
-        leftIcon={'back'}
-        title={'Tracking Orders'}
-        rightIcon={'more'}
-        productId={'#04451255'}
-      />
+    <Root noPadding>
       <ScrollView>
         <View>
           <View style={GlobalStyleSheet.container}>
@@ -123,7 +118,7 @@ const DeliveryTracking = () => {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </Root>
   );
 };
 

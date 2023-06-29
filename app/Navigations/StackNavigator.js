@@ -80,7 +80,7 @@ const StackComponent = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <StackComponent.Navigator
-      initialRouteName={BottomNavigation_Route}
+      initialRouteName={DeliveryTracking_Route}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
@@ -149,25 +149,29 @@ const StackNavigator = () => {
           })
         }
       />
+
       <StackComponent.Screen
         name={Confirm_Order}
-        options={({navigation}) => ({
-          headerShown: true,
-          headerLeft: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
-              <Ionicon
-                name="chevron-back"
-                size={30}
-                style={{marginRight: 15}}
-              />
-            </TouchableOpacity>
-          ),
-        })}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {
+              headerTitle: 'Confirm Order',
+            },
+          })
+        }
         component={ConfirmOrder}
       />
       <StackComponent.Screen
         name={DeliveryTracking_Route}
         component={DeliveryTracking}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+          })
+        }
       />
       <StackComponent.Screen name={Wishlist_Route} component={Wishlist} />
       <StackComponent.Screen
