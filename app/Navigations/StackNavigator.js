@@ -2,12 +2,10 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignUp from '../Screens/Auth/SignUp';
 import SignIn from '../Screens/Auth/SignIn';
-import DrawerNavigation from './DrawerNavigation';
 import ProductDetail from '../Screens/Products/ProductDetail';
 import Orders from '../Screens/Orders/Orders';
 import DeliveryTracking from '../Screens/Delivery/DeliveryTracking';
 import Wishlist from '../Screens/Wishlist/Wishlist';
-import Profile from '../Screens/Account/Profile';
 import EditProfile from '../Screens/Account/EditProfile';
 import Coupons from '../Screens/Account/Coupons';
 import Address from '../Screens/Account/Address';
@@ -17,32 +15,9 @@ import Items from '../Screens/Items/Items';
 
 import Search from '../Screens/Search/Search';
 import Payment from '../Screens/Delivery/Payment';
-import Components from '../Screens/Components/Components';
-import AccordionScreen from '../Screens/Components/Accordion';
-import ActionSheet from '../Screens/Components/ActionSheet';
-import Buttons from '../Screens/Components/Buttons';
-import Inputs from '../Screens/Components/Inputs';
-import ActionModals from '../Screens/Components/ActionModals';
-import Charts from '../Screens/Components/Charts';
-import Chips from '../Screens/Components/Chips';
-import CollapseElements from '../Screens/Components/CollapseElements';
-import DividerElements from '../Screens/Components/DividerElements';
-import FileUploads from '../Screens/Components/FileUploads';
-import Headers from '../Screens/Components/Headers';
-import Footers from '../Screens/Components/Footers';
-import TabStyle1 from '../components/Footers/FooterStyle1';
-import TabStyle2 from '../components/Footers/FooterStyle2';
-import TabStyle3 from '../components/Footers/FooterStyle3';
-import TabStyle4 from '../components/Footers/FooterStyle4';
-import ListScreen from '../Screens/Components/Lists';
-import Paginations from '../Screens/Components/Paginations';
-import Pricings from '../Screens/Components/Pricings';
-import Snackbars from '../Screens/Components/Snakbars';
+
 import Socials from '../Screens/Components/Socials';
-import SwipeableScreen from '../Screens/Components/Swipeable';
-import Tabs from '../Screens/Components/Tabs';
-import Tables from '../Screens/Components/Tables';
-import Toggles from '../Screens/Components/Toggles';
+
 import ConfirmOrder from '../Screens/ConfirmOrder';
 import {View, Text} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
@@ -65,7 +40,6 @@ import {
   Payment_Route,
   PaystackPayment_Route,
   ProductDetail_Route,
-  Profile_Route,
   Search_Route,
   Settings_Route,
   Sign_In,
@@ -81,6 +55,24 @@ import BottomNavigation from './BottomNavigation';
 import CustomSearchHeader from './Header/CustomSearchHeader';
 
 const StackComponent = createNativeStackNavigator();
+
+const screens = [
+  {
+    name: Sign_Up,
+    component: SignUp,
+    options: {gestureDirection: 'vertical'},
+  },
+  {
+    name: Sign_In,
+    component: SignIn,
+    options: {gestureDirection: 'vertical'},
+  },
+  {
+    name: BottomNavigation_Route,
+    component: BottomNavigation,
+    options: false,
+  },
+];
 
 const StackNavigator = () => {
   return (
@@ -321,39 +313,8 @@ const StackNavigator = () => {
       />
 
       {/* To be removed */}
-      <StackComponent.Screen name={'Components'} component={Components} />
-      <StackComponent.Screen name={'Accordion'} component={AccordionScreen} />
-      <StackComponent.Screen name={'ActionSheet'} component={ActionSheet} />
-      <StackComponent.Screen name={'ActionModals'} component={ActionModals} />
-      <StackComponent.Screen name={'Buttons'} component={Buttons} />
-      <StackComponent.Screen name={'Charts'} component={Charts} />
-      <StackComponent.Screen name={'Chips'} component={Chips} />
-      <StackComponent.Screen
-        name={'CollapseElements'}
-        component={CollapseElements}
-      />
-      <StackComponent.Screen
-        name={'DividerElements'}
-        component={DividerElements}
-      />
 
-      <StackComponent.Screen name={'FileUploads'} component={FileUploads} />
-      <StackComponent.Screen name={'Inputs'} component={Inputs} />
-      <StackComponent.Screen name={'Headers'} component={Headers} />
-      <StackComponent.Screen name={'Footers'} component={Footers} />
-      <StackComponent.Screen name={'TabStyle1'} component={TabStyle1} />
-      <StackComponent.Screen name={'TabStyle2'} component={TabStyle2} />
-      <StackComponent.Screen name={'TabStyle3'} component={TabStyle3} />
-      <StackComponent.Screen name={'TabStyle4'} component={TabStyle4} />
-      <StackComponent.Screen name={'lists'} component={ListScreen} />
-      <StackComponent.Screen name={'Paginations'} component={Paginations} />
-      <StackComponent.Screen name={'Pricings'} component={Pricings} />
-      <StackComponent.Screen name={'Snackbars'} component={Snackbars} />
-      <StackComponent.Screen name={'Socials'} component={Socials} />
-      <StackComponent.Screen name={'Swipeable'} component={SwipeableScreen} />
-      <StackComponent.Screen name={'Tabs'} component={Tabs} />
-      <StackComponent.Screen name={'Tables'} component={Tables} />
-      <StackComponent.Screen name={'Toggles'} component={Toggles} />
+      {/* <StackComponent.Screen name={'Socials'} component={Socials} /> */}
     </StackComponent.Navigator>
   );
 };
