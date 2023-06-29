@@ -1,6 +1,5 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Splash from '../Screens/Onboarding/Splash';
 import SignUp from '../Screens/Auth/SignUp';
 import SignIn from '../Screens/Auth/SignIn';
 import Products from '../Screens/Products/Products';
@@ -87,7 +86,6 @@ const StackNavigator = () => {
           headerStyle: COLORS.backgroundColor,
           headerShown: false,
         }}>
-        <StackComponent.Screen name={'Splash'} component={Splash} />
         <StackComponent.Screen
           name={Sign_Up}
           component={SignUp}

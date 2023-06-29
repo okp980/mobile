@@ -1,11 +1,11 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React, {useState} from 'react';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
-import {COLORS} from '../../constants/theme';
+import {COLORS, FONTS} from '../../constants/theme';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const CustomInput = ({label, placeholder, isPassword, ...props}) => {
+const CustomInput = ({label, placeholder, isPassword, error, ...props}) => {
   const [isFocused, setisFocused] = useState(false);
   const [handlePassword, setHandlePassword] = useState(false);
 
@@ -44,19 +44,23 @@ const CustomInput = ({label, placeholder, isPassword, ...props}) => {
             placeholderTextColor={COLORS.label}
             {...props}
           />
+          {error && <Text style={styles.error}>{error}</Text>}
         </View>
       ) : (
-        <TextInput
-          style={[
-            GlobalStyleSheet.formControl,
-            isFocused && GlobalStyleSheet.activeInput,
-          ]}
-          placeholder={placeholder}
-          placeholderTextColor={COLORS.label}
-          onFocus={() => setisFocused(true)}
-          onBlur={() => setisFocused(false)}
-          {...props}
-        />
+        <>
+          <TextInput
+            style={[
+              GlobalStyleSheet.formControl,
+              isFocused && GlobalStyleSheet.activeInput,
+            ]}
+            placeholder={placeholder}
+            placeholderTextColor={COLORS.label}
+            onFocus={() => setisFocused(true)}
+            onBlur={() => setisFocused(false)}
+            {...props}
+          />
+          {error && <Text style={styles.error}>{error}</Text>}
+        </>
       )}
     </View>
   );
@@ -64,4 +68,10 @@ const CustomInput = ({label, placeholder, isPassword, ...props}) => {
 
 export default CustomInput;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  error: {
+    ...FONTS.fontSm,
+    color: COLORS.danger,
+    marginTop: 5,
+  },
+});
