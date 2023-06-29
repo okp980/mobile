@@ -19,6 +19,7 @@ import ProductGrid from '../../components/ProductGrid';
 import {TopCollection} from '../Home/Home';
 import Collections from '../Components/Collections';
 import {useState} from 'react';
+import Root from '../../components/Root';
 
 const Categories = ({navigation}) => {
   const [category, setCategory] = useState('');
@@ -55,48 +56,48 @@ const Categories = ({navigation}) => {
       }}>
       <View
         style={{
-          height: 100,
+          height: 120,
           width: 80,
           marginRight: 10,
           alignItems: 'center',
         }}>
         <View
           style={{
-            height: 50,
-            width: 50,
-            borderRadius: 25,
-            borderColor: category === id ? COLORS.primary : COLORS.borderColor,
-            borderWidth: category === id ? 2 : 1,
+            height: category === id ? 70 : 50,
+            width: category === id ? 70 : 50,
+            borderRadius: category === id ? 70 / 2 : 50 / 2,
+            borderColor: COLORS.white,
+            borderWidth: category === id ? 4 : 1,
             marginBottom: 10,
           }}>
           <Image />
         </View>
-        <Text style={{...FONTS.fontXs, textAlign: 'center'}}>{title}</Text>
+        <Text
+          style={{...FONTS.fontXs, textAlign: 'center', color: COLORS.white}}>
+          {title}
+        </Text>
       </View>
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.backgroundColor,
-      }}>
+    <Root noPadding>
+      <View
+        style={{
+          borderBottomColor: COLORS.borderColor,
+          borderBottomWidth: 1,
+          padding: 10,
+          backgroundColor: COLORS.primary,
+        }}>
+        <FlatList
+          data={data?.data}
+          renderItem={({item}) => <Item title={item.name} id={item._id} />}
+          keyExtractor={item => item._id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
       <ScrollView>
-        <View
-          style={{
-            borderBottomColor: COLORS.borderColor,
-            borderBottomWidth: 1,
-          }}>
-          <FlatList
-            data={data?.data}
-            renderItem={({item}) => <Item title={item.name} id={item._id} />}
-            keyExtractor={item => item._id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-
         {data && (
           <ProductGrid
             products={subCategories}
@@ -111,7 +112,7 @@ const Categories = ({navigation}) => {
 
         <Collections products={TopCollection} title="Top Sellers" />
       </ScrollView>
-    </SafeAreaView>
+    </Root>
   );
 };
 

@@ -31,6 +31,7 @@ import Loading from '../../components/Loading/Loading';
 import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
 import useNetwork from '../../../hooks/useNetwork';
 import Recommended from '../../components/Recommended';
+import Root from '../../components/Root';
 
 const bannerData = [
   {
@@ -108,7 +109,6 @@ const MainHome = ({navigation}) => {
         <View
           style={{
             height: 40,
-            // width: 80,
             marginHorizontal: 10,
             justifyContent: 'center',
             position: 'relative',
@@ -119,7 +119,7 @@ const MainHome = ({navigation}) => {
               ...FONTS.fontBold,
               textTransform: 'uppercase',
               color:
-                categoryItem?.id === category?.id ? COLORS.dark : COLORS.gray,
+                categoryItem?.id === category?.id ? COLORS.white : COLORS.white,
             }}>
             {categoryItem?.name}
           </Text>
@@ -131,7 +131,7 @@ const MainHome = ({navigation}) => {
                 left: 0,
                 height: 3,
                 width: '100%',
-                backgroundColor: COLORS.dark,
+                backgroundColor: COLORS.white,
               }}
             />
           )}
@@ -142,44 +142,28 @@ const MainHome = ({navigation}) => {
 
   if (isLoading) {
     return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: COLORS.backgroundColor,
-        }}>
-        <StatusBar animated={true} translucent={true} />
+      <Root>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Loading size="large" />
         </View>
-      </SafeAreaView>
+      </Root>
     );
   }
   if (isError) {
     return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: COLORS.backgroundColor,
-        }}>
-        <StatusBar animated={true} translucent={true} />
+      <Root>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ErrorOccurred
             isConnected={isConnected}
             caption={error?.data?.error}
           />
         </View>
-      </SafeAreaView>
+      </Root>
     );
   }
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.backgroundColor,
-      }}>
-      <StatusBar animated={true} translucent={true} />
-
-      <View style={{marginBottom: 10}}>
+    <Root noPadding>
+      <View style={{backgroundColor: COLORS.primary, paddingBottom: 5}}>
         <FlatList
           data={categoriesTab}
           renderItem={({item}) => <Item categoryItem={item} />}
@@ -243,7 +227,7 @@ const MainHome = ({navigation}) => {
           </ScrollView>
         )}
       </View>
-    </SafeAreaView>
+    </Root>
   );
 };
 

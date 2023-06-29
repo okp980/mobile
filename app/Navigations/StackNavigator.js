@@ -51,6 +51,7 @@ import {View, Text} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {COLORS} from '../constants/theme';
+
 import {
   Add_Delivery_Address,
   Address_Route,
@@ -73,59 +74,126 @@ import {
 import PaystackPayment from '../Screens/PaystackPayment';
 import OrderDetail from '../Screens/Orders/OrderDetail';
 import Settings from '../Screens/Account/Settings';
+import {screenOptions} from './Header/screenOptions';
 
 const StackComponent = createNativeStackNavigator();
 
 const StackNavigator = () => {
   return (
-    <>
-      <StackComponent.Navigator
-        initialRouteName={BottomNavigation_Route}
-        detachInactiveScreens={true}
-        screenOptions={{
-          headerStyle: COLORS.backgroundColor,
-          headerShown: false,
-        }}>
-        <StackComponent.Screen
-          name={Sign_Up}
-          component={SignUp}
-          options={{gestureDirection: 'vertical'}}
-        />
-        <StackComponent.Screen
-          name={Sign_In}
-          component={SignIn}
-          options={{gestureDirection: 'vertical'}}
-        />
-        <StackComponent.Screen
-          name="BottomNavigation"
-          component={BottomNavigation}
-        />
-        {/* remove */}
+    <StackComponent.Navigator
+      initialRouteName={BottomNavigation_Route}
+      detachInactiveScreens={true}
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <StackComponent.Screen
+        name={Sign_Up}
+        component={SignUp}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {gestureDirection: 'vertical'},
+          })
+        }
+      />
+      <StackComponent.Screen
+        name={Sign_In}
+        component={SignIn}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {gestureDirection: 'vertical'},
+          })
+        }
+      />
+      <StackComponent.Screen
+        name="BottomNavigation"
+        component={BottomNavigation}
+      />
+      {/* remove */}
 
-        {/* check, kinda useful */}
-        <StackComponent.Screen name={'Products'} component={Products} />
-        <StackComponent.Screen
-          name={ProductDetail_Route}
-          options={({navigation}) => ({
-            headerShown: true,
-            header: () => <CustomHeader showBackBtn navigation={navigation} />,
-          })}
-          component={ProductDetail}
-        />
-        <StackComponent.Screen name={'Featured'} component={Featured} />
-        <StackComponent.Screen name={Orders_Route} component={Orders} />
-        <StackComponent.Screen
-          name={OrderDetail_Route}
-          component={OrderDetail}
-          options={({navigation}) => ({
-            headerShown: true,
-          })}
-        />
-        <StackComponent.Screen
-          name={Confirm_Order}
-          options={({navigation}) => ({
-            headerShown: true,
-            headerLeft: () => (
+      {/* check, kinda useful */}
+      <StackComponent.Screen name={'Products'} component={Products} />
+      <StackComponent.Screen
+        name={ProductDetail_Route}
+        options={({navigation}) => ({
+          headerShown: true,
+          header: () => <CustomHeader showBackBtn navigation={navigation} />,
+        })}
+        component={ProductDetail}
+      />
+      <StackComponent.Screen name={'Featured'} component={Featured} />
+      <StackComponent.Screen name={Orders_Route} component={Orders} />
+      <StackComponent.Screen
+        name={OrderDetail_Route}
+        component={OrderDetail}
+        options={({navigation}) => ({
+          headerShown: true,
+        })}
+      />
+      <StackComponent.Screen
+        name={Confirm_Order}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerLeft: () => (
+            <TouchableOpacity onPress={navigation.goBack}>
+              <Ionicon
+                name="chevron-back"
+                size={30}
+                style={{marginRight: 15}}
+              />
+            </TouchableOpacity>
+          ),
+        })}
+        component={ConfirmOrder}
+      />
+      <StackComponent.Screen
+        name={DeliveryTracking_Route}
+        component={DeliveryTracking}
+      />
+      <StackComponent.Screen name={Wishlist_Route} component={Wishlist} />
+      <StackComponent.Screen
+        name={Settings_Route}
+        component={Settings}
+        options={({navigation}) => ({
+          headerTitle: 'Settings',
+          headerShown: true,
+          headerLeft: props => (
+            <TouchableOpacity
+              onPress={navigation.goBack}
+              style={{paddingHorizontal: 10}}>
+              <Ionicon
+                name="ios-arrow-back"
+                size={25}
+                style={{paddingHorizontal: 10}}
+              />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <StackComponent.Screen name={EditProfile_Route} component={EditProfile} />
+      <StackComponent.Screen name={Coupons_Route} component={Coupons} />
+      <StackComponent.Screen name={Address_Route} component={Address} />
+      <StackComponent.Screen name={Payment_Route} component={Payment} />
+      <StackComponent.Screen
+        name={PaystackPayment_Route}
+        component={PaystackPayment}
+      />
+      <StackComponent.Screen
+        name={Add_Delivery_Address}
+        component={AddDeliveryAddress}
+      />
+      <StackComponent.Screen name={'Filter'} component={Filter} />
+      <StackComponent.Screen
+        name={'Items'}
+        component={Items}
+        options={({route, navigation}) => ({
+          headerShown: true,
+          headerStyle: COLORS.backgroundColor,
+          headerLeft: () => (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity onPress={navigation.goBack}>
                 <Ionicon
                   name="chevron-back"
@@ -133,117 +201,57 @@ const StackNavigator = () => {
                   style={{marginRight: 15}}
                 />
               </TouchableOpacity>
-            ),
-          })}
-          component={ConfirmOrder}
-        />
-        <StackComponent.Screen
-          name={DeliveryTracking_Route}
-          component={DeliveryTracking}
-        />
-        <StackComponent.Screen name={Wishlist_Route} component={Wishlist} />
-        <StackComponent.Screen
-          name={Settings_Route}
-          component={Settings}
-          options={({navigation}) => ({
-            headerTitle: 'Settings',
-            headerShown: true,
-            headerLeft: props => (
-              <TouchableOpacity
-                onPress={navigation.goBack}
-                style={{paddingHorizontal: 10}}>
-                <Ionicon
-                  name="ios-arrow-back"
-                  size={25}
-                  style={{paddingHorizontal: 10}}
-                />
+              <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+                <Ionicon name="search" size={25} />
               </TouchableOpacity>
-            ),
-          })}
-        />
-        <StackComponent.Screen
-          name={EditProfile_Route}
-          component={EditProfile}
-        />
-        <StackComponent.Screen name={Coupons_Route} component={Coupons} />
-        <StackComponent.Screen name={Address_Route} component={Address} />
-        <StackComponent.Screen name={Payment_Route} component={Payment} />
-        <StackComponent.Screen
-          name={PaystackPayment_Route}
-          component={PaystackPayment}
-        />
-        <StackComponent.Screen
-          name={Add_Delivery_Address}
-          component={AddDeliveryAddress}
-        />
-        <StackComponent.Screen name={'Filter'} component={Filter} />
-        <StackComponent.Screen
-          name={'Items'}
-          component={Items}
-          options={({route, navigation}) => ({
-            headerShown: true,
-            headerStyle: COLORS.backgroundColor,
-            headerLeft: () => (
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <TouchableOpacity onPress={navigation.goBack}>
-                  <Ionicon
-                    name="chevron-back"
-                    size={30}
-                    style={{marginRight: 15}}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-                  <Ionicon name="search" size={25} />
-                </TouchableOpacity>
-              </View>
-            ),
-            headerRight: () => (
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-                  <Ionicon name="cart-outline" size={25} />
-                </TouchableOpacity>
-              </View>
-            ),
-          })}
-        />
-        <StackComponent.Screen name={'Search'} component={Search} />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+                <Ionicon name="cart-outline" size={25} />
+              </TouchableOpacity>
+            </View>
+          ),
+        })}
+      />
+      <StackComponent.Screen name={'Search'} component={Search} />
 
-        {/* To be removed */}
-        <StackComponent.Screen name={'Components'} component={Components} />
-        <StackComponent.Screen name={'Accordion'} component={AccordionScreen} />
-        <StackComponent.Screen name={'ActionSheet'} component={ActionSheet} />
-        <StackComponent.Screen name={'ActionModals'} component={ActionModals} />
-        <StackComponent.Screen name={'Buttons'} component={Buttons} />
-        <StackComponent.Screen name={'Charts'} component={Charts} />
-        <StackComponent.Screen name={'Chips'} component={Chips} />
-        <StackComponent.Screen
-          name={'CollapseElements'}
-          component={CollapseElements}
-        />
-        <StackComponent.Screen
-          name={'DividerElements'}
-          component={DividerElements}
-        />
+      {/* To be removed */}
+      <StackComponent.Screen name={'Components'} component={Components} />
+      <StackComponent.Screen name={'Accordion'} component={AccordionScreen} />
+      <StackComponent.Screen name={'ActionSheet'} component={ActionSheet} />
+      <StackComponent.Screen name={'ActionModals'} component={ActionModals} />
+      <StackComponent.Screen name={'Buttons'} component={Buttons} />
+      <StackComponent.Screen name={'Charts'} component={Charts} />
+      <StackComponent.Screen name={'Chips'} component={Chips} />
+      <StackComponent.Screen
+        name={'CollapseElements'}
+        component={CollapseElements}
+      />
+      <StackComponent.Screen
+        name={'DividerElements'}
+        component={DividerElements}
+      />
 
-        <StackComponent.Screen name={'FileUploads'} component={FileUploads} />
-        <StackComponent.Screen name={'Inputs'} component={Inputs} />
-        <StackComponent.Screen name={'Headers'} component={Headers} />
-        <StackComponent.Screen name={'Footers'} component={Footers} />
-        <StackComponent.Screen name={'TabStyle1'} component={TabStyle1} />
-        <StackComponent.Screen name={'TabStyle2'} component={TabStyle2} />
-        <StackComponent.Screen name={'TabStyle3'} component={TabStyle3} />
-        <StackComponent.Screen name={'TabStyle4'} component={TabStyle4} />
-        <StackComponent.Screen name={'lists'} component={ListScreen} />
-        <StackComponent.Screen name={'Paginations'} component={Paginations} />
-        <StackComponent.Screen name={'Pricings'} component={Pricings} />
-        <StackComponent.Screen name={'Snackbars'} component={Snackbars} />
-        <StackComponent.Screen name={'Socials'} component={Socials} />
-        <StackComponent.Screen name={'Swipeable'} component={SwipeableScreen} />
-        <StackComponent.Screen name={'Tabs'} component={Tabs} />
-        <StackComponent.Screen name={'Tables'} component={Tables} />
-        <StackComponent.Screen name={'Toggles'} component={Toggles} />
-      </StackComponent.Navigator>
-    </>
+      <StackComponent.Screen name={'FileUploads'} component={FileUploads} />
+      <StackComponent.Screen name={'Inputs'} component={Inputs} />
+      <StackComponent.Screen name={'Headers'} component={Headers} />
+      <StackComponent.Screen name={'Footers'} component={Footers} />
+      <StackComponent.Screen name={'TabStyle1'} component={TabStyle1} />
+      <StackComponent.Screen name={'TabStyle2'} component={TabStyle2} />
+      <StackComponent.Screen name={'TabStyle3'} component={TabStyle3} />
+      <StackComponent.Screen name={'TabStyle4'} component={TabStyle4} />
+      <StackComponent.Screen name={'lists'} component={ListScreen} />
+      <StackComponent.Screen name={'Paginations'} component={Paginations} />
+      <StackComponent.Screen name={'Pricings'} component={Pricings} />
+      <StackComponent.Screen name={'Snackbars'} component={Snackbars} />
+      <StackComponent.Screen name={'Socials'} component={Socials} />
+      <StackComponent.Screen name={'Swipeable'} component={SwipeableScreen} />
+      <StackComponent.Screen name={'Tabs'} component={Tabs} />
+      <StackComponent.Screen name={'Tables'} component={Tables} />
+      <StackComponent.Screen name={'Toggles'} component={Toggles} />
+    </StackComponent.Navigator>
   );
 };
 export default StackNavigator;
