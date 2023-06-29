@@ -58,6 +58,7 @@ import {
   Coupons_Route,
   DeliveryTracking_Route,
   EditProfile_Route,
+  Filter_Route,
   OrderDetail_Route,
   Orders_Route,
   Payment_Route,
@@ -81,7 +82,7 @@ const StackComponent = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <StackComponent.Navigator
-      initialRouteName={Add_Delivery_Address}
+      initialRouteName={Filter_Route}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
@@ -269,7 +270,19 @@ const StackNavigator = () => {
           })
         }
       />
-      <StackComponent.Screen name={'Filter'} component={Filter} />
+      <StackComponent.Screen
+        name={Filter_Route}
+        component={Filter}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {
+              headerTitle: 'Filter',
+            },
+          })
+        }
+      />
       <StackComponent.Screen
         name={'Items'}
         component={Items}
