@@ -29,6 +29,7 @@ import CustomButton from '../../components/CustomButton';
 
 import {useEffect} from 'react';
 import {useGetProductsQuery} from '../../../store/services/products';
+import Root from '../../components/Root';
 
 const discountFilterData = [
   {
@@ -297,21 +298,17 @@ const Items = ({navigation, route}) => {
         )}
       </RBSheet>
 
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: COLORS.backgroundColor,
-        }}>
+      <Root noPadding>
         {/* Filter */}
         <View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View
-              style={{
-                paddingHorizontal: 15,
-                paddingVertical: 10,
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
+          <View
+            style={{
+              paddingVertical: 10,
+              backgroundColor: COLORS.primary,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <Ripple
                 onPress={() => {
                   setSheetType('sort');
@@ -319,20 +316,21 @@ const Items = ({navigation, route}) => {
                 }}
                 style={styles.badge}>
                 {/* <Octicons size={16} style={{marginRight: 6}} name="sort-desc" /> */}
-                <Text style={{...FONTS.font, top: -1, color: COLORS.title}}>
+                <Text style={{...FONTS.font, top: -1, color: COLORS.white}}>
                   Sort
                 </Text>
                 <FeatherIcon
                   style={{marginLeft: 2, marginRight: -6}}
                   size={18}
                   name="chevron-down"
+                  color={COLORS.white}
                 />
               </Ripple>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Filter')}
                 style={styles.badge}>
                 {/* <FeatherIcon style={{marginRight: 8}} size={15} name="filter" /> */}
-                <Text style={{...FONTS.font, top: -1, color: COLORS.title}}>
+                <Text style={{...FONTS.font, top: -1, color: COLORS.white}}>
                   Filter
                 </Text>
               </TouchableOpacity>
@@ -343,13 +341,14 @@ const Items = ({navigation, route}) => {
                   sheetRef.current.open();
                 }}
                 style={styles.badge}>
-                <Text style={{...FONTS.font, top: -1, color: COLORS.title}}>
+                <Text style={{...FONTS.font, top: -1, color: COLORS.white}}>
                   Brand
                 </Text>
                 <FeatherIcon
                   style={{marginLeft: 2, marginRight: -6}}
                   size={18}
                   name="chevron-down"
+                  color={COLORS.white}
                 />
               </Ripple>
               <Ripple
@@ -359,17 +358,18 @@ const Items = ({navigation, route}) => {
                   sheetRef.current.open();
                 }}
                 style={styles.badge}>
-                <Text style={{...FONTS.font, top: -1, color: COLORS.title}}>
+                <Text style={{...FONTS.font, top: -1, color: COLORS.white}}>
                   Discount
                 </Text>
                 <FeatherIcon
                   style={{marginLeft: 2, marginRight: -6}}
                   size={18}
                   name="chevron-down"
+                  color={COLORS.white}
                 />
               </Ripple>
-            </View>
-          </ScrollView>
+            </ScrollView>
+          </View>
         </View>
         {/* Products */}
         <ScrollView>
@@ -420,7 +420,7 @@ const Items = ({navigation, route}) => {
           }}>
           {snackText}
         </Snackbar>
-      </SafeAreaView>
+      </Root>
     </>
   );
 };

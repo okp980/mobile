@@ -59,6 +59,7 @@ import {
   DeliveryTracking_Route,
   EditProfile_Route,
   Filter_Route,
+  Items_Route,
   OrderDetail_Route,
   Orders_Route,
   Payment_Route,
@@ -82,7 +83,7 @@ const StackComponent = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <StackComponent.Navigator
-      initialRouteName={Filter_Route}
+      initialRouteName={BottomNavigation_Route}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
@@ -284,33 +285,27 @@ const StackNavigator = () => {
         }
       />
       <StackComponent.Screen
-        name={'Items'}
+        name={Items_Route}
         component={Items}
-        options={({route, navigation}) => ({
-          headerShown: true,
-          headerStyle: COLORS.backgroundColor,
-          headerLeft: () => (
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <TouchableOpacity onPress={navigation.goBack}>
-                <Ionicon
-                  name="chevron-back"
-                  size={30}
-                  style={{marginRight: 15}}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-                <Ionicon name="search" size={25} />
-              </TouchableOpacity>
-            </View>
-          ),
-          headerRight: () => (
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-                <Ionicon name="cart-outline" size={25} />
-              </TouchableOpacity>
-            </View>
-          ),
-        })}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {
+              headerRight: () => (
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+                    <Ionicon
+                      name="cart-outline"
+                      size={27}
+                      color={COLORS.primary}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ),
+            },
+          })
+        }
       />
       <StackComponent.Screen name={'Search'} component={Search} />
 
