@@ -23,6 +23,7 @@ import {
 } from '../../../store/services/shippingAddress';
 import {Address_Route} from '../../constants/routes';
 import {useEffect} from 'react';
+import Root from '../../components/Root';
 
 const addressValues = {
   firstName: '',
@@ -88,17 +89,12 @@ const AddDeliveryAddress = ({navigation, route}) => {
     }
   };
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.backgroundColor,
-      }}>
-      <Header titleLeft leftIcon={'back'} title={'Add delivery address'} />
+    <Root>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{flex: 1}}>
         <ScrollView>
-          <View style={GlobalStyleSheet.container}>
+          <View>
             <View
               style={{
                 paddingBottom: 10,
@@ -177,7 +173,7 @@ const AddDeliveryAddress = ({navigation, route}) => {
       <View style={GlobalStyleSheet.container}>
         <CustomButton onPress={handleSubmitBtn} title={'Save Address'} />
       </View>
-    </SafeAreaView>
+    </Root>
   );
 };
 

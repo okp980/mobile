@@ -81,7 +81,7 @@ const StackComponent = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <StackComponent.Navigator
-      initialRouteName={PaystackPayment_Route}
+      initialRouteName={Add_Delivery_Address}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
@@ -259,6 +259,15 @@ const StackNavigator = () => {
       <StackComponent.Screen
         name={Add_Delivery_Address}
         component={AddDeliveryAddress}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {
+              headerTitle: 'Delivery Address',
+            },
+          })
+        }
       />
       <StackComponent.Screen name={'Filter'} component={Filter} />
       <StackComponent.Screen
