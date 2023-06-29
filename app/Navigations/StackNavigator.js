@@ -80,7 +80,7 @@ const StackComponent = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <StackComponent.Navigator
-      initialRouteName={DeliveryTracking_Route}
+      initialRouteName={BottomNavigation_Route}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
@@ -173,7 +173,17 @@ const StackNavigator = () => {
           })
         }
       />
-      <StackComponent.Screen name={Wishlist_Route} component={Wishlist} />
+      <StackComponent.Screen
+        name={Wishlist_Route}
+        component={Wishlist}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {headerTitle: 'Wishlist'},
+          })
+        }
+      />
       <StackComponent.Screen
         name={Settings_Route}
         component={Settings}
