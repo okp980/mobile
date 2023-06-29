@@ -16,7 +16,7 @@ import {BottomNavigation_Route, Sign_Up} from '../../constants/routes';
 import useModal from '../../../hooks/useModal';
 import {FULL_SCREEN_LOADER} from '../../constants/modal';
 import Root from '../../components/Root';
-import {sign_in_validation} from '../../../helpers/formValidations';
+import {auth_validation} from '../../../helpers/formValidations';
 
 const SignIn = ({navigation, route}) => {
   const from = route?.params?.from;
@@ -49,7 +49,7 @@ const SignIn = ({navigation, route}) => {
         </View>
         <Formik
           initialValues={{email: '', password: ''}}
-          validationSchema={sign_in_validation}
+          validationSchema={auth_validation}
           onSubmit={handleSignIn}
           validateOnBlur={false}>
           {({handleChange, handleSubmit, values, errors}) => (
