@@ -80,7 +80,7 @@ const StackComponent = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <StackComponent.Navigator
-      initialRouteName={BottomNavigation_Route}
+      initialRouteName={EditProfile_Route}
       detachInactiveScreens={true}
       screenOptions={{
         headerShown: false,
@@ -195,7 +195,17 @@ const StackNavigator = () => {
           })
         }
       />
-      <StackComponent.Screen name={EditProfile_Route} component={EditProfile} />
+      <StackComponent.Screen
+        name={EditProfile_Route}
+        component={EditProfile}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {headerTitle: 'Edit Profile'},
+          })
+        }
+      />
       <StackComponent.Screen name={Coupons_Route} component={Coupons} />
       <StackComponent.Screen name={Address_Route} component={Address} />
       <StackComponent.Screen name={Payment_Route} component={Payment} />
