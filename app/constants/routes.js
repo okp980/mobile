@@ -23,3 +23,4 @@ export const Cart_Route = 'Cart';
 export const Account_Route = 'Account';
 export const Filter_Route = 'Filter';
 export const Items_Route = 'Items';
+export const Search_Route = 'Search';

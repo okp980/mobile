@@ -66,6 +66,7 @@ import {
   PaystackPayment_Route,
   ProductDetail_Route,
   Profile_Route,
+  Search_Route,
   Settings_Route,
   Sign_In,
   Sign_Up,
@@ -77,6 +78,7 @@ import Settings from '../Screens/Account/Settings';
 import {screenOptions} from './Header/screenOptions';
 import {CustomHeader} from './Header/CustomHeader';
 import BottomNavigation from './BottomNavigation';
+import CustomSearchHeader from './Header/CustomSearchHeader';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -307,7 +309,16 @@ const StackNavigator = () => {
           })
         }
       />
-      <StackComponent.Screen name={'Search'} component={Search} />
+      <StackComponent.Screen
+        name={Search_Route}
+        component={Search}
+        options={({navigation, route}) => ({
+          headerShown: true,
+          header: () => (
+            <CustomSearchHeader navigation={navigation} route={route} />
+          ),
+        })}
+      />
 
       {/* To be removed */}
       <StackComponent.Screen name={'Components'} component={Components} />
