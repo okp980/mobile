@@ -17,6 +17,7 @@ import ListItem from '../../components/ListItem';
 import {Divider} from 'react-native-paper';
 import {COLORS, FONTS} from '../../constants/theme';
 import useAuth from '../../../hooks/useAuth';
+import Root from '../../components/Root';
 
 const profileInfo = [
   {
@@ -59,7 +60,7 @@ const Settings = ({navigation}) => {
     navigation.navigate(BottomNavigation_Route);
   };
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <Root noPadding>
       <ScrollView style={{flex: 1}}>
         <Card>
           {profileInfo.map((item, index) => (
@@ -111,7 +112,7 @@ const Settings = ({navigation}) => {
           Version v1.0.1
         </Text>
       </ScrollView>
-    </SafeAreaView>
+    </Root>
   );
 };
 

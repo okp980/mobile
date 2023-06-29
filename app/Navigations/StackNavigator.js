@@ -187,21 +187,13 @@ const StackNavigator = () => {
       <StackComponent.Screen
         name={Settings_Route}
         component={Settings}
-        options={({navigation}) => ({
-          headerTitle: 'Settings',
-          headerShown: true,
-          headerLeft: props => (
-            <TouchableOpacity
-              onPress={navigation.goBack}
-              style={{paddingHorizontal: 10}}>
-              <Ionicon
-                name="ios-arrow-back"
-                size={25}
-                style={{paddingHorizontal: 10}}
-              />
-            </TouchableOpacity>
-          ),
-        })}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {headerTitle: 'Settings'},
+          })
+        }
       />
       <StackComponent.Screen name={EditProfile_Route} component={EditProfile} />
       <StackComponent.Screen name={Coupons_Route} component={Coupons} />
