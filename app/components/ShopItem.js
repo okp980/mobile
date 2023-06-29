@@ -3,7 +3,7 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../constants/theme';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
-import {baseURL} from '../../config/api';
+import {BASE, baseURL} from '../../config/api';
 import {ProductDetail_Route} from '../constants/routes';
 
 const ShopItem = ({item, handleLike, index, ...props}) => {
@@ -53,7 +53,7 @@ const ShopItem = ({item, handleLike, index, ...props}) => {
             borderRadius: SIZES.radius_sm,
           }}
           source={{
-            uri: `http://localhost:4000/uploads/${props?.image || item?.image}`,
+            uri: `${BASE}/uploads/${props?.image || item?.image}`,
           }}
         />
       </View>

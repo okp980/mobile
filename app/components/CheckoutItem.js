@@ -5,6 +5,7 @@ import {COLORS, FONTS} from '../constants/theme';
 import {useUpdateCartCountMutation} from '../../store/services/cart';
 import useModal from '../../hooks/useModal';
 import {DELETE_ITEM_CONTENT} from '../constants/modal';
+import {BASE} from '../../config/api';
 
 const CheckoutItem = ({
   cartProductId,
@@ -71,7 +72,7 @@ const CheckoutItem = ({
           borderRadius: 2,
           marginRight: 12,
         }}
-        source={{uri: `http://localhost:4000/uploads/${image}`}}
+        source={{uri: `${BASE}/uploads/${image}`}}
       />
       <View style={{flex: 1, paddingVertical: 7}}>
         <Text

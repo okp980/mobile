@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 import {COLORS, FONTS} from '../../constants/theme';
+import {BASE} from '../../../config/api';
 
 const OrderProductItem = ({item}) => {
   return (
@@ -14,7 +15,7 @@ const OrderProductItem = ({item}) => {
             marginRight: 12,
           }}
           source={{
-            uri: `http://localhost:4000/uploads/${item?.product?.image}`,
+            uri: `${BASE}/uploads/${item?.product?.image}`,
           }}
         />
       </View>

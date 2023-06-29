@@ -43,6 +43,7 @@ import HorizontalCollections from '../../components/HorizontalCollections.js';
 import useToast from '../../../hooks/useToast';
 import useModal from '../../../hooks/useModal';
 import {FULL_SCREEN_LOADER} from '../../constants/modal';
+import {BASE} from '../../../config/api';
 
 const productImage = [pic1, pic1, pic1];
 
@@ -148,7 +149,7 @@ const ProductDetail = ({navigation, route}) => {
                 <View key={index}>
                   <Image
                     source={{
-                      uri: `http://localhost:4000/uploads/${item}`,
+                      uri: `${BASE}/uploads/${item}`,
                     }}
                     style={{
                       width: '100%',
