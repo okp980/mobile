@@ -24,7 +24,9 @@ const PaymentMethod = ({methods, onSelectMethod}) => {
         </Text>
       </View>
       {methods?.map((method, index) => (
-        <TouchableOpacity onPress={() => onSelectMethod(method?.id)}>
+        <TouchableOpacity
+          onPress={() => onSelectMethod(method?.id)}
+          key={index}>
           <Card
             key={index}
             style={{

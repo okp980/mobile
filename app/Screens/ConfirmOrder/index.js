@@ -7,7 +7,7 @@ import CustomButton from '../../components/CustomButton';
 import ShippingAddress from '../../components/ShippingAddress';
 import Card from '../../components/Card';
 import CustomInput from '../../components/CustomInput';
-import {FONTS} from '../../constants/theme';
+import {COLORS, FONTS} from '../../constants/theme';
 import useAuth from '../../../hooks/useAuth';
 import {
   Add_Delivery_Address,
@@ -23,12 +23,16 @@ import {useLazyGetShippingMethodsQuery} from '../../../store/services/shippingMe
 import {useCreateOrderMutation} from '../../../store/services/order';
 import Loading from '../../components/Loading/Loading';
 import Root from '../../components/Root';
+import useModal from '../../../hooks/useModal';
+import {FULL_SCREEN_LOADER} from '../../constants/modal';
+import Snackbar from 'react-native-snackbar';
 
 const ConfirmOrder = ({navigation}) => {
   const {token} = useAuth();
   const [methods, setMethods] = useState([]);
   const [selectedMethod, setSelectedMethod] = useState([]);
   const [createOrder] = useCreateOrderMutation();
+  const {handleOpenModal, handleCloseModal} = useModal();
 
   const [
     getDefaultAddress,
@@ -102,15 +106,23 @@ const ConfirmOrder = ({navigation}) => {
   }
 
   async function handleConfirmOrder() {
+    handleOpenModal({type: FULL_SCREEN_LOADER});
     try {
       const data = await createOrder({
         shippingAddressId: address.id,
         shippingMethodId: selectedMethod.id,
       }).unwrap();
       navigation.navigate(Payment_Route, {orderId: data?.id});
-      console.log(data);
+      handleCloseModal();
     } catch (error) {
+      handleCloseModal();
       console.log(error);
+      Snackbar.show({
+        text: 'Error while processing order',
+        duration: Snackbar.LENGTH_SHORT,
+        backgroundColor: COLORS.danger,
+        textColor: COLORS.text,
+      });
     }
   }
 

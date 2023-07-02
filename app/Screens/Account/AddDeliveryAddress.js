@@ -91,7 +91,7 @@ const AddDeliveryAddress = ({navigation, route}) => {
       } else {
         res = await createAddress(values).unwrap();
       }
-      from ? navigation.navigate(from) : navigation.navigate(Address_Route);
+      from ? navigation.replace(from) : navigation.navigate(Address_Route);
       handleCloseModal();
     } catch (error) {
       handleCloseModal();

@@ -7,6 +7,8 @@ import {useLazyGetPaymentMethodQuery} from '../../../store/services/paymentMetho
 import {useOrderPaymentMutation} from '../../../store/services/order';
 import {PaystackPayment_Route} from '../../constants/routes';
 import Root from '../../components/Root';
+import useModal from '../../../hooks/useModal';
+import {FULL_SCREEN_LOADER} from '../../constants/modal';
 //import DropShadow from 'react-native-drop-shadow';
 
 const Payment = ({navigation, route}) => {
@@ -14,9 +16,9 @@ const Payment = ({navigation, route}) => {
   const [selectedMethod, setSelectedMethod] = useState([]);
   const [methods, setMethods] = useState([]);
   const [getPaymentMethods] = useLazyGetPaymentMethodQuery();
-  console.log(orderId);
 
   const [makePayment] = useOrderPaymentMutation();
+  const {handleOpenModal, handleCloseModal} = useModal();
 
   useEffect(() => {
     getPaymentMethods()
@@ -39,15 +41,18 @@ const Payment = ({navigation, route}) => {
   }
 
   const handlePayment = async () => {
+    handleOpenModal({type: FULL_SCREEN_LOADER});
     try {
       const data = await makePayment({
         id: orderId,
         data: {paymentMethod: selectedMethod?.id},
       }).unwrap();
-      console.log('data ooo', data);
+
       const checkoutUrl = data?.authorization_url;
       navigation.navigate(PaystackPayment_Route, {checkoutUrl, orderId});
+      handleCloseModal();
     } catch (error) {
+      handleCloseModal();
       console.log(error);
     }
   };
