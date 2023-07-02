@@ -67,6 +67,10 @@ const extendedApi = apiSlice.injectEndpoints({
         body: values,
       }),
       transformResponse: response => response.data,
+      invalidatesTags: [
+        SHIPPING_ADDRESS,
+        {type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS},
+      ],
       //   invalidatesTags: result =>
       //     result
       //       ? [
@@ -81,7 +85,10 @@ const extendedApi = apiSlice.injectEndpoints({
         method: 'POST',
         body: values,
       }),
-      //   invalidatesTags: [{type: SHIPPING_ADDRESS, id: 'LIST'}],
+      invalidatesTags: [
+        SHIPPING_ADDRESS,
+        {type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS},
+      ],
     }),
   }),
 

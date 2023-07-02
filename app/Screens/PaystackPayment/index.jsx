@@ -4,14 +4,55 @@ import {
   View,
   ActivityIndicator,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import React, {useEffect, useRef} from 'react';
 import Root from '../../components/Root';
+import {OrderDetail_Route, PaystackPayment_Route} from '../../constants/routes';
+import {useFocusEffect} from '@react-navigation/native';
+import {useCallback} from 'react';
 
 const PaystackPayment = ({navigation, route}) => {
   const webViewRef = useRef(null);
   const checkoutUrl = route?.params?.checkoutUrl;
+  const orderId = route?.params?.orderId;
+
+  console.log('order id', orderId);
+
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = navigation.addListener('beforeRemove', e => {
+        e.preventDefault();
+
+        Alert.alert(
+          'CANCEL PAYMENT',
+          'Are you sure you want to cancel payment? If your order is not paid after 30 days, it will be canceled.',
+          [
+            {
+              text: 'Yes, Cancel',
+              style: 'destructive',
+              // If the user confirmed, then we dispatch the action we blocked earlier
+              // This will continue the action that had triggered the removal of the screen
+
+              onPress: () => {
+                unsubscribe();
+                navigation.replace(OrderDetail_Route, {
+                  orderId,
+                  from: PaystackPayment_Route,
+                });
+              },
+            },
+            {text: 'No, Continue', style: 'cancel', onPress: () => {}},
+          ],
+        );
+      });
+      // Clean up the listener when the component is unmounted
+      return () => {
+        unsubscribe();
+      };
+    }, [navigation]),
+  );
 
   console.log(checkoutUrl);
 

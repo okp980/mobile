@@ -46,7 +46,7 @@ const Payment = ({navigation, route}) => {
       }).unwrap();
       console.log('data ooo', data);
       const checkoutUrl = data?.authorization_url;
-      navigation.navigate(PaystackPayment_Route, {checkoutUrl});
+      navigation.navigate(PaystackPayment_Route, {checkoutUrl, orderId});
     } catch (error) {
       console.log(error);
     }

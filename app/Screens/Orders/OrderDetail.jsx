@@ -10,10 +10,32 @@ import Loading from '../../components/Loading/Loading';
 import {format} from 'date-fns';
 import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
 import Root from '../../components/Root';
+import {useFocusEffect} from '@react-navigation/native';
+import {useCallback} from 'react';
+import {Home_Route, PaystackPayment_Route} from '../../constants/routes';
 
 const OrderDetail = ({navigation, route}) => {
-  const {orderId} = route.params;
+  const orderId = route?.params?.orderId;
+  const from = route?.params?.from;
   const {data, isLoading, isError, error} = useGetSingleOrderQuery(orderId);
+
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = navigation.addListener('beforeRemove', e => {
+        e.preventDefault();
+
+        if (from && from === PaystackPayment_Route) {
+          navigation.navigate(Home_Route);
+        } else {
+          navigation.dispatch(e.data.action);
+        }
+      });
+      // Clean up the listener when the component is unmounted
+      return () => {
+        unsubscribe();
+      };
+    }, [navigation]),
+  );
 
   if (isLoading) {
     return (

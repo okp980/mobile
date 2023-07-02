@@ -68,19 +68,19 @@ const ConfirmOrder = ({navigation}) => {
     }
   }, [token]);
 
-  useEffect(() => {
-    // Subscribe for the focus Listener
-    const unsubscribe = navigation.addListener('focus', () => {
-      if (isAddressError) {
-        navigation.navigate(Add_Delivery_Address, {from: Confirm_Order});
-      }
-    });
+  // useEffect(() => {
+  //   // Subscribe for the focus Listener
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     if (isAddressError) {
+  //       navigation.navigate(Add_Delivery_Address, {from: Confirm_Order});
+  //     }
+  //   });
 
-    return () => {
-      // Unsubscribe for the focus Listener
-      unsubscribe;
-    };
-  }, [isAddressError]);
+  //   return () => {
+  //     // Unsubscribe for the focus Listener
+  //     unsubscribe;
+  //   };
+  // }, [isAddressError]);
 
   function retrieveMethod(methodData, selected = false) {
     return {

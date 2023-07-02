@@ -1,17 +1,7 @@
 import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
-import {COLORS, FONTS} from '../../constants/theme';
-import Header from '../../layout/Header';
-import Card from '../../components/Card';
 import CustomInput from '../../components/CustomInput';
 import {KeyboardAvoidingView} from 'react-native';
 import {Formik} from 'formik';
@@ -21,9 +11,13 @@ import {
   useLazyGetSingleShippingAddressQuery,
   useUpdateSingleAddressMutation,
 } from '../../../store/services/shippingAddress';
-import {Address_Route} from '../../constants/routes';
+import {Address_Route, Cart_Route, Confirm_Order} from '../../constants/routes';
 import {useEffect} from 'react';
 import Root from '../../components/Root';
+import {useFocusEffect} from '@react-navigation/native';
+import {useCallback} from 'react';
+import useModal from '../../../hooks/useModal';
+import {FULL_SCREEN_LOADER} from '../../constants/modal';
 
 const addressValues = {
   firstName: '',
@@ -45,6 +39,25 @@ const AddDeliveryAddress = ({navigation, route}) => {
   const [updateAddress] = useUpdateSingleAddressMutation();
   const [initialValues, setInitialValues] = useState(addressValues);
   const formRef = useRef();
+  const {handleOpenModal, handleCloseModal} = useModal();
+
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = navigation.addListener('beforeRemove', e => {
+        e.preventDefault();
+
+        if (from && from === Confirm_Order) {
+          navigation.navigate(Cart_Route);
+        } else {
+          navigation.dispatch(e.data.action);
+        }
+      });
+      // Clean up the listener when the component is unmounted
+      return () => {
+        unsubscribe();
+      };
+    }, [navigation]),
+  );
 
   useEffect(() => {
     if (edit && addressId) {
@@ -70,6 +83,7 @@ const AddDeliveryAddress = ({navigation, route}) => {
   }
 
   const submit = async values => {
+    handleOpenModal({type: FULL_SCREEN_LOADER});
     try {
       let res;
       if (edit) {
@@ -78,7 +92,9 @@ const AddDeliveryAddress = ({navigation, route}) => {
         res = await createAddress(values).unwrap();
       }
       from ? navigation.navigate(from) : navigation.navigate(Address_Route);
+      handleCloseModal();
     } catch (error) {
+      handleCloseModal();
       console.log(error);
     }
   };
@@ -90,24 +106,23 @@ const AddDeliveryAddress = ({navigation, route}) => {
   };
   return (
     <Root>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{flex: 1}}>
-        <ScrollView>
+      <ScrollView style={{flex: 1}}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <View>
             <View
               style={{
                 paddingBottom: 10,
                 marginBottom: 10,
               }}>
-              <Text
+              {/* <Text
                 style={{
                   ...FONTS.fontLg,
                   ...FONTS.fontBold,
                   color: COLORS.title,
                 }}>
                 Shipping Address
-              </Text>
+              </Text> */}
             </View>
             <Formik
               initialValues={initialValues}
@@ -168,10 +183,13 @@ const AddDeliveryAddress = ({navigation, route}) => {
               )}
             </Formik>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </ScrollView>
       <View style={GlobalStyleSheet.container}>
-        <CustomButton onPress={handleSubmitBtn} title={'Save Address'} />
+        <CustomButton
+          onPress={handleSubmitBtn}
+          title={`${edit ? 'Edit' : 'Add'} Address`}
+        />
       </View>
     </Root>
   );
