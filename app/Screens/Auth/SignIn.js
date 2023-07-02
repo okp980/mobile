@@ -30,7 +30,7 @@ const SignIn = ({navigation, route}) => {
       handleOpenModal({type: FULL_SCREEN_LOADER});
       const data = await signIn({email, password}).unwrap();
       setToken(data?.token);
-      navigation.navigate(from || BottomNavigation_Route);
+      navigation.replace(from || BottomNavigation_Route);
       handleCloseModal();
     } catch (error) {
       handleCloseModal();

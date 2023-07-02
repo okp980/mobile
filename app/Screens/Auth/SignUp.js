@@ -30,7 +30,7 @@ const SignUp = ({navigation}) => {
       handleOpenModal({type: FULL_SCREEN_LOADER});
       const data = await register({email, password}).unwrap();
       setToken(data?.token);
-      navigation.navigate(BottomNavigation_Route);
+      navigation.replace(BottomNavigation_Route);
       handleCloseModal();
     } catch (error) {
       handleCloseModal();

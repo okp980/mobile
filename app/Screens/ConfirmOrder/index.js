@@ -50,7 +50,7 @@ const ConfirmOrder = ({navigation}) => {
 
   useEffect(() => {
     if (!token) {
-      navigation.navigate(Sign_In, {from: Confirm_Order});
+      navigation.replace(Sign_In, {from: Confirm_Order});
     } else {
       // shipping methods
       getShippingMethods()
