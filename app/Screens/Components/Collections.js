@@ -16,6 +16,8 @@ const Collections = ({products, title, subtitle, ishorinzontal = true}) => {
     // });
     // setProductsData2(temp);
   };
+
+  if (products?.length === 0) return null;
   return (
     <Card style={{marginTop: 10, padding: 10}}>
       <View
@@ -28,8 +30,9 @@ const Collections = ({products, title, subtitle, ishorinzontal = true}) => {
             <Text
               style={{
                 ...FONTS.fontLg,
+                ...FONTS.fontBold,
                 color: COLORS.dark,
-                textTransform: 'capitalize',
+                textTransform: 'uppercase',
               }}>
               {title}
             </Text>
@@ -47,12 +50,20 @@ const Collections = ({products, title, subtitle, ishorinzontal = true}) => {
         </View>
       </View>
       <FlatList
-        ItemSeparatorComponent={<View style={{height: 20}} />}
+        // ItemSeparatorComponent={<View style={{height: 20}} />}
         showsHorizontalScrollIndicator={false}
         data={products}
         keyExtractor={item => item.id}
         renderItem={({item, index}) => (
-          <ShopItem item={item} handleLike={handleLike2} index={index} />
+          <View
+            style={{
+              flex: 1 / 2,
+              flexDirection: 'column',
+              margin: 3,
+            }}>
+            {/* <View style={styles.imageThumbnail} /> */}
+            <ShopItem item={item} handleLike={handleLike2} index={index} />
+          </View>
         )}
         numColumns={2}
       />
@@ -62,4 +73,11 @@ const Collections = ({products, title, subtitle, ishorinzontal = true}) => {
 
 export default Collections;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  imageThumbnail: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 180,
+    backgroundColor: 'green',
+  },
+});

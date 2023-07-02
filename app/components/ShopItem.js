@@ -19,13 +19,10 @@ const ShopItem = ({item, handleLike, index, ...props}) => {
       }
       style={{
         flex: 1,
-        // width: 150,
-        marginLeft: index % 2 !== 0 ? 10 : 0,
       }}>
       <View
         style={{
-          backgroundColor: COLORS.white,
-          width: 150,
+          // width: 150,
           elevation: 10,
         }}>
         {/* <TouchableOpacity
@@ -48,9 +45,9 @@ const ShopItem = ({item, handleLike, index, ...props}) => {
         </TouchableOpacity> */}
         <Image
           style={{
-            width: '100%',
+            // width: 200,
             height: 150,
-            borderRadius: SIZES.radius_sm,
+            borderRadius: SIZES.radius_xs,
           }}
           source={{
             uri: `${BASE}/uploads/${props?.image || item?.image}`,
@@ -62,7 +59,7 @@ const ShopItem = ({item, handleLike, index, ...props}) => {
           paddingHorizontal: 10,
           paddingVertical: 15,
         }}>
-        <Text style={{...FONTS.fontXs, color: COLORS.text}}>
+        <Text style={{...FONTS.font, color: COLORS.text}}>
           {props?.name || item?.name}
         </Text>
         <View
@@ -77,7 +74,9 @@ const ShopItem = ({item, handleLike, index, ...props}) => {
               }}>
               ₦{props?.price || item?.price}
             </Text>
-            {/* <Text style={{...FONTS.font, top: 3}}>{item.oldPrice}</Text> */}
+            <Text style={{...FONTS.font, textDecorationLine: 'line-through'}}>
+              ₦33.99
+            </Text>
           </View>
           {/* <View
             style={{

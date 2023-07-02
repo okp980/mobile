@@ -19,9 +19,9 @@ const HorizontalCollections = ({products, title, subtitle, category}) => {
             <Text
               style={{
                 ...FONTS.fontLg,
-                // ...FONTS.fontBold,
+                ...FONTS.fontBold,
                 color: COLORS.dark,
-                textTransform: 'capitalize',
+                textTransform: 'uppercase',
               }}>
               {title}
             </Text>
@@ -44,7 +44,16 @@ const HorizontalCollections = ({products, title, subtitle, category}) => {
           showsHorizontalScrollIndicator={false}
           data={products}
           keyExtractor={item => item.id}
-          renderItem={({item, index}) => <ShopItem item={item} />}
+          renderItem={({item, index}) => (
+            <View
+              style={{
+                width: 180,
+                flexDirection: 'column',
+                margin: 3,
+              }}>
+              <ShopItem item={item} />
+            </View>
+          )}
           horizontal
           extraData={category}
         />

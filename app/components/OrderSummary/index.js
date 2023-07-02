@@ -9,7 +9,7 @@ import {useGetCartQuery} from '../../../store/services/cart';
 const OrderSummary = ({shippingMethod}) => {
   const {data, isLoading, isSuccess} = useGetCartQuery();
   const total = parseFloat(
-    Number(data?.data.total) + Number(shippingMethod?.amount),
+    Number(data?.data?.total) + Number(shippingMethod?.amount),
   ).toFixed(2);
 
   return (

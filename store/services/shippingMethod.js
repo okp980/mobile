@@ -1,3 +1,4 @@
+import {SHIPPING_METHODS} from '../../app/constants/Tags';
 import {apiSlice} from '../api';
 
 const extendedApi = apiSlice.injectEndpoints({
@@ -7,6 +8,7 @@ const extendedApi = apiSlice.injectEndpoints({
         url: '/shipping-methods',
       }),
       transformResponse: response => response.data,
+      providesTags: [SHIPPING_METHODS],
     }),
     getShippingMethodsCost: build.query({
       query: id => ({
@@ -18,5 +20,8 @@ const extendedApi = apiSlice.injectEndpoints({
   overrideExisting: true,
 });
 
-export const {useLazyGetShippingMethodsQuery, useGetShippingMethodsCostQuery} =
-  extendedApi;
+export const {
+  useLazyGetShippingMethodsQuery,
+  useGetShippingMethodsQuery,
+  useGetShippingMethodsCostQuery,
+} = extendedApi;

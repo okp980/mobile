@@ -19,9 +19,9 @@ const Reviews = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Text style={{...FONTS.fontLg, color: COLORS.dark}}>Reviews (20)</Text>
+        <Text style={{...FONTS.h4, color: COLORS.dark}}>Reviews (20)</Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={{...FONTS.fontXs, color: COLORS.dark, marginRight: 5}}>
+          <Text style={{...FONTS.fontSm, color: COLORS.dark, marginRight: 5}}>
             View All
           </Text>
           <AntIcon name="right" size={10} />
@@ -37,10 +37,14 @@ const Reviews = () => {
           alignItems: 'center',
         }}>
         <View>
-          <Text style={{...FONTS.fontXs, color: COLORS.dark, marginRight: 5}}>
-            Total Rating
-          </Text>
-          <Text style={{...FONTS.h2, color: COLORS.dark, marginRight: 5}}>
+          <Text style={{...FONTS.font}}>Total Rating</Text>
+          <Text
+            style={{
+              ...FONTS.h2,
+              ...FONTS.fontBold,
+              color: COLORS.dark,
+              marginRight: 5,
+            }}>
             4.89 / 5.00
           </Text>
         </View>

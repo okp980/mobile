@@ -4,6 +4,7 @@ import {
   CART,
   DEFAULT_ADDRESS,
   SHIPPING_ADDRESS,
+  SHIPPING_METHODS,
 } from '../../app/constants/Tags';
 
 const baseQuery = fetchBaseQuery({
@@ -12,6 +13,7 @@ const baseQuery = fetchBaseQuery({
     const token = api.getState().auth.token;
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
+      headers.set('Expires', '0');
     }
     return headers;
   },
@@ -20,6 +22,12 @@ const baseQuery = fetchBaseQuery({
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQuery,
-  tagTypes: [CART, SHIPPING_ADDRESS, DEFAULT_ADDRESS],
+  tagTypes: [
+    CART,
+    SHIPPING_ADDRESS,
+    DEFAULT_ADDRESS,
+    {type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS},
+    SHIPPING_METHODS,
+  ],
   endpoints: () => ({}),
 });

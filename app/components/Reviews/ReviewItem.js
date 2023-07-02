@@ -20,14 +20,16 @@ const ReviewItem = () => {
           style={{
             flexDirection: 'row',
           }}>
-          <Text style={{...FONTS.fontSm, marginRight: 10}}>John</Text>
+          <Text style={{...FONTS.fontLg, ...FONTS.fontBold, marginRight: 10}}>
+            John
+          </Text>
           <Rating />
         </View>
-        <Text style={{...FONTS.fontXs}}>2/05/2022</Text>
+        <Text style={{...FONTS.fontSm}}>2/05/2022</Text>
       </View>
       <Divider />
       <View style={{paddingHorizontal: 10, paddingVertical: 15}}>
-        <Text style={{...FONTS.fontSm, color: COLORS.text}}>
+        <Text style={{...FONTS.font, color: COLORS.text}}>
           Lorem ipsum dolor sit amet, consectetur, sed do eiusmod tempor
           incididunt ut labore et...
         </Text>

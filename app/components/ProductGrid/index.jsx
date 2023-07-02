@@ -46,7 +46,7 @@ const ProductGrid = ({products, onProductClick, showMore}) => {
               </View>
               <Text
                 style={{
-                  ...FONTS.fontXs,
+                  ...FONTS.font,
                   color: COLORS.title,
                   textAlign: 'center',
                 }}>

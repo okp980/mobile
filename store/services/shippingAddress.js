@@ -6,6 +6,8 @@ const extendedApi = apiSlice.injectEndpoints({
     getUserShippingAddress: build.query({
       query: () => ({
         url: '/shipping-address/user',
+
+        keepUnusedDataFor: 0,
       }),
       transformResponse: response => response.data,
       // providesTags: result =>

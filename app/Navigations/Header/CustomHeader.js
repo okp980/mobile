@@ -55,7 +55,7 @@ export function CustomHeader({showBackBtn, navigation, route, ...props}) {
             color={COLORS.primary}
           />
           <View style={{flex: 1}}>
-            <Text style={{...FONTS.fontXs, color: COLORS.primary}}>
+            <Text style={{...FONTS.font, color: COLORS.primary}}>
               Search for products
             </Text>
           </View>

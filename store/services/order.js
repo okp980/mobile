@@ -1,3 +1,4 @@
+import {CART} from '../../app/constants/Tags';
 import {apiSlice} from '../api';
 
 const extendedApi = apiSlice.injectEndpoints({
@@ -8,6 +9,7 @@ const extendedApi = apiSlice.injectEndpoints({
     createOrder: build.mutation({
       query: values => ({url: '/orders', method: 'POST', body: values}),
       transformResponse: response => response.data,
+      invalidatesTags: [CART],
     }),
     getSingleOrder: build.query({
       query: id => `/orders/${id}`,

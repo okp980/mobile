@@ -15,7 +15,10 @@ import {
   Payment_Route,
   Sign_In,
 } from '../../constants/routes';
-import {useLazyGetDefaultShippingAddressQuery} from '../../../store/services/shippingAddress';
+import {
+  useGetDefaultShippingAddressQuery,
+  useLazyGetDefaultShippingAddressQuery,
+} from '../../../store/services/shippingAddress';
 import {useLazyGetShippingMethodsQuery} from '../../../store/services/shippingMethod';
 import {useCreateOrderMutation} from '../../../store/services/order';
 import Loading from '../../components/Loading/Loading';
@@ -39,34 +42,45 @@ const ConfirmOrder = ({navigation}) => {
   ] = useLazyGetDefaultShippingAddressQuery();
 
   const [getShippingMethods, {isLoading: isLoadingShippingMethods}] =
-    useLazyGetShippingMethodsQuery({
-      refetchOnFocus: true,
-    });
+    useLazyGetShippingMethodsQuery();
 
   useEffect(() => {
     if (!token) {
       navigation.navigate(Sign_In, {from: Confirm_Order});
     } else {
+      // shipping methods
+      getShippingMethods()
+        .unwrap()
+        .then(data => {
+          const newMethods = data.map((item, index) =>
+            retrieveMethod(item, index === 0 ? true : false),
+          );
+          setMethods(newMethods);
+          setSelectedMethod(newMethods[0]);
+        });
+
+      // default shipping address
+      getDefaultAddress()
+        .unwrap()
+        .catch(err => {
+          navigation.navigate(Add_Delivery_Address, {from: Confirm_Order});
+        });
+    }
+  }, [token]);
+
+  useEffect(() => {
+    // Subscribe for the focus Listener
+    const unsubscribe = navigation.addListener('focus', () => {
       if (isAddressError) {
         navigation.navigate(Add_Delivery_Address, {from: Confirm_Order});
       }
-    }
-  }, [isAddressError, token, isLoadingAddress]);
-  console.log('isErrorrrr', isAddressError);
-  console.log('adressErorr ===>', addressError);
+    });
 
-  useEffect(() => {
-    getDefaultAddress();
-    getShippingMethods()
-      .unwrap()
-      .then(data => {
-        const newMethods = data.map((item, index) =>
-          retrieveMethod(item, index === 0 ? true : false),
-        );
-        setMethods(newMethods);
-        setSelectedMethod(newMethods[0]);
-      });
-  }, []);
+    return () => {
+      // Unsubscribe for the focus Listener
+      unsubscribe;
+    };
+  }, [isAddressError]);
 
   function retrieveMethod(methodData, selected = false) {
     return {
@@ -109,6 +123,7 @@ const ConfirmOrder = ({navigation}) => {
       </Root>
     );
   }
+
   return (
     <Root noPadding>
       <View style={{flex: 1}}>

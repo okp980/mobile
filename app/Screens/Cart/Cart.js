@@ -111,7 +111,10 @@ const Cart = ({navigation}) => {
             alignItems: 'center',
           }}>
           <View style={{flex: 1, paddingHorizontal: 20}}>
-            <Text style={{...FONTS.h4}}>₦{data?.data?.total}</Text>
+            <Text style={{...FONTS.fontXs}}>Total:</Text>
+            <Text style={{...FONTS.h4, ...FONTS.fontBold}}>
+              ₦{data?.data?.total}
+            </Text>
             {/* <Text style={{...FONTS.fontSm}}>Saved: $15.5</Text> */}
           </View>
           <View style={{flex: 1}}>

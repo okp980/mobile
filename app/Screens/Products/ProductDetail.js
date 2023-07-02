@@ -172,7 +172,12 @@ const ProductDetail = ({navigation, route}) => {
               style={{
                 alignItems: 'flex-start',
               }}>
-              <Text style={{...FONTS.fontLg, color: COLORS.dark}}>
+              <Text
+                style={{
+                  ...FONTS.fontLg,
+                  color: COLORS.dark,
+                  textTransform: 'capitalize',
+                }}>
                 {data?.data?.name}
               </Text>
               <View
@@ -213,7 +218,7 @@ const ProductDetail = ({navigation, route}) => {
                 </Text>
                 <Text
                   style={{
-                    ...FONTS.fontBold,
+                    ...FONTS.font,
                     textDecorationLine: 'line-through',
                     color: COLORS.text,
                     marginRight: 8,
@@ -230,24 +235,14 @@ const ProductDetail = ({navigation, route}) => {
                 Available in stock
               </Text>
               <View>
-                <Text style={{...FONTS.fontSm, color: COLORS.text}}>
-                  <Text style={{...FONTS.fontBold}}>Color: </Text>
-                  {data?.data?.color}
-                </Text>
+                <Text style={{...FONTS.font}}>Color: {data?.data?.color}</Text>
               </View>
               <View style={{marginBottom: 10}}>
                 <Text
                   style={{
                     ...FONTS.font,
-                    color: COLORS.dark,
                   }}>
-                  <Text
-                    style={{
-                      ...FONTS.fontBold,
-                    }}>
-                    SKU
-                  </Text>{' '}
-                  : sw28220390280239230230
+                  SKU: sw28220390280239230230
                 </Text>
               </View>
             </View>
@@ -260,13 +255,18 @@ const ProductDetail = ({navigation, route}) => {
                   <MaterialCommunityIcons
                     name="shield-sync-outline"
                     size={18}
+                    color={COLORS.text}
                   />
-                  <Text style={{...FONTS.font, marginLeft: 10}}>
+                  <Text style={{...FONTS.h4, marginLeft: 10}}>
                     Return Policy
                   </Text>
                 </View>
                 <View>
-                  <Ionicon name="chevron-forward" size={18} />
+                  <Ionicon
+                    name="chevron-forward"
+                    size={18}
+                    color={COLORS.text}
+                  />
                 </View>
               </View>
             </TouchableOpacity>

@@ -9,20 +9,21 @@ const ShippingMethod = ({shippingCosts}) => {
   return (
     <Card>
       <View style={{paddingHorizontal: 10, paddingVertical: 15}}>
-        <Text style={{...FONTS.font, ...FONTS.fontBold, color: COLORS.dark}}>
-          Shipping Information
-        </Text>
+        <Text style={{...FONTS.h4}}>Shipping Information</Text>
       </View>
       <Divider />
       {shippingCosts?.map((item, index) => (
         <>
           <View style={styles.layout} key={index}>
             <View style={styles.icon}>
-              <MaterialIcon name="truck-delivery-outline" size={20} />
+              <MaterialIcon
+                name="truck-delivery-outline"
+                size={20}
+                color={COLORS.text}
+              />
             </View>
             <View style={styles.details}>
-              <Text
-                style={{...FONTS.font, ...FONTS.fontBold, color: COLORS.dark}}>
+              <Text style={{...FONTS.h6, ...FONTS.fontBold}}>
                 {item?.title}
               </Text>
               <Text style={{...FONTS.fontSm, color: COLORS.text}}>
