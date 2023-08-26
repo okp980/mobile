@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -45,6 +45,8 @@ import useModal from '../../../hooks/useModal';
 import {FULL_SCREEN_LOADER} from '../../constants/modal';
 import {BASE} from '../../../config/api';
 import Root from '../../components/Root';
+import {getPrice, getProductAttribute, getVariant} from '../../../helpers/util';
+import ProductAttributes from './ProductAttributes';
 
 const productImage = [pic1, pic1, pic1];
 
@@ -58,6 +60,7 @@ const ProductDetail = ({navigation, route}) => {
     data: products,
     isLoading: isLoadingProducts,
     error: productError,
+    isSuccess: iS,
   } = useGetProductsQuery(undefined);
 
   const [addToCart] = useAddToCartMutation();
@@ -70,10 +73,21 @@ const ProductDetail = ({navigation, route}) => {
   const {handleMessageToast, handleErrorToast} = useToast();
   const {handleOpenModal, handleCloseModal} = useModal();
 
+  const [variant, setVariant] = useState(null); // {type:'', qty:'} | null
+
+  const findVariants = attributes => {
+    const match = getVariant(data?.data?.variants, attributes);
+    setVariant(match?.id);
+    console.log('matching varaint', match);
+  };
+
   const handleAddToCart = async product => {
     try {
       handleOpenModal({type: FULL_SCREEN_LOADER});
-      await addToCart(product).unwrap();
+      await addToCart({
+        productId: product,
+        variant,
+      }).unwrap();
       handleCloseModal();
       handleMessageToast({message: 'Added to Cart'});
     } catch (error) {
@@ -140,7 +154,7 @@ const ProductDetail = ({navigation, route}) => {
                 <View key={index}>
                   <Image
                     source={{
-                      uri: `${BASE}/uploads/${item}`,
+                      uri: item ?? '',
                     }}
                     style={{
                       width: '100%',
@@ -167,7 +181,7 @@ const ProductDetail = ({navigation, route}) => {
           </Swiper>
         </View>
         <View>
-          <Card style={{padding: 15}}>
+          <Card style={{padding: 20}}>
             <View
               style={{
                 alignItems: 'flex-start',
@@ -175,6 +189,7 @@ const ProductDetail = ({navigation, route}) => {
               <Text
                 style={{
                   ...FONTS.fontLg,
+                  ...FONTS.fontBold,
                   color: COLORS.dark,
                   textTransform: 'capitalize',
                 }}>
@@ -214,9 +229,9 @@ const ProductDetail = ({navigation, route}) => {
                     marginRight: 5,
                     color: COLORS.dark,
                   }}>
-                  ₦{data?.data?.price}
+                  {getPrice(data?.data?.price)}
                 </Text>
-                <Text
+                {/* <Text
                   style={{
                     ...FONTS.font,
                     textDecorationLine: 'line-through',
@@ -224,7 +239,7 @@ const ProductDetail = ({navigation, route}) => {
                     marginRight: 8,
                   }}>
                   {data?.data?.oldPrice}
-                </Text>
+                </Text> */}
               </View>
 
               <Text
@@ -235,19 +250,26 @@ const ProductDetail = ({navigation, route}) => {
                 Available in stock
               </Text>
               <View>
-                <Text style={{...FONTS.font}}>Color: {data?.data?.color}</Text>
+                {data?.data?.product_type === 'variable' && (
+                  <ProductAttributes
+                    attribute={getProductAttribute(data?.data?.variants)}
+                    handleFindVariant={findVariants}
+                  />
+                )}
               </View>
-              <View style={{marginBottom: 10}}>
+              {/* <View style={{marginBottom: 10}}>
                 <Text
                   style={{
                     ...FONTS.font,
                   }}>
                   SKU: sw28220390280239230230
                 </Text>
-              </View>
+              </View> */}
             </View>
             {/* <Sizes /> */}
-            <Divider />
+          </Card>
+
+          <Card style={{paddingHorizontal: 20}}>
             <TouchableOpacity>
               <View style={{flexDirection: 'row', paddingVertical: 15}}>
                 <View
@@ -257,7 +279,7 @@ const ProductDetail = ({navigation, route}) => {
                     size={18}
                     color={COLORS.text}
                   />
-                  <Text style={{...FONTS.h4, marginLeft: 10}}>
+                  <Text style={{...FONTS.fontLg, marginLeft: 10}}>
                     Return Policy
                   </Text>
                 </View>

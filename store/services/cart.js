@@ -8,10 +8,10 @@ const extendedApi = apiSlice.injectEndpoints({
       providesTags: [CART],
     }),
     addToCart: build.mutation({
-      query: productId => ({
+      query: body => ({
         url: '/cart',
         method: 'POST',
-        body: {productId},
+        body,
       }),
       invalidatesTags: [CART],
     }),

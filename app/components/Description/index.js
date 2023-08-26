@@ -10,17 +10,19 @@ const Description = () => {
     <Card>
       <View
         style={{
-          paddingHorizontal: 10,
-          paddingVertical: 15,
+          paddingHorizontal: 20,
+          paddingVertical: 10,
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-        <Text style={{...FONTS.h4, marginBottom: 2}}>Description</Text>
+        <Text style={{...FONTS.fontLg, ...FONTS.fontBold, marginBottom: 2}}>
+          Description
+        </Text>
         <Ionicon name="chevron-forward" size={18} color={COLORS.text} />
       </View>
       <Divider />
-      <View style={{paddingHorizontal: 10, paddingVertical: 15}}>
+      <View style={{padding: 20}}>
         <Text style={{...FONTS.font}}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et

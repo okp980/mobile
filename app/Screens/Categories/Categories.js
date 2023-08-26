@@ -29,6 +29,8 @@ const Categories = ({navigation}) => {
     useLazyGetSubCategoriesQuery();
   const [loadingSubCategories, setLoadingSubCategories] = useState(false);
 
+  console.log(data);
+
   useEffect(() => {
     setCategory(data?.data[0]._id);
   }, [data?.data]);
@@ -49,36 +51,51 @@ const Categories = ({navigation}) => {
     }
   };
 
-  const Item = ({title, id}) => (
-    <TouchableOpacity
-      onPress={() => {
-        setCategory(id);
-      }}>
-      <View
-        style={{
-          height: 120,
-          width: 80,
-          marginRight: 10,
-          alignItems: 'center',
+  const Item = ({title, id, image}) => {
+    console.log('image url', image);
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          setCategory(id);
         }}>
         <View
           style={{
-            height: category === id ? 70 : 50,
-            width: category === id ? 70 : 50,
-            borderRadius: category === id ? 70 / 2 : 50 / 2,
-            borderColor: COLORS.white,
-            borderWidth: category === id ? 4 : 1,
-            marginBottom: 10,
+            height: 120,
+            width: 80,
+            marginRight: 10,
+            alignItems: 'center',
           }}>
-          <Image />
+          <View
+            style={{
+              height: category === id ? 70 : 50,
+              width: category === id ? 70 : 50,
+              borderRadius: category === id ? 70 / 2 : 50 / 2,
+              borderColor: COLORS.white,
+              borderWidth: category === id ? 4 : 1,
+              marginBottom: 10,
+              overflow: 'hidden',
+            }}>
+            <Image
+              source={{uri: image ?? ''}}
+              style={{
+                height: category === id ? 70 : 50,
+                width: category === id ? 70 : 50,
+              }}
+              resizeMode="contain"
+            />
+          </View>
+          <Text
+            style={{
+              ...FONTS.fontXs,
+              textAlign: 'center',
+              color: COLORS.white,
+            }}>
+            {title}
+          </Text>
         </View>
-        <Text
-          style={{...FONTS.fontXs, textAlign: 'center', color: COLORS.white}}>
-          {title}
-        </Text>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <Root noPadding>
@@ -91,7 +108,9 @@ const Categories = ({navigation}) => {
         }}>
         <FlatList
           data={data?.data}
-          renderItem={({item}) => <Item title={item.name} id={item._id} />}
+          renderItem={({item}) => (
+            <Item title={item?.name} id={item?._id} image={item?.image} />
+          )}
           keyExtractor={item => item._id}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -110,7 +129,7 @@ const Categories = ({navigation}) => {
           />
         )}
 
-        <Collections products={TopCollection} title="Top Sellers" />
+        {/* <Collections products={TopCollection} title="Top Sellers" /> */}
       </ScrollView>
     </Root>
   );

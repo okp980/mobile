@@ -19,9 +19,8 @@ import Payment from '../Screens/Delivery/Payment';
 import Socials from '../Screens/Components/Socials';
 
 import ConfirmOrder from '../Screens/ConfirmOrder';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {COLORS} from '../constants/theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -246,7 +245,9 @@ const StackNavigator = () => {
             options: {
               headerTitle: 'Payment',
               headerLeft: () => (
-                <AntDesign name="close" size={28} color={COLORS.primary} />
+                <TouchableOpacity onPress={navigation.goBack}>
+                  <AntDesign name="close" size={28} color={COLORS.primary} />
+                </TouchableOpacity>
               ),
             },
           })

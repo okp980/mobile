@@ -5,6 +5,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import {BASE, baseURL} from '../../config/api';
 import {ProductDetail_Route} from '../constants/routes';
+import {getPrice} from '../../helpers/util';
 
 const ShopItem = ({item, handleLike, index, ...props}) => {
   const navigation = useNavigation();
@@ -50,7 +51,7 @@ const ShopItem = ({item, handleLike, index, ...props}) => {
             borderRadius: SIZES.radius_xs,
           }}
           source={{
-            uri: `${BASE}/uploads/${props?.image || item?.image}`,
+            uri: item?.image,
           }}
         />
       </View>
@@ -72,11 +73,13 @@ const ShopItem = ({item, handleLike, index, ...props}) => {
                 color: COLORS.dark,
                 marginRight: 5,
               }}>
-              ₦{props?.price || item?.price}
+              {item?.product_type === 'simple'
+                ? getPrice(item?.price)
+                : getPrice(item?.min_price)}
             </Text>
-            <Text style={{...FONTS.font, textDecorationLine: 'line-through'}}>
+            {/* <Text style={{...FONTS.font, textDecorationLine: 'line-through'}}>
               ₦33.99
-            </Text>
+            </Text> */}
           </View>
           {/* <View
             style={{

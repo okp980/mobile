@@ -63,6 +63,10 @@ const MainHome = ({navigation}) => {
   const [getTrending] = useLazyGetTrendingProductsQuery();
   const [getRecommended] = useLazyGetRecommendedProductsQuery();
 
+  console.log(newArrivals);
+  console.log(trending);
+  console.log(recommended);
+
   useEffect(() => {
     getAllCategories()
       .unwrap()
@@ -85,9 +89,9 @@ const MainHome = ({navigation}) => {
         const trendinRes = await getTrending(categoryParam).unwrap();
         const recommendedRes = await getRecommended(categoryParam).unwrap();
 
-        setNewArrivals(newRes?.data);
-        setTrending(trendinRes?.data);
-        setRecommended(recommendedRes?.data);
+        setNewArrivals(newRes?.data?.data);
+        setTrending(trendinRes?.data?.data);
+        setRecommended(recommendedRes?.data?.data);
         setLoading(false);
       } catch (error) {
         setLoading(false);

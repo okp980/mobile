@@ -14,13 +14,14 @@ const ReviewItem = () => {
           justifyContent: 'space-between',
           paddingHorizontal: 10,
           paddingVertical: 5,
-          backgroundColor: COLORS.light,
+          // backgroundColor: COLORS.light,
         }}>
         <View
           style={{
             flexDirection: 'row',
+            alignItems: 'center',
           }}>
-          <Text style={{...FONTS.fontLg, ...FONTS.fontBold, marginRight: 10}}>
+          <Text style={{...FONTS.font, ...FONTS.fontBold, marginRight: 10}}>
             John
           </Text>
           <Rating />

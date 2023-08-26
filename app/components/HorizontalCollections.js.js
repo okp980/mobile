@@ -18,10 +18,10 @@ const HorizontalCollections = ({products, title, subtitle, category}) => {
           {title && (
             <Text
               style={{
-                ...FONTS.fontLg,
-                ...FONTS.fontBold,
+                ...FONTS.font,
+                // ...FONTS.fontBold,
                 color: COLORS.dark,
-                textTransform: 'uppercase',
+                textTransform: 'capitalize',
               }}>
               {title}
             </Text>

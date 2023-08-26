@@ -1,21 +1,66 @@
 [{
   "_id": {
-    "$oid": "6447eb74ebaa84f586efd41a"
+    "$oid": "645034dbe882772ced2646d2"
   },
-  "name": "Computer & Accessories",
-  "image": "img-url",
-  "createdAt": {
-    "$date": "2023-04-25T15:01:42.844Z"
-  },
-  "__v": 0
+  "name": "Women's Clothing",
+  "image": "img-url"
 },{
   "_id": {
-    "$oid": "6447f63c99369a6af8033928"
+    "$oid": "645034ece882772ced2646d4"
   },
-  "name": "Beauty & Hair",
-  "image": "img-url",
-  "createdAt": {
-    "$date": "2023-04-25T15:44:39.706Z"
+  "name": "Shoes & Bags",
+  "image": "img-url"
+},{
+  "_id": {
+    "$oid": "645034fee882772ced2646d6"
   },
-  "__v": 0
+  "name": "Gadgets",
+  "image": "img-url"
+},{
+  "_id": {
+    "$oid": "6450351ce882772ced2646d8"
+  },
+  "name": "Jewelry & Wristwatches",
+  "image": "img-url"
+},{
+  "_id": {
+    "$oid": "6450352be882772ced2646da"
+  },
+  "name": "Phones",
+  "image": "img-url"
+},{
+  "_id": {
+    "$oid": "64503541e882772ced2646dc"
+  },
+  "name": "Computer & Accessories",
+  "image": "img-url"
+},{
+  "_id": {
+    "$oid": "64503550e882772ced2646de"
+  },
+  "name": "Home & Kitchen Appliances",
+  "image": "img-url"
+},{
+  "_id": {
+    "$oid": "645705da4427e36632eaa56f"
+  },
+  "name": "Uniforms",
+  "category_image": "photo_943b2878870c4d728f837323511d5b80.png"
+},{
+  "_id": {
+    "$oid": "645706b94427e36632eaa573"
+  },
+  "name": "Uniforming",
+  "category_image": "photo_b3155acd8b4249f28470db115257c2dd.png"
+},{
+  "_id": {
+    "$oid": "64570b87949a7d18c6c4b72d"
+  },
+  "name": "Uniformings"
+},{
+  "_id": {
+    "$oid": "6466c7f4da7323a24d4e94b7"
+  },
+  "name": "Uniformity",
+  "image": "photo_1e0701810c664dd7af4d799f25d8d539.png"
 }]

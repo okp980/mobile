@@ -4,12 +4,15 @@ import React from 'react';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLORS, FONTS} from '../../../constants/theme';
 import {Divider} from 'react-native-paper';
+import {getPrice} from '../../../../helpers/util';
 
 const ShippingMethod = ({shippingCosts}) => {
   return (
     <Card>
-      <View style={{paddingHorizontal: 10, paddingVertical: 15}}>
-        <Text style={{...FONTS.h4}}>Shipping Information</Text>
+      <View style={{paddingHorizontal: 20, paddingVertical: 10}}>
+        <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>
+          Shipping Information
+        </Text>
       </View>
       <Divider />
       {shippingCosts?.map((item, index) => (
@@ -23,7 +26,7 @@ const ShippingMethod = ({shippingCosts}) => {
               />
             </View>
             <View style={styles.details}>
-              <Text style={{...FONTS.h6, ...FONTS.fontBold}}>
+              <Text style={{...FONTS.fontMedium, ...FONTS.fontBold}}>
                 {item?.title}
               </Text>
               <Text style={{...FONTS.fontSm, color: COLORS.text}}>
@@ -31,7 +34,7 @@ const ShippingMethod = ({shippingCosts}) => {
               </Text>
             </View>
             <View>
-              <Text style={styles.price}>₦{item?.charge}</Text>
+              <Text style={styles.price}>{getPrice(item?.charge)}</Text>
             </View>
           </View>
           {/* <Divider /> */}
@@ -46,9 +49,8 @@ export default ShippingMethod;
 const styles = StyleSheet.create({
   layout: {
     flexDirection: 'row',
-    paddingVertical: 10,
+    padding: 20,
     alignItems: 'center',
-    paddingHorizontal: 10,
   },
   icon: {
     marginRight: 15,

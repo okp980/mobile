@@ -25,8 +25,8 @@ export const COLORS = {
 export const SIZES = {
   fontLg: 16,
   font: 14,
-  fontSm: 13,
-  fontXs: 12,
+  fontSm: 12,
+  fontXs: 10,
 
   //radius
   radius_xs: 3,

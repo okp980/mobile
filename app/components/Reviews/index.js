@@ -13,13 +13,13 @@ const Reviews = () => {
     <Card>
       <View
         style={{
-          paddingHorizontal: 10,
-          paddingVertical: 15,
+          paddingHorizontal: 20,
+          paddingVertical: 10,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Text style={{...FONTS.h4, color: COLORS.dark}}>Reviews (20)</Text>
+        <Text style={{...FONTS.fontLg, color: COLORS.dark}}>Reviews (20)</Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={{...FONTS.fontSm, color: COLORS.dark, marginRight: 5}}>
             View All
@@ -33,14 +33,17 @@ const Reviews = () => {
         style={{
           paddingHorizontal: 10,
           paddingVertical: 15,
-          flexDirection: 'row',
-          alignItems: 'center',
         }}>
-        <View>
-          <Text style={{...FONTS.font}}>Total Rating</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+          }}>
+          <Text style={{...FONTS.font, textAlign: 'center'}}>Total Rating</Text>
           <Text
             style={{
-              ...FONTS.h2,
+              ...FONTS.h5,
               ...FONTS.fontBold,
               color: COLORS.dark,
               marginRight: 5,
@@ -48,7 +51,7 @@ const Reviews = () => {
             4.89 / 5.00
           </Text>
         </View>
-        <Rating />
+        {/* <Rating /> */}
       </View>
       <ReviewItem />
       <ReviewItem />
