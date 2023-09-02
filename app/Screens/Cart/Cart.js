@@ -12,6 +12,7 @@ import {useGetCartQuery} from '../../../store/services/cart';
 import {useGetProductsQuery} from '../../../store/services/products';
 import Icon from 'react-native-vector-icons/Zocial';
 import Root from '../../components/Root';
+import {getPrice} from '../../../helpers/util';
 
 const Cart = ({navigation}) => {
   const {data, isLoading, isSuccess, isError} = useGetCartQuery();
@@ -113,7 +114,7 @@ const Cart = ({navigation}) => {
           <View style={{flex: 1, paddingHorizontal: 20}}>
             <Text style={{...FONTS.fontXs}}>Total:</Text>
             <Text style={{...FONTS.h4, ...FONTS.fontBold}}>
-              ₦{data?.data?.total}
+              {getPrice(data?.data?.total)}
             </Text>
             {/* <Text style={{...FONTS.fontSm}}>Saved: $15.5</Text> */}
           </View>

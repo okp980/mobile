@@ -4,10 +4,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {COLORS, FONTS} from '../../constants/theme';
 import {Divider} from 'react-native-paper';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
+import {useNavigation} from '@react-navigation/native';
 
 const ListItem = ({item}) => {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    item?.path && navigation.navigate(item.path);
+  };
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={handlePress}>
       <View
         style={{
           ...GlobalStyleSheet.container,

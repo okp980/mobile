@@ -6,6 +6,7 @@ import {useUpdateCartCountMutation} from '../../store/services/cart';
 import useModal from '../../hooks/useModal';
 import {DELETE_ITEM_CONTENT} from '../constants/modal';
 import {BASE} from '../../config/api';
+import {getPrice} from '../../helpers/util';
 
 const CheckoutItem = ({
   cartProductId,
@@ -99,7 +100,7 @@ const CheckoutItem = ({
               alignItems: 'center',
               flex: 1,
             }}>
-            <Text style={{...FONTS.h6}}>₦{price}</Text>
+            <Text style={{...FONTS.h6}}>{getPrice(price)}</Text>
             <Text
               style={{
                 ...FONTS.fontSm,

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import CustomInput from '../../components/CustomInput';
@@ -18,6 +18,15 @@ import {useFocusEffect} from '@react-navigation/native';
 import {useCallback} from 'react';
 import useModal from '../../../hooks/useModal';
 import {FULL_SCREEN_LOADER} from '../../constants/modal';
+import nigeria_states from '../../../data/nigerian-states.json';
+import Loading from '../../components/Loading/Loading';
+import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
+import SelectDropdown from 'react-native-select-dropdown';
+import {COLORS, FONTS} from '../../constants/theme';
+
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import CustomSelect from '../../components/CustomSelect/CustomSelect';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const addressValues = {
   firstName: '',
@@ -26,6 +35,7 @@ const addressValues = {
   email: '',
   country: '',
   state: '',
+  lga: '',
   city: '',
   address: '',
 };
@@ -35,11 +45,15 @@ const AddDeliveryAddress = ({navigation, route}) => {
   const edit = route?.params?.edit;
   const addressId = route?.params?.addressId;
   const [createAddress] = useCreateShippingAddressMutation();
-  const [getAddress] = useLazyGetSingleShippingAddressQuery();
+  const [
+    getAddress,
+    {isLoading: isLoadingGetAddress, isError: isErrorGetAddress},
+  ] = useLazyGetSingleShippingAddressQuery();
   const [updateAddress] = useUpdateSingleAddressMutation();
   const [initialValues, setInitialValues] = useState(addressValues);
   const formRef = useRef();
   const {handleOpenModal, handleCloseModal} = useModal();
+  const [lga, setLga] = useState([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -65,6 +79,7 @@ const AddDeliveryAddress = ({navigation, route}) => {
         .unwrap()
         .then(data => {
           setInitialValues(getAddressInfo(data));
+          setLga(nigeria_states[getAddressInfo(data)?.state]);
         });
     }
   }, []);
@@ -77,7 +92,7 @@ const AddDeliveryAddress = ({navigation, route}) => {
       email: data?.email,
       country: data?.country,
       state: data?.state,
-      city: data?.city,
+      lga: data?.lga,
       address: data?.address,
     };
   }
@@ -104,87 +119,86 @@ const AddDeliveryAddress = ({navigation, route}) => {
       formRef.current.handleSubmit();
     }
   };
+
+  const getCountries = () => Object.keys(nigeria_states);
+
+  if (isLoadingGetAddress) return <Loading />;
+  if (isErrorGetAddress) return <ErrorOccurred />;
   return (
     <Root>
-      <ScrollView style={{flex: 1}}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <View>
-            <View
-              style={{
-                paddingBottom: 10,
-                marginBottom: 10,
-              }}>
-              {/* <Text
-                style={{
-                  ...FONTS.fontLg,
-                  ...FONTS.fontBold,
-                  color: COLORS.title,
-                }}>
-                Shipping Address
-              </Text> */}
-            </View>
-            <Formik
-              initialValues={initialValues}
-              onSubmit={submit}
-              innerRef={formRef}
-              enableReinitialize>
-              {({handleChange, handleSubmit, values}) => (
-                <>
-                  <CustomInput
-                    label="First Name"
-                    placeholder="Enter First name"
-                    onChangeText={handleChange('firstName')}
-                    value={values.firstName}
-                  />
-                  <CustomInput
-                    label="Last Name"
-                    placeholder="Enter Last name"
-                    onChangeText={handleChange('lastName')}
-                    value={values.lastName}
-                  />
-                  <CustomInput
-                    label="Phone Number"
-                    placeholder="Enter Phone Number"
-                    onChangeText={handleChange('phoneNumber')}
-                    value={values.phoneNumber}
-                  />
-                  <CustomInput
-                    label="Email"
-                    placeholder="Enter Email Address"
-                    onChangeText={handleChange('email')}
-                    value={values.email}
-                  />
-                  <CustomInput
-                    label="Country"
-                    placeholder="Select Country"
-                    onChangeText={handleChange('country')}
-                    value={values.country}
-                  />
-                  <CustomInput
-                    label="State"
-                    placeholder="Select State"
-                    onChangeText={handleChange('state')}
-                    value={values.state}
-                  />
-                  <CustomInput
-                    label="City"
-                    placeholder="Select City"
-                    onChangeText={handleChange('city')}
-                    value={values.city}
-                  />
-                  <CustomInput
-                    label="Address"
-                    placeholder="Enter Address"
-                    onChangeText={handleChange('address')}
-                    value={values.address}
-                  />
-                </>
-              )}
-            </Formik>
-          </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+      <KeyboardAwareScrollView>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={submit}
+          innerRef={formRef}
+          enableReinitialize>
+          {({handleChange, handleSubmit, values, setFieldValue}) => (
+            <>
+              <CustomInput
+                label="First Name"
+                placeholder="Enter First name"
+                onChangeText={handleChange('firstName')}
+                value={values.firstName}
+              />
+              <CustomInput
+                label="Last Name"
+                placeholder="Enter Last name"
+                onChangeText={handleChange('lastName')}
+                value={values.lastName}
+              />
+              <CustomInput
+                label="Phone Number"
+                placeholder="Enter Phone Number"
+                onChangeText={handleChange('phoneNumber')}
+                value={values.phoneNumber}
+              />
+              <CustomInput
+                label="Email"
+                placeholder="Enter Email Address"
+                onChangeText={handleChange('email')}
+                value={values.email}
+              />
+
+              <CustomSelect
+                data={['Nigeria']}
+                label={'Select Country'}
+                defaultValue={values.country}
+                defaultButtonText="Choose your Country"
+                onSelect={(selectedItem, index) => {
+                  setFieldValue('country', selectedItem);
+                }}
+              />
+
+              <CustomSelect
+                data={getCountries()}
+                label={'Select state'}
+                defaultValue={values.state}
+                defaultButtonText="Choose your State"
+                onSelect={(selectedItem, index) => {
+                  setFieldValue('state', selectedItem);
+                  setFieldValue('lga', '');
+                  setLga(nigeria_states[selectedItem]);
+                }}
+              />
+              <CustomSelect
+                data={lga}
+                defaultValue={values.lga}
+                label={'Select Destrict'}
+                defaultButtonText="Choose your Destrict"
+                onSelect={(selectedItem, index) => {
+                  setFieldValue('lga', selectedItem);
+                }}
+              />
+              <CustomInput
+                label="Address"
+                placeholder="Enter Address"
+                onChangeText={handleChange('address')}
+                value={values.address}
+              />
+            </>
+          )}
+        </Formik>
+      </KeyboardAwareScrollView>
       <View style={GlobalStyleSheet.container}>
         <CustomButton
           onPress={handleSubmitBtn}

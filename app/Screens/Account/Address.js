@@ -13,26 +13,47 @@ import Card from '../../components/Card';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import {Divider} from 'react-native-paper';
 import {
+  useDeleteShippingAddressMutation,
   useGetUserShippingAddressQuery,
   useUpdateDefaultAddressMutation,
 } from '../../../store/services/shippingAddress';
 import {Add_Delivery_Address} from '../../constants/routes';
 import Root from '../../components/Root';
+import Loading from '../../components/Loading/Loading';
+import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
+import useModal from '../../../hooks/useModal';
+import {FULL_SCREEN_LOADER} from '../../constants/modal';
 
 const Address = ({navigation}) => {
   const {data, isLoading, isError, isSuccess, error} =
     useGetUserShippingAddressQuery();
+  const {handleOpenModal, handleCloseModal} = useModal();
 
   const [updateDefault] = useUpdateDefaultAddressMutation();
+  const [deleteAddress] = useDeleteShippingAddressMutation();
 
   const handleDefault = async info => {
     if (info.default) return;
     try {
+      handleOpenModal({type: FULL_SCREEN_LOADER});
       await updateDefault(info.id);
+      handleCloseModal();
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleDeleteAddress = async id => {
+    try {
+      handleOpenModal({type: FULL_SCREEN_LOADER});
+      await deleteAddress(id).unwrap();
+      handleCloseModal();
+    } catch (error) {}
+  };
+
+  if (isLoading) return <Loading />;
+
+  if (isError) return <ErrorOccurred />;
 
   return (
     <Root>
@@ -95,8 +116,13 @@ const Address = ({navigation}) => {
             </TouchableOpacity>
             <Divider />
             <View
-              style={{...GlobalStyleSheet.container, alignItems: 'flex-end'}}>
+              style={{
+                ...GlobalStyleSheet.container,
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+              }}>
               <TouchableOpacity
+                style={{marginRight: 30}}
                 onPress={() =>
                   navigation.navigate(Add_Delivery_Address, {
                     edit: true,
@@ -104,7 +130,9 @@ const Address = ({navigation}) => {
                   })
                 }>
                 <AntDesignIcon name="edit" size={20} />
-                <Text style={{...FONTS.font}}>Edit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleDeleteAddress(info?.id)}>
+                <AntDesignIcon name="delete" size={20} color={COLORS.danger} />
               </TouchableOpacity>
             </View>
           </Card>

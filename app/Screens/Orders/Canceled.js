@@ -2,7 +2,7 @@ import React from 'react';
 import SampleOrders from './SampleOrders';
 
 const Canceled = () => {
-  return <SampleOrders type="cancelled" />;
+  return <SampleOrders params={{refunded: true}} />;
 };
 
 export default Canceled;

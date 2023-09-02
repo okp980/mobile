@@ -16,73 +16,42 @@ import {Orders_Route, Sign_In} from '../../constants/routes';
 import CustomButton from '../../components/CustomButton';
 import useAuth from '../../../hooks/useAuth';
 import Root from '../../components/Root';
+import {useGetOrdersSummaryQuery} from '../../../store/services/order';
+import Row from './Row';
 
 const myOrders = [
   {title: 'Unpaid', icon: 'ios-card-outline'},
   {title: 'Processing', icon: 'ios-sync'},
   {title: 'Shipped', icon: 'car-outline'},
   {title: 'Review', icon: 'ios-reader-outline'},
-  {title: 'Returns', icon: 'ios-arrow-undo-circle-outline'},
+  {title: 'Return', icon: 'ios-arrow-undo-circle-outline'},
 ];
 const support = [
-  {title: 'FAQs', icon: 'ios-card-outline'},
-  {title: 'Live Chat', icon: 'ios-sync'},
-  {title: 'Contact Us', icon: 'car-outline'},
+  {title: 'FAQs', icon: 'ios-card-outline', url: 'https://zuraaya.com/faq'},
+  {title: 'Live Chat', icon: 'ios-sync', url: 'https://zuraaya.com/faq'},
+  {title: 'Contact Us', icon: 'car-outline', url: 'https://zuraaya.com/faq'},
 ];
 const socials = [
-  {title: 'Facebook', icon: 'ios-card-outline'},
-  {title: 'Twitter', icon: 'ios-sync'},
-  {title: 'Instagram', icon: 'car-outline'},
+  {
+    title: 'Facebook',
+    icon: 'ios-card-outline',
+    url: 'https://facebook.com/zuraaya11',
+  },
+  {
+    title: 'Twitter',
+    icon: 'ios-sync',
+    url: 'https://twitter.com/Zuraaya1?s=20',
+  },
+  {
+    title: 'Instagram',
+    icon: 'car-outline',
+    url: 'https://instagram.com/zuraaya1?igshid=NTc4MTIwNjQ2YQ==',
+  },
 ];
 const information = [
   {title: 'Rating', icon: 'ios-card-outline'},
   {title: 'Feedback', icon: 'ios-sync'},
 ];
-
-const Row = ({title, items, more, onHandleMore}) => {
-  return (
-    <View style={{backgroundColor: COLORS.white, marginBottom: 10}}>
-      <View style={{...GlobalStyleSheet.container}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <Text style={{...FONTS.font, ...FONTS.fontBold}}>{title}</Text>
-          {more && (
-            <TouchableOpacity onPress={onHandleMore}>
-              <Text style={{...FONTS.Xs, textDecorationLine: 'underline'}}>
-                {more}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        <View style={{flexDirection: 'row', marginTop: 10}}>
-          {items?.map((item, index) => (
-            <TouchableOpacity style={{flex: 1}}>
-              <View
-                key={index}
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Ionicons
-                  name={item.icon}
-                  size={20}
-                  color={COLORS.dark}
-                  style={{marginBottom: 5}}
-                />
-                <Text style={{...FONTS.fontXs}}>{item.title}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-    </View>
-  );
-};
 
 // Tabs
 
@@ -109,6 +78,11 @@ const customTabBar = props => (
 //  onPress={() => RBSheetLanguage.current.open()}
 const Profile = ({navigation}) => {
   const layout = useWindowDimensions();
+  const {
+    data: summary,
+    isSuccess: isSummaryOrderSuccess,
+    isLoadingOrderSummary,
+  } = useGetOrdersSummaryQuery();
 
   const {token} = useAuth();
 
@@ -160,17 +134,22 @@ const Profile = ({navigation}) => {
             )}
           </View>
         </View>
-        <Row
-          title="My Orders"
-          items={myOrders}
-          more={'View All'}
-          onHandleMore={() => {
-            navigation.navigate(Orders_Route);
-          }}
-        />
-        <Row title="Support" items={support} />
-        <Row title="Connect with us" items={socials} />
-        <Row title="Give us your feedback" items={information} />
+        {token && isSummaryOrderSuccess && (
+          <Row
+            title="My Orders"
+            items={myOrders}
+            showCount
+            data={summary?.data}
+            more={'View All'}
+            onHandleMore={() => {
+              navigation.navigate(Orders_Route);
+            }}
+            type="order"
+          />
+        )}
+        <Row title="Support" items={support} type="support" />
+        <Row title="Connect with us" items={socials} type="connect" />
+        {/* {token && <Row title="Give us your feedback" items={information} />} */}
         <TabView
           navigationState={{index, routes}}
           renderScene={renderScene}

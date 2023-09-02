@@ -17,6 +17,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		200D4B3D29F33B6E0021DA68 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 200D4B3C29F33B6E0021DA68 /* AppCenter-Config.plist */; };
 		205FC4B42A4B8E9D006F8D3E /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 205FC4B32A4B8E9D006F8D3E /* BootSplash.storyboard */; };
+		20605D832A9F6BF000233344 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20605D822A9F6BF000233344 /* GoogleService-Info.plist */; };
 		20F2696029F2DE6A001E2CE3 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 20F2695F29F2DE6A001E2CE3 /* fonts */; };
 		2798F4F0469740ECBA0FFA7D /* Poppins-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B6E3E3F3BB14A3A959719D4 /* Poppins-ExtraLightItalic.ttf */; };
 		3F3573910A9E40BCBF98D6A5 /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DB11B4F204CC41E293B92F6E /* Poppins-MediumItalic.ttf */; };
@@ -73,6 +74,7 @@
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-Zuraaya-ZuraayaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Zuraaya-ZuraayaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		200D4B3C29F33B6E0021DA68 /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		205FC4B32A4B8E9D006F8D3E /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = Zuraaya/BootSplash.storyboard; sourceTree = "<group>"; };
+		20605D822A9F6BF000233344 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		20F2695F29F2DE6A001E2CE3 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		236BB689096B42C6B5B16EA1 /* OpenSans-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-MediumItalic.ttf"; path = "../app/assets/fonts/OpenSans-MediumItalic.ttf"; sourceTree = "<group>"; };
 		255B8EEC126A4F20B151221E /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBoldItalic.ttf"; path = "../app/assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 		13B07FAE1A68108700A75B9A /* Zuraaya */ = {
 			isa = PBXGroup;
 			children = (
+				20605D822A9F6BF000233344 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				205FC4B32A4B8E9D006F8D3E /* BootSplash.storyboard */,
@@ -378,6 +381,7 @@
 				9D9EA144423948A98DA9C2FF /* Poppins-Light.ttf in Resources */,
 				B7A5BF02419C43CEBD5EE06E /* Poppins-LightItalic.ttf in Resources */,
 				615E8897868E4B098E6882ED /* Poppins-Medium.ttf in Resources */,
+				20605D832A9F6BF000233344 /* GoogleService-Info.plist in Resources */,
 				3F3573910A9E40BCBF98D6A5 /* Poppins-MediumItalic.ttf in Resources */,
 				785CF1D456924FD286FE3FFC /* Poppins-Regular.ttf in Resources */,
 				C12C12E2CF074368AAC6BC60 /* Poppins-SemiBold.ttf in Resources */,

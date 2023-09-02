@@ -42,7 +42,7 @@ import {useGetShippingMethodsCostQuery} from '../../../store/services/shippingMe
 import HorizontalCollections from '../../components/HorizontalCollections.js';
 import useToast from '../../../hooks/useToast';
 import useModal from '../../../hooks/useModal';
-import {FULL_SCREEN_LOADER} from '../../constants/modal';
+import {FULL_SCREEN_LOADER, SELECT_VARIANT} from '../../constants/modal';
 import {BASE} from '../../../config/api';
 import Root from '../../components/Root';
 import {getPrice, getProductAttribute, getVariant} from '../../../helpers/util';
@@ -82,6 +82,13 @@ const ProductDetail = ({navigation, route}) => {
   };
 
   const handleAddToCart = async product => {
+    if (!variant) {
+      handleOpenModal({
+        type: SELECT_VARIANT,
+        modalPayload: {product, variants: data?.data?.variants},
+      });
+      return;
+    }
     try {
       handleOpenModal({type: FULL_SCREEN_LOADER});
       await addToCart({

@@ -1,16 +1,15 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useLazyGetOrdersQuery} from '../../../store/services/order';
 import useToast from '../../../hooks/useToast';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
-import {COLORS, FONTS} from '../../constants/theme';
 import CustomFlatlist from '../../components/CustomFlatlist';
 import OrderItem from '../../components/OrderItem';
 import Card from '../../components/Card';
 import {useNavigation} from '@react-navigation/native';
 import {Orders_Route, Sign_In} from '../../constants/routes';
 
-const SampleOrders = ({type}) => {
+const SampleOrders = ({params = {}}) => {
   const [Orders, setOrders] = useState([]);
   const [getOrders, {error}] = useLazyGetOrdersQuery();
   const [offSet, setOffSet] = useState(1);
@@ -22,8 +21,8 @@ const SampleOrders = ({type}) => {
   const {handleErrorToast} = useToast();
 
   useEffect(() => {
-    type ? handleGetOrders({status: type}) : handleGetOrders({});
-  }, [type]);
+    handleGetOrders(params);
+  }, []);
   useEffect(() => {
     console.log(offSet);
     console.log('offSet changed');

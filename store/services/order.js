@@ -23,6 +23,9 @@ const extendedApi = apiSlice.injectEndpoints({
       }),
       transformResponse: response => response.data,
     }),
+    getOrdersSummary: build.query({
+      query: () => ({url: '/summary/orders'}),
+    }),
   }),
 
   overrideExisting: true,
@@ -33,4 +36,5 @@ export const {
   useOrderPaymentMutation,
   useGetSingleOrderQuery,
   useLazyGetOrdersQuery,
+  useGetOrdersSummaryQuery,
 } = extendedApi;

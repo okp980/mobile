@@ -4,6 +4,7 @@ import Card from '../Card';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import {COLORS, FONTS} from '../../constants/theme';
 import {Divider} from 'react-native-paper';
+import {getPrice} from '../../../helpers/util';
 
 const ShippingMethodItem = ({methods, onSelectMethod}) => {
   return (
@@ -66,7 +67,7 @@ const ShippingMethodItem = ({methods, onSelectMethod}) => {
                     ...FONTS.fontBold,
                     color: COLORS.dark,
                   }}>
-                  ₦{item?.amount}
+                  {getPrice(item?.amount)}
                 </Text>
               </View>
             </View>

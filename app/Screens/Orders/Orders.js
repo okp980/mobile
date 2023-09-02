@@ -1,34 +1,49 @@
-import React from 'react';
+import React, {useEffect, useLayoutEffect, useRef} from 'react';
 import {useWindowDimensions} from 'react-native';
 import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import {COLORS, FONTS} from '../../constants/theme';
-import AllCart from './AllCart';
+import AllOrders from './AllOrders';
 import Canceled from './Canceled';
 import Completed from './Completed';
-import OnDelivery from './OnDelivery';
+import Unpaid from './Unpaid';
 import Root from '../../components/Root';
+import Processing from './Processing';
+import Shipped from './Shipped';
 
 const renderScene = SceneMap({
-  All: AllCart,
-  OnDelivery: OnDelivery,
-  Completed: Completed,
-  Canceled: Canceled,
+  all: AllOrders,
+  unpaid: Unpaid,
+  processing: Processing,
+  shipped: Shipped,
+  completed: Completed,
+  return: Canceled,
 });
 
-const Orders = () => {
+const Orders = ({navigation, route}) => {
   const layout = useWindowDimensions();
+  const {params} = route;
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {key: 'All', title: 'All'},
-    {key: 'OnDelivery', title: 'On-going'},
-    {key: 'Completed', title: 'Completed'},
-    {key: 'Canceled', title: 'Canceled'},
+    {key: 'all', title: 'All'},
+    {key: 'unpaid', title: 'Unpaid'},
+    {key: 'processing', title: 'Processing'},
+    {key: 'shipped', title: 'Shipped'},
+    {key: 'completed', title: 'Completed'},
+    {key: 'return', title: 'Returns'},
   ]);
-  // All
-  // Ongoing
-  // Completed
-  // Cancelled
+
+  useEffect(() => {
+    console.log(params);
+    if (params && params.show) {
+      const tabIndex = routes.findIndex(
+        route => params?.show?.toLowerCase() === route.key.toLowerCase(),
+      );
+      if (tabIndex) {
+        setIndex(tabIndex);
+      }
+    }
+  }, []);
 
   return (
     <Root noPadding>
@@ -36,8 +51,8 @@ const Orders = () => {
         renderTabBar={props => (
           <TabBar
             {...props}
-            activeColor={COLORS.title}
-            indicatorStyle={{backgroundColor: COLORS.dark}}
+            activeColor={COLORS.primary}
+            indicatorStyle={{backgroundColor: COLORS.primary}}
             labelStyle={{
               ...FONTS.font,
 
@@ -48,8 +63,8 @@ const Orders = () => {
             style={{
               backgroundColor: 'transparent',
               elevation: 0,
-              borderBottomWidth: 1,
-              borderBottomColor: COLORS.borderColor,
+              // borderBottomWidth: 1,
+              // borderBottomColor: COLORS.borderColor,
             }}
           />
         )}

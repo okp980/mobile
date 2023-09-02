@@ -5,6 +5,7 @@ import {COLORS, FONTS} from '../../constants/theme';
 import Card from '../Card';
 import {Divider} from 'react-native-paper';
 import {useGetCartQuery} from '../../../store/services/cart';
+import {getPrice} from '../../../helpers/util';
 
 const OrderSummary = ({shippingMethod}) => {
   const {data, isLoading, isSuccess} = useGetCartQuery();
@@ -47,7 +48,7 @@ const OrderSummary = ({shippingMethod}) => {
             </View>
             <View style={{paddingHorizontal: 5}}>
               <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>
-                ₦{item?.price}
+                {getPrice(item?.price)}
               </Text>
             </View>
           </View>
@@ -62,7 +63,7 @@ const OrderSummary = ({shippingMethod}) => {
           }}>
           <Text style={{...FONTS.font}}>Subtotal:</Text>
           <Text style={{...FONTS.font, ...FONTS.fontBold}}>
-            ₦{parseFloat(data?.data?.total).toFixed(2)}
+            {getPrice(data?.data?.total)}
           </Text>
         </View>
         <View
@@ -73,7 +74,7 @@ const OrderSummary = ({shippingMethod}) => {
           }}>
           <Text style={{...FONTS.font}}>Shipping fee:</Text>
           <Text style={{...FONTS.font, ...FONTS.fontBold}}>
-            ₦{shippingMethod?.amount}
+            {getPrice(shippingMethod?.amount)}
           </Text>
         </View>
 
@@ -102,7 +103,9 @@ const OrderSummary = ({shippingMethod}) => {
           <View>
             <Text style={{...FONTS.h4, ...FONTS.fontBold}}>TOTAL</Text>
           </View>
-          <Text style={{...FONTS.h5, ...FONTS.fontBold}}>₦{total}</Text>
+          <Text style={{...FONTS.h5, ...FONTS.fontBold}}>
+            {getPrice(total)}
+          </Text>
         </View>
       </Card>
     </>

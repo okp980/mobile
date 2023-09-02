@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+#import <Firebase.h>
 #import "RNBootSplash.h"
 
 #import <React/RCTBridge.h>
@@ -73,6 +74,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   [self.window makeKeyAndVisible];
 
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
+  [FIRApp configure];
   return YES;
 }
 

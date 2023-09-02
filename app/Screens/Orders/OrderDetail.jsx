@@ -13,6 +13,7 @@ import Root from '../../components/Root';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCallback} from 'react';
 import {Home_Route, PaystackPayment_Route} from '../../constants/routes';
+import {getPrice} from '../../../helpers/util';
 
 const OrderDetail = ({navigation, route}) => {
   const orderId = route?.params?.orderId;
@@ -135,7 +136,7 @@ const OrderDetail = ({navigation, route}) => {
                 marginBottom: 5,
               }}>
               <Text style={[FONTS.font]}>Order Total</Text>
-              <Text style={[FONTS.font]}>₦{data?.totalAmount}</Text>
+              <Text style={[FONTS.font]}>{getPrice(data?.totalAmount)}</Text>
             </View>
             <View
               style={{
@@ -204,7 +205,7 @@ const OrderDetail = ({navigation, route}) => {
                 marginBottom: 5,
               }}>
               <Text style={[FONTS.font]}>Subtotal:</Text>
-              <Text style={[FONTS.font]}>₦{data?.totalAmount}</Text>
+              <Text style={[FONTS.font]}>{getPrice(data?.totalAmount)}</Text>
             </View>
             <View
               style={{
@@ -214,7 +215,9 @@ const OrderDetail = ({navigation, route}) => {
                 marginBottom: 5,
               }}>
               <Text style={[FONTS.font]}>Shippping fee:</Text>
-              <Text style={[FONTS.font]}>₦{data?.shippingMethod?.charge}</Text>
+              <Text style={[FONTS.font]}>
+                {getPrice(data?.shippingMethod?.charge)}
+              </Text>
             </View>
             <Divider />
             <View
@@ -226,7 +229,7 @@ const OrderDetail = ({navigation, route}) => {
               }}>
               <Text style={[FONTS.fontLg, FONTS.fontBold]}>TOTAL</Text>
               <Text style={[FONTS.font]}>
-                ₦{data?.totalAmount + data?.shippingMethod?.charge}
+                {getPrice(data?.totalAmount + data?.shippingMethod?.charge)}
               </Text>
             </View>
           </View>

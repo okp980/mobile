@@ -13,6 +13,7 @@ import {
   Add_Delivery_Address,
   Confirm_Order,
   Payment_Route,
+  PaystackPayment_Route,
   Sign_In,
 } from '../../constants/routes';
 import {
@@ -26,11 +27,15 @@ import Root from '../../components/Root';
 import useModal from '../../../hooks/useModal';
 import {FULL_SCREEN_LOADER} from '../../constants/modal';
 import Snackbar from 'react-native-snackbar';
+import {useLazyGetPaymentMethodQuery} from '../../../store/services/paymentMethod';
+import PaymentMethod from '../../components/PaymentMethod';
 
 const ConfirmOrder = ({navigation}) => {
   const {token} = useAuth();
   const [methods, setMethods] = useState([]);
   const [selectedMethod, setSelectedMethod] = useState([]);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState([]);
+  const [paymentMethods, setPaymentMethods] = useState([]);
   const [createOrder] = useCreateOrderMutation();
   const {handleOpenModal, handleCloseModal} = useModal();
 
@@ -44,6 +49,8 @@ const ConfirmOrder = ({navigation}) => {
       error: addressError,
     },
   ] = useLazyGetDefaultShippingAddressQuery();
+
+  const [getPaymentMethods] = useLazyGetPaymentMethodQuery();
 
   const [getShippingMethods, {isLoading: isLoadingShippingMethods}] =
     useLazyGetShippingMethodsQuery();
@@ -69,8 +76,28 @@ const ConfirmOrder = ({navigation}) => {
         .catch(err => {
           navigation.navigate(Add_Delivery_Address, {from: Confirm_Order});
         });
+
+      // payment methods
+
+      getPaymentMethods()
+        .unwrap()
+        .then(data => {
+          const newMethods = data.map((item, index) =>
+            retrievePaymentMethod(item, index === 0 ? true : false),
+          );
+          setPaymentMethods(newMethods);
+          setSelectedPaymentMethod(newMethods[0]);
+        });
     }
   }, [token]);
+
+  function retrievePaymentMethod(methodData, selected = false) {
+    return {
+      id: methodData?.id,
+      name: methodData?.name,
+      selected,
+    };
+  }
 
   // useEffect(() => {
   //   // Subscribe for the focus Listener
@@ -105,20 +132,34 @@ const ConfirmOrder = ({navigation}) => {
     setMethods(newMethods);
   }
 
+  function handleSetDefaultPaymentMethod(id) {
+    const newMethods = paymentMethods.map(item =>
+      item.id === id ? {...item, selected: true} : {...item, selected: false},
+    );
+    const selected = newMethods.find(item => item.selected);
+    setSelectedPaymentMethod(selected);
+    setPaymentMethods(newMethods);
+  }
+
   async function handleConfirmOrder() {
     handleOpenModal({type: FULL_SCREEN_LOADER});
     try {
       const data = await createOrder({
         shippingAddressId: address.id,
         shippingMethodId: selectedMethod.id,
+        paymentMethodId: selectedPaymentMethod.id,
       }).unwrap();
-      navigation.navigate(Payment_Route, {orderId: data?.id});
+      console.log('date from order', data);
+      const checkoutUrl = data?.authorization_url;
+      const orderId = data?.order_id;
+      // navigation.navigate(Payment_Route, {orderId: data?.id});
+      navigation.navigate(PaystackPayment_Route, {checkoutUrl, orderId});
       handleCloseModal();
     } catch (error) {
       handleCloseModal();
       console.log(error);
       Snackbar.show({
-        text: 'Error while processing order',
+        text: error?.data?.error || 'Error while processing order',
         duration: Snackbar.LENGTH_SHORT,
         backgroundColor: COLORS.danger,
         textColor: COLORS.text,
@@ -145,6 +186,12 @@ const ConfirmOrder = ({navigation}) => {
             methods={methods}
             onSelectMethod={handleSetDefaultShippingMethod}
           />
+          <Card style={{...GlobalStyleSheet.container}}>
+            <PaymentMethod
+              methods={paymentMethods}
+              onSelectMethod={handleSetDefaultPaymentMethod}
+            />
+          </Card>
           <Card style={{...GlobalStyleSheet.container}}>
             <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>Coupon</Text>
             <Text style={{...FONTS.font}}>

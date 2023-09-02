@@ -2,6 +2,7 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 import {COLORS, FONTS} from '../../constants/theme';
 import {BASE} from '../../../config/api';
+import {getPrice} from '../../../helpers/util';
 
 const OrderProductItem = ({item}) => {
   return (
@@ -38,7 +39,9 @@ const OrderProductItem = ({item}) => {
         </View>
       </View>
       <View style={styles.price}>
-        <Text style={{...FONTS.font, ...FONTS.fontBold}}>₦{item?.price}</Text>
+        <Text style={{...FONTS.font, ...FONTS.fontBold}}>
+          {getPrice(item?.price)}
+        </Text>
       </View>
     </View>
   );

@@ -33,18 +33,10 @@ const extendedApi = apiSlice.injectEndpoints({
         method: 'PUT',
       }),
       transformResponse: response => response.data,
-      async onQueryStarted(id, {dispatch, queryFulfilled}) {
-        const patchResult = dispatch(
-          extendedApi.util.updateQueryData('getCart', id, draft => {
-            Object.assign(draft, {default: true});
-          }),
-        );
-        try {
-          await queryFulfilled;
-        } catch {
-          patchResult.undo();
-        }
-      },
+      invalidatesTags: [
+        SHIPPING_ADDRESS,
+        {type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS},
+      ],
       //   invalidatesTags: [{type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS}], remove
     }),
     getSingleShippingAddress: build.query({
@@ -90,6 +82,16 @@ const extendedApi = apiSlice.injectEndpoints({
         {type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS},
       ],
     }),
+    deleteShippingAddress: build.mutation({
+      query: id => ({
+        url: `/shipping-address/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [
+        SHIPPING_ADDRESS,
+        {type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS},
+      ],
+    }),
   }),
 
   overrideExisting: true,
@@ -102,5 +104,7 @@ export const {
   useLazyGetUserShippingAddressQuery,
   useGetDefaultShippingAddressQuery,
   useLazyGetDefaultShippingAddressQuery,
+  useGetUserShippingAddressQuery,
   useCreateShippingAddressMutation,
+  useDeleteShippingAddressMutation,
 } = extendedApi;
