@@ -33,16 +33,20 @@ import {
   DeliveryTracking_Route,
   EditProfile_Route,
   Filter_Route,
+  Forgot_Password_route,
   Items_Route,
+  Notification_Preference_Route,
   OrderDetail_Route,
   Orders_Route,
   Payment_Route,
   PaystackPayment_Route,
   ProductDetail_Route,
+  Reset_Change_Password_route,
   Search_Route,
   Settings_Route,
   Sign_In,
   Sign_Up,
+  VerifyEmail_route,
   Wishlist_Route,
 } from '../constants/routes';
 import PaystackPayment from '../Screens/PaystackPayment';
@@ -52,6 +56,8 @@ import {screenOptions} from './Header/screenOptions';
 import {CustomHeader} from './Header/CustomHeader';
 import BottomNavigation from './BottomNavigation';
 import CustomSearchHeader from './Header/CustomSearchHeader';
+import ForgotPassword from '../Screens/Auth/ForgotPassword';
+import NotificationPreference from '../Screens/Account/NotificationPreference';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -88,7 +94,7 @@ const StackNavigator = () => {
           screenOptions({
             navigation,
             route,
-            options: {gestureDirection: 'vertical'},
+            options: {gestureDirection: 'vertical', headerShown: false},
           })
         }
       />
@@ -99,10 +105,22 @@ const StackNavigator = () => {
           screenOptions({
             navigation,
             route,
-            options: {gestureDirection: 'vertical'},
+            options: {gestureDirection: 'vertical', headerShown: false},
           })
         }
       />
+      <StackComponent.Screen
+        name={Forgot_Password_route}
+        component={ForgotPassword}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {gestureDirection: 'vertical', headerShown: false},
+          })
+        }
+      />
+
       <StackComponent.Screen
         name={BottomNavigation_Route}
         component={BottomNavigation}
@@ -198,7 +216,7 @@ const StackNavigator = () => {
           screenOptions({
             navigation,
             route,
-            options: {headerTitle: 'Edit Profile'},
+            options: {headerTitle: 'Change Password'},
           })
         }
       />
@@ -221,6 +239,17 @@ const StackNavigator = () => {
             navigation,
             route,
             options: {headerTitle: 'Address'},
+          })
+        }
+      />
+      <StackComponent.Screen
+        name={Notification_Preference_Route}
+        component={NotificationPreference}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {headerTitle: 'Email & Notifications'},
           })
         }
       />

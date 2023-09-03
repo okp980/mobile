@@ -9,6 +9,7 @@ import {Platform} from 'react-native';
 import {PERMISSIONS, check, request} from 'react-native-permissions';
 import {displayBlockedAlert} from './helpers/util';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import FlashMessage from 'react-native-flash-message';
 
 const App = () => {
   const TOPIC = 'weather';
@@ -194,6 +195,7 @@ const App = () => {
     <>
       <Provider store={store}>
         <Routes />
+        <FlashMessage position="bottom" />
       </Provider>
     </>
   );

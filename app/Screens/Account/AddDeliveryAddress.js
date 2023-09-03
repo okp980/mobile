@@ -21,12 +21,9 @@ import {FULL_SCREEN_LOADER} from '../../constants/modal';
 import nigeria_states from '../../../data/nigerian-states.json';
 import Loading from '../../components/Loading/Loading';
 import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
-import SelectDropdown from 'react-native-select-dropdown';
-import {COLORS, FONTS} from '../../constants/theme';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import CustomSelect from '../../components/CustomSelect/CustomSelect';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {address_validation} from '../../../helpers/formValidations';
 
 const addressValues = {
   firstName: '',
@@ -131,32 +128,37 @@ const AddDeliveryAddress = ({navigation, route}) => {
           initialValues={initialValues}
           onSubmit={submit}
           innerRef={formRef}
+          validationSchema={address_validation}
           enableReinitialize>
-          {({handleChange, handleSubmit, values, setFieldValue}) => (
+          {({handleChange, handleSubmit, values, setFieldValue, errors}) => (
             <>
               <CustomInput
                 label="First Name"
                 placeholder="Enter First name"
                 onChangeText={handleChange('firstName')}
                 value={values.firstName}
+                error={errors.firstName}
               />
               <CustomInput
                 label="Last Name"
                 placeholder="Enter Last name"
                 onChangeText={handleChange('lastName')}
                 value={values.lastName}
+                error={errors.lastName}
               />
               <CustomInput
                 label="Phone Number"
                 placeholder="Enter Phone Number"
                 onChangeText={handleChange('phoneNumber')}
                 value={values.phoneNumber}
+                error={errors.phoneNumber}
               />
               <CustomInput
                 label="Email"
                 placeholder="Enter Email Address"
                 onChangeText={handleChange('email')}
                 value={values.email}
+                error={errors.email}
               />
 
               <CustomSelect
@@ -167,6 +169,7 @@ const AddDeliveryAddress = ({navigation, route}) => {
                 onSelect={(selectedItem, index) => {
                   setFieldValue('country', selectedItem);
                 }}
+                error={errors.country}
               />
 
               <CustomSelect
@@ -179,6 +182,7 @@ const AddDeliveryAddress = ({navigation, route}) => {
                   setFieldValue('lga', '');
                   setLga(nigeria_states[selectedItem]);
                 }}
+                error={errors.state}
               />
               <CustomSelect
                 data={lga}
@@ -188,12 +192,14 @@ const AddDeliveryAddress = ({navigation, route}) => {
                 onSelect={(selectedItem, index) => {
                   setFieldValue('lga', selectedItem);
                 }}
+                error={errors.lga}
               />
               <CustomInput
                 label="Address"
                 placeholder="Enter Address"
                 onChangeText={handleChange('address')}
                 value={values.address}
+                error={errors.address}
               />
             </>
           )}

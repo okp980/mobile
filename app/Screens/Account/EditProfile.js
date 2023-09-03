@@ -1,81 +1,104 @@
-import React, {useState} from 'react';
-import {ScrollView, Text, TextInput, View} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import {COLORS} from '../../constants/theme';
 import Root from '../../components/Root';
+import {Formik} from 'formik';
+import useModal from '../../../hooks/useModal';
+import CustomInput from '../../components/CustomInput';
+import {change_password_validation} from '../../../helpers/formValidations';
+import {useChangePasswordMutation} from '../../../store/services/auth';
+import {FULL_SCREEN_LOADER} from '../../constants/modal';
+import {showMessage} from 'react-native-flash-message';
+
+const PValues = {
+  current_password: '',
+  new_password: '',
+  confirm_password: '',
+};
 
 const EditProfile = props => {
-  const [isFocused, setisFocused] = useState(false);
-  const [isFocused2, setisFocused2] = useState(false);
-  const [isFocused3, setisFocused3] = useState(false);
-  const [isFocused4, setisFocused4] = useState(false);
+  const [initialValues] = useState(PValues);
+  const {handleOpenModal, handleCloseModal} = useModal();
+  const formRef = useRef();
+  const [changePassword] = useChangePasswordMutation();
+
+  const submit = async (values, {resetForm}) => {
+    handleOpenModal({type: FULL_SCREEN_LOADER});
+    try {
+      await changePassword({
+        newPassword: values.new_password,
+        confirmPassword: values.confirm_password,
+        oldPassword: values.current_password,
+      }).unwrap();
+      showMessage({
+        message: 'Password Changed',
+        type: 'success',
+      });
+      resetForm();
+      handleCloseModal();
+    } catch (error) {
+      showMessage({
+        message: error?.data?.data || 'Password Change Failed!',
+        type: 'success',
+      });
+      handleCloseModal();
+      console.log(error);
+    }
+  };
+  const handleSubmitBtn = () => {
+    if (formRef.current) {
+      formRef.current.handleSubmit();
+    }
+  };
 
   return (
-    <Root noPadding>
+    <Root>
       <View style={{flex: 1}}>
-        <ScrollView>
-          <View style={GlobalStyleSheet.container}>
-            <View style={GlobalStyleSheet.inputGroup}>
-              <Text style={GlobalStyleSheet.label}>Mobile Number</Text>
-              <TextInput
-                style={[
-                  GlobalStyleSheet.formControl,
-                  isFocused && GlobalStyleSheet.activeInput,
-                ]}
-                defaultValue={'0015 1545 4815'}
-                onFocus={() => setisFocused(true)}
-                onBlur={() => setisFocused(false)}
-                placeholder="Type Mobile number"
-                placeholderTextColor={COLORS.label}
-              />
-            </View>
-            <View style={GlobalStyleSheet.inputGroup}>
-              <Text style={GlobalStyleSheet.label}>Full Name</Text>
-              <TextInput
-                style={[
-                  GlobalStyleSheet.formControl,
-                  isFocused2 && GlobalStyleSheet.activeInput,
-                ]}
-                defaultValue={'Yatin'}
-                onFocus={() => setisFocused2(true)}
-                onBlur={() => setisFocused2(false)}
-                placeholder="Type your name"
-                placeholderTextColor={COLORS.label}
-              />
-            </View>
-            <View style={GlobalStyleSheet.inputGroup}>
-              <Text style={GlobalStyleSheet.label}>Email</Text>
-              <TextInput
-                style={[
-                  GlobalStyleSheet.formControl,
-                  isFocused3 && GlobalStyleSheet.activeInput,
-                ]}
-                defaultValue={'yatinxarma@gmail.com'}
-                onFocus={() => setisFocused3(true)}
-                onBlur={() => setisFocused3(false)}
-                placeholder="Type your email"
-                placeholderTextColor={COLORS.label}
-              />
-            </View>
-            <View style={GlobalStyleSheet.inputGroup}>
-              <Text style={GlobalStyleSheet.label}>Location</Text>
-              <TextInput
-                style={[
-                  GlobalStyleSheet.formControl,
-                  isFocused4 && GlobalStyleSheet.activeInput,
-                ]}
-                onFocus={() => setisFocused4(true)}
-                onBlur={() => setisFocused4(false)}
-                placeholder="Type your location"
-                placeholderTextColor={COLORS.label}
-              />
-            </View>
-          </View>
-        </ScrollView>
+        <KeyboardAvoidingView>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={submit}
+            innerRef={formRef}
+            validationSchema={change_password_validation}
+            enableReinitialize>
+            {({handleChange, values, errors}) => (
+              <>
+                <CustomInput
+                  label="Current Password"
+                  placeholder="Enter First name"
+                  onChangeText={handleChange('current_password')}
+                  value={values.current_password}
+                  error={errors.current_password}
+                />
+                <CustomInput
+                  label="New Password"
+                  placeholder="Enter Last name"
+                  onChangeText={handleChange('new_password')}
+                  value={values.new_password}
+                  error={errors.new_password}
+                />
+                <CustomInput
+                  label="Confirm Password"
+                  placeholder="Enter Phone Number"
+                  onChangeText={handleChange('confirm_password')}
+                  value={values.confirm_password}
+                  error={errors.confirm_password}
+                />
+              </>
+            )}
+          </Formik>
+        </KeyboardAvoidingView>
       </View>
       <View style={GlobalStyleSheet.container}>
-        <CustomButton title={'Save Details'} />
+        <CustomButton onPress={handleSubmitBtn} title={'Submit'} />
       </View>
     </Root>
   );

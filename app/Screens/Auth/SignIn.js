@@ -12,7 +12,11 @@ import CustomInput from '../../components/CustomInput';
 import {Formik} from 'formik';
 import {useSignInMutation} from '../../../store/services/auth';
 import useAuth from '../../../hooks/useAuth';
-import {BottomNavigation_Route, Sign_Up} from '../../constants/routes';
+import {
+  BottomNavigation_Route,
+  Forgot_Password_route,
+  Sign_Up,
+} from '../../constants/routes';
 import useModal from '../../../hooks/useModal';
 import {FULL_SCREEN_LOADER} from '../../constants/modal';
 import Root from '../../components/Root';
@@ -45,7 +49,9 @@ const SignIn = ({navigation, route}) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={{marginBottom: 20}}>
-          <Text style={{...FONTS.h1, textAlign: 'center'}}>Zuraaya</Text>
+          <Text style={{...FONTS.h1, ...FONTS.fontBold, textAlign: 'center'}}>
+            Zuraaya
+          </Text>
         </View>
         <Formik
           initialValues={{email: '', password: ''}}
@@ -83,7 +89,8 @@ const SignIn = ({navigation, route}) => {
             justifyContent: 'flex-end',
             marginTop: 15,
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(Forgot_Password_route)}>
             <Text style={{...FONTS.fontLg, color: COLORS.primary}}>
               Forgot password?
             </Text>

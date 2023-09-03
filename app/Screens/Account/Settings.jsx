@@ -10,7 +10,9 @@ import React from 'react';
 import {
   Address_Route,
   BottomNavigation_Route,
+  EditProfile_Route,
   ManageAccount_Route,
+  Notification_Preference_Route,
 } from '../../constants/routes';
 import Card from '../../components/Card';
 import ListItem from '../../components/ListItem';
@@ -25,8 +27,8 @@ const profileInfo = [
     path: Address_Route,
   },
   {
-    name: 'Manage my Account',
-    path: ManageAccount_Route,
+    name: 'Change Password',
+    path: EditProfile_Route,
   },
 ];
 
@@ -37,7 +39,7 @@ const utilInfo = [
   // },
   {
     name: 'About Zuraaya',
-    path: '',
+    url: 'https://zuraaya.com/about',
   },
   // {
   //   name: 'Clear Cache',
@@ -49,7 +51,7 @@ const utilInfo = [
   // },
   {
     name: 'Notification Preference',
-    path: '',
+    path: Notification_Preference_Route,
   },
 ];
 

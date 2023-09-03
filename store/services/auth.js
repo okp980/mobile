@@ -32,10 +32,17 @@ const authApi = apiSlice.injectEndpoints({
         body: {email},
       }),
     }),
+    verifyOtp: build.mutation({
+      query: ({otp}) => ({
+        url: '/auth/otp',
+        method: 'POST',
+        body: {otp},
+      }),
+    }),
     changePassword: build.mutation({
       query: ({oldPassword, newPassword, confirmPassword}) => ({
         url: '/auth/password',
-        method: 'POST',
+        method: 'PUT',
         body: {oldPassword, newPassword, confirmPassword},
       }),
     }),
@@ -61,6 +68,7 @@ export const {
   useChangePasswordMutation,
   useForgotPasswordMutation,
   useUpdateProfileMutation,
+  useVerifyOtpMutation,
   // useLazyRegisterMutation,
   // useLazySignInMutation,
   // useLazyForgotPasswordMutation,

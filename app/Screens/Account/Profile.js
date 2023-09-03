@@ -18,6 +18,8 @@ import useAuth from '../../../hooks/useAuth';
 import Root from '../../components/Root';
 import {useGetOrdersSummaryQuery} from '../../../store/services/order';
 import Row from './Row';
+import Loading from '../../components/Loading/Loading';
+import {useGetProfileQuery} from '../../../store/services/auth';
 
 const myOrders = [
   {title: 'Unpaid', icon: 'ios-card-outline'},
@@ -81,8 +83,14 @@ const Profile = ({navigation}) => {
   const {
     data: summary,
     isSuccess: isSummaryOrderSuccess,
-    isLoadingOrderSummary,
+    isLoading: isLoadingOrderSummary,
   } = useGetOrdersSummaryQuery();
+
+  const {
+    data: profile,
+    isLoading: isLoadingProfile,
+    isError: isErrorProfile,
+  } = useGetProfileQuery();
 
   const {token} = useAuth();
 
@@ -91,6 +99,8 @@ const Profile = ({navigation}) => {
     {key: 'wishlist', title: 'Wishlist'},
     {key: 'recentlyViewed', title: 'Recently Viewed'},
   ]);
+
+  if (isLoadingOrderSummary || isLoadingProfile) return <Loading />;
 
   return (
     <Root noPadding>
@@ -102,8 +112,13 @@ const Profile = ({navigation}) => {
           }}>
           <View style={{paddingVertical: 10}}>
             {token ? (
-              <Text style={{...FONTS.fontLg, color: COLORS.white}}>
-                Welcome
+              <Text
+                style={{
+                  ...FONTS.fontLg,
+                  color: COLORS.white,
+                  textTransform: 'capitalize',
+                }}>
+                Welcome {profile?.user?.email.split('@')[0]}
               </Text>
             ) : (
               <View style={{flexDirection: 'row'}}>
