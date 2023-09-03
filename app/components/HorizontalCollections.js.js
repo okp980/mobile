@@ -18,8 +18,8 @@ const HorizontalCollections = ({products, title, subtitle, category}) => {
           {title && (
             <Text
               style={{
-                ...FONTS.font,
-                // ...FONTS.fontBold,
+                ...FONTS.fontLg,
+                ...FONTS.fontBold,
                 color: COLORS.dark,
                 textTransform: 'capitalize',
               }}>
@@ -60,7 +60,11 @@ const HorizontalCollections = ({products, title, subtitle, category}) => {
       )}
       {!products ||
         (products.length === 0 && (
-          <Text style={{...FONTS.font}}>No Products to display</Text>
+          <View style={{marginVertical: 70}}>
+            <Text style={{...FONTS.font, textAlign: 'center'}}>
+              No Products to display for this category
+            </Text>
+          </View>
         ))}
     </Card>
   );

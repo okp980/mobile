@@ -32,6 +32,7 @@ import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
 import useNetwork from '../../../hooks/useNetwork';
 import Recommended from '../../components/Recommended';
 import Root from '../../components/Root';
+import VirtualizedView from '../../components/VirtualizedView/VirtualizedView';
 
 const bannerData = [
   {
@@ -62,10 +63,6 @@ const MainHome = ({navigation}) => {
   const [getNewArrivals] = useLazyGetNewArrivalsQuery();
   const [getTrending] = useLazyGetTrendingProductsQuery();
   const [getRecommended] = useLazyGetRecommendedProductsQuery();
-
-  console.log(newArrivals);
-  console.log(trending);
-  console.log(recommended);
 
   useEffect(() => {
     getAllCategories()
@@ -184,7 +181,7 @@ const MainHome = ({navigation}) => {
             <Loading size="large" />
           </View>
         ) : (
-          <ScrollView>
+          <VirtualizedView>
             <Swiper
               autoplay={true}
               autoplayTimeout={6}
@@ -228,7 +225,7 @@ const MainHome = ({navigation}) => {
             />
             <Collections products={recommended} title="Recommended Products" />
             {/* <Recommended /> */}
-          </ScrollView>
+          </VirtualizedView>
         )}
       </View>
     </Root>

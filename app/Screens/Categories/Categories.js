@@ -20,6 +20,9 @@ import {TopCollection} from '../Home/Home';
 import Collections from '../Components/Collections';
 import {useState} from 'react';
 import Root from '../../components/Root';
+import VirtualizedView from '../../components/VirtualizedView/VirtualizedView';
+import Card from '../../components/Card';
+import Loading from '../../components/Loading/Loading';
 
 const Categories = ({navigation}) => {
   const [category, setCategory] = useState('');
@@ -28,8 +31,6 @@ const Categories = ({navigation}) => {
   const [getSubCategories, {isError: err, isLoading: load}] =
     useLazyGetSubCategoriesQuery();
   const [loadingSubCategories, setLoadingSubCategories] = useState(false);
-
-  console.log(data);
 
   useEffect(() => {
     setCategory(data?.data[0]._id);
@@ -105,6 +106,7 @@ const Categories = ({navigation}) => {
           borderBottomWidth: 1,
           padding: 10,
           backgroundColor: COLORS.primary,
+          marginBottom: 20,
         }}>
         <FlatList
           data={data?.data}
@@ -116,21 +118,32 @@ const Categories = ({navigation}) => {
           showsHorizontalScrollIndicator={false}
         />
       </View>
-      <ScrollView>
-        {data && (
-          <ProductGrid
-            products={subCategories}
-            onProductClick={item =>
-              navigation.navigate('Items', {
-                type: item?.name,
-                subCategoriesId: item._id,
-              })
-            }
-          />
-        )}
 
-        {/* <Collections products={TopCollection} title="Top Sellers" /> */}
-      </ScrollView>
+      <VirtualizedView>
+        <Card style={{paddingVertical: 20, marginHorizontal: 10}}>
+          <Text
+            style={{
+              textAlign: 'center',
+              marginBottom: 20,
+              ...FONTS.font,
+              ...FONTS.fontBold,
+            }}>
+            Sub-Categories
+          </Text>
+          {loadingSubCategories && <Loading />}
+          {data && !loadingSubCategories && (
+            <ProductGrid
+              products={subCategories}
+              onProductClick={item =>
+                navigation.navigate('Items', {
+                  type: item?.name,
+                  subCategoriesId: item._id,
+                })
+              }
+            />
+          )}
+        </Card>
+      </VirtualizedView>
     </Root>
   );
 };

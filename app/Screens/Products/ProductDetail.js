@@ -47,6 +47,7 @@ import {BASE} from '../../../config/api';
 import Root from '../../components/Root';
 import {getPrice, getProductAttribute, getVariant} from '../../../helpers/util';
 import ProductAttributes from './ProductAttributes';
+import VirtualizedView from '../../components/VirtualizedView/VirtualizedView';
 
 const productImage = [pic1, pic1, pic1];
 
@@ -138,8 +139,8 @@ const ProductDetail = ({navigation, route}) => {
 
   return (
     <Root noPadding>
-      <ScrollView contentContainerStyle={{paddingBottom: 30}}>
-        <View>
+      <VirtualizedView>
+        <View style={{paddingBottom: 30}}>
           {/* Product carousel */}
           <Swiper
             style={{height: SIZES.width}}
@@ -322,7 +323,7 @@ const ProductDetail = ({navigation, route}) => {
 
           <Collections products={products?.data} title="Recommended Products" />
         </View>
-      </ScrollView>
+      </VirtualizedView>
       <View style={styles.buy}>
         <TouchableOpacity
           onPress={() => handleLike()}
