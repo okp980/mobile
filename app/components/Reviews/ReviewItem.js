@@ -3,8 +3,10 @@ import React from 'react';
 import {COLORS, FONTS} from '../../constants/theme';
 import Rating from '../Rating';
 import {Divider} from 'react-native-paper';
+import {format} from 'date-fns';
 
-const ReviewItem = () => {
+const ReviewItem = ({review}) => {
+  console.log(review);
   return (
     <View>
       <View
@@ -22,17 +24,18 @@ const ReviewItem = () => {
             alignItems: 'center',
           }}>
           <Text style={{...FONTS.font, ...FONTS.fontBold, marginRight: 10}}>
-            John
+            {review?.user?.email?.split('@')[0]}
           </Text>
-          <Rating />
+          <Rating rating={review?.rating} />
         </View>
-        <Text style={{...FONTS.fontSm}}>2/05/2022</Text>
+        <Text style={{...FONTS.fontSm}}>
+          {format(new Date(review?.createdAt), 'dd-MM-yyyy')}
+        </Text>
       </View>
       <Divider />
       <View style={{paddingHorizontal: 10, paddingVertical: 15}}>
         <Text style={{...FONTS.font, color: COLORS.text}}>
-          Lorem ipsum dolor sit amet, consectetur, sed do eiusmod tempor
-          incididunt ut labore et...
+          {review.comment}
         </Text>
       </View>
     </View>

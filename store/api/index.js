@@ -3,6 +3,8 @@ import {baseURL} from '../../config/api';
 import {
   CART,
   DEFAULT_ADDRESS,
+  REVIEWS_PRODUCTS_TAG,
+  REVIEWS_TAG,
   SHIPPING_ADDRESS,
   SHIPPING_METHODS,
 } from '../../app/constants/Tags';
@@ -28,6 +30,8 @@ export const apiSlice = createApi({
     DEFAULT_ADDRESS,
     {type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS},
     SHIPPING_METHODS,
+    REVIEWS_TAG,
+    {type: REVIEWS_TAG, id: REVIEWS_PRODUCTS_TAG},
   ],
   endpoints: () => ({}),
 });

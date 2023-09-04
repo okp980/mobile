@@ -2,3 +2,5 @@ export const CART = 'CART';
 export const SHIPPING_ADDRESS = 'SHIPPING_ADDRESS';
 export const DEFAULT_ADDRESS = 'DEFAULT_ADDRESS';
 export const SHIPPING_METHODS = 'SHIPPING_METHODS';
+export const REVIEWS_TAG = 'REVIEWS_TAG';
+export const REVIEWS_PRODUCTS_TAG = 'REVIEWS_TAG';

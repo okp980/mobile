@@ -6,9 +6,13 @@ import {COLORS, FONTS} from '../../constants/theme';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 
 import ReviewItem from './ReviewItem';
-import Rating from '../Rating';
+import {useGetProductReviewQuery} from '../../../store/services/review';
+import Loading from '../Loading/Loading';
 
-const Reviews = () => {
+const Reviews = ({product}) => {
+  const {data, isLoading, isError} = useGetProductReviewQuery(product);
+
+  if (isLoading) return <Loading />;
   return (
     <Card>
       <View
@@ -19,7 +23,9 @@ const Reviews = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Text style={{...FONTS.fontLg, color: COLORS.dark}}>Reviews (20)</Text>
+        <Text style={{...FONTS.fontLg, color: COLORS.dark}}>
+          Reviews ({data?.totalReviews})
+        </Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={{...FONTS.fontSm, color: COLORS.dark, marginRight: 5}}>
             View All
@@ -48,14 +54,13 @@ const Reviews = () => {
               color: COLORS.dark,
               marginRight: 5,
             }}>
-            4.89 / 5.00
+            {data?.averageRating} / 5.00
           </Text>
         </View>
-        {/* <Rating /> */}
       </View>
-      <ReviewItem />
-      <ReviewItem />
-      <ReviewItem />
+      {data?.data?.map((review, index) => (
+        <ReviewItem key={index} review={review} />
+      ))}
     </Card>
   );
 };

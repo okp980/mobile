@@ -42,7 +42,11 @@ import {useGetShippingMethodsCostQuery} from '../../../store/services/shippingMe
 import HorizontalCollections from '../../components/HorizontalCollections.js';
 import useToast from '../../../hooks/useToast';
 import useModal from '../../../hooks/useModal';
-import {FULL_SCREEN_LOADER, SELECT_VARIANT} from '../../constants/modal';
+import {
+  FULL_SCREEN_LOADER,
+  RETURN_POLICY,
+  SELECT_VARIANT,
+} from '../../constants/modal';
 import {BASE} from '../../../config/api';
 import Root from '../../components/Root';
 import {getPrice, getProductAttribute, getVariant} from '../../../helpers/util';
@@ -278,7 +282,8 @@ const ProductDetail = ({navigation, route}) => {
           </Card>
 
           <Card style={{paddingHorizontal: 20}}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handleOpenModal({type: RETURN_POLICY})}>
               <View style={{flexDirection: 'row', paddingVertical: 15}}>
                 <View
                   style={{flexDirection: 'row', alignItems: 'center', flex: 1}}>
@@ -313,7 +318,7 @@ const ProductDetail = ({navigation, route}) => {
             category={products}
           />
 
-          <Reviews />
+          <Reviews product={product} />
 
           <HorizontalCollections
             products={products?.data}
