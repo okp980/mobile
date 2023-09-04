@@ -29,9 +29,9 @@ const OrderItem = props => {
                   styles.dot,
                   {
                     backgroundColor:
-                      props?.status === 'success'
+                      props?.status.toLowerCase() === 'signed and delivered'
                         ? COLORS.success
-                        : props?.status === 'processing'
+                        : props?.status.toLowerCase() === 'processing'
                         ? COLORS.warning
                         : COLORS.dark,
                   },
@@ -110,13 +110,17 @@ const OrderItem = props => {
               customStyles={{flex: 1, backgroundColor: COLORS.dark}}
             />
             <View style={{width: 10}} />
-            <CustomButton
-              onPress={() =>
-                navigation.navigate(DeliveryTracking_Route, {trackingId: ''})
-              }
-              title="Track Order"
-              customStyles={{flex: 1, backgroundColor: COLORS.dark}}
-            />
+            {props?.status.toLowerCase() !== 'signed and delivered' && (
+              <CustomButton
+                textColor={COLORS.dark}
+                outline
+                onPress={() =>
+                  navigation.navigate(DeliveryTracking_Route, {trackingId: ''})
+                }
+                title="Track Order"
+                customStyles={{flex: 1, borderColor: COLORS.dark}}
+              />
+            )}
           </View>
         </View>
       )}

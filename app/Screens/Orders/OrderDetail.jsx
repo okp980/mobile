@@ -60,12 +60,26 @@ const OrderDetail = ({navigation, route}) => {
     <Root noPadding>
       <ScrollView>
         <View style={[GlobalStyleSheet.container, {marginBottom: 10}]}>
-          <Text style={[FONTS.fontLg, FONTS.fontBold]}>
-            Estimated Delivery Time:
-          </Text>
-          <Text style={[FONTS.font]}>
-            About {data?.shippingMethod?.duration} working days.
-          </Text>
+          {data.status.toLowerCase() !== 'signed and delivered' && (
+            <>
+              <Text style={[FONTS.fontLg, FONTS.fontBold]}>
+                Estimated Delivery Time:
+              </Text>
+              <Text style={[FONTS.font]}>
+                About {data?.shippingMethod?.duration} working days.
+              </Text>
+            </>
+          )}
+          {data.status.toLowerCase() === 'signed and delivered' && (
+            <>
+              <Text style={[FONTS.fontLg, FONTS.fontBold]}>
+                Package Delivery Time:
+              </Text>
+              <Text style={[FONTS.font]}>
+                {format(new Date(data?.updatedAt), 'dd MMM, yyyy')}
+              </Text>
+            </>
+          )}
         </View>
         <View>
           <View
@@ -235,10 +249,18 @@ const OrderDetail = ({navigation, route}) => {
           </View>
         </View>
         <View style={GlobalStyleSheet.container}>
-          <CustomButton
-            title="Cancel Order"
-            customStyles={{backgroundColor: COLORS.primary}}
-          />
+          {data.status.toLowerCase() !== 'signed and delivered' && (
+            <CustomButton
+              title="Cancel Order"
+              customStyles={{backgroundColor: COLORS.primary}}
+            />
+          )}
+          {data.status.toLowerCase() === 'signed and delivered' && (
+            <CustomButton
+              title="Review Order"
+              customStyles={{backgroundColor: COLORS.dark}}
+            />
+          )}
         </View>
       </ScrollView>
     </Root>

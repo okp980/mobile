@@ -16,7 +16,7 @@ const OrderProductItem = ({item}) => {
             marginRight: 12,
           }}
           source={{
-            uri: `${BASE}/uploads/${item?.product?.image}`,
+            uri: item?.product?.image,
           }}
         />
       </View>
