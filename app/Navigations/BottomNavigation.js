@@ -48,14 +48,14 @@ const BottomNavigation = () => {
           headerShown: true,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={Messages_Route}
         component={Categories}
         options={{
           header: props => <CustomHeader {...props} />,
           headerShown: true,
         }}
-      />
+      /> */}
       <Tab.Screen
         name={Cart_Route}
         component={Cart}

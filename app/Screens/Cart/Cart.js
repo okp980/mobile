@@ -13,6 +13,8 @@ import {useGetProductsQuery} from '../../../store/services/products';
 import Icon from 'react-native-vector-icons/Zocial';
 import Root from '../../components/Root';
 import {getPrice} from '../../../helpers/util';
+import {BottomNavigation_Route} from '../../constants/routes';
+import VirtualizedView from '../../components/VirtualizedView/VirtualizedView';
 
 const Cart = ({navigation}) => {
   const {data, isLoading, isSuccess, isError} = useGetCartQuery();
@@ -21,7 +23,7 @@ const Cart = ({navigation}) => {
     isLoading: isLoadingProducts,
     error: productError,
   } = useGetProductsQuery(undefined);
-  console.log(data);
+
   return (
     <Root>
       <ScrollView>
@@ -34,15 +36,17 @@ const Cart = ({navigation}) => {
               style={{paddingHorizontal: 20}}
             />
             <Text style={{...FONTS.fontLg}}>Your Cart is empty</Text>
-            <CustomButton
+            {/* <CustomButton
               title="Shop Now"
               btnSm
               color={COLORS.dark}
               customStyles={{marginTop: 20}}
               onPress={() =>
-                navigation.navigate('BottomNavigation', {screen: 'MainHome'})
+                navigation.navigate(BottomNavigation_Route, {
+                  screen: 'MainHome',
+                })
               }
-            />
+            /> */}
           </Card>
         ) : (
           <Card>
@@ -67,7 +71,7 @@ const Cart = ({navigation}) => {
           </Card>
         )}
 
-        <Card style={{paddingHorizontal: 20, paddingVertical: 10}}>
+        {/* <Card style={{paddingHorizontal: 20, paddingVertical: 10}}>
           <View
             style={{
               flexDirection: 'row',
@@ -94,11 +98,13 @@ const Cart = ({navigation}) => {
             by using industry-standard data encryption technology. ZURAAYA will
             not store your actual credit card information.'
           </Text>
-        </Card>
-        <Collections
-          products={products?.data}
-          title="You may like to fill it with"
-        />
+        </Card> */}
+        <VirtualizedView>
+          <Collections
+            products={products?.data}
+            title="You may like to fill it with"
+          />
+        </VirtualizedView>
       </ScrollView>
 
       {data?.data?.products?.length > 0 && (

@@ -13,8 +13,11 @@ import VirtualizedView from '../../components/VirtualizedView/VirtualizedView';
 import Card from '../../components/Card';
 import Loading from '../../components/Loading/Loading';
 import CacheImage from '../../components/CacheImage/CacheImage';
+import {useRef} from 'react';
 
 const Categories = ({navigation}) => {
+  const categoryRef = useRef();
+  const [categoryStartIndex, setCategoryStartIndex] = useState(0);
   const [category, setCategory] = useState('');
   const [subCategories, setSubCategories] = useState([]);
   const {data, isError, isLoading} = useGetCategoriesQuery();
@@ -25,6 +28,14 @@ const Categories = ({navigation}) => {
   useEffect(() => {
     setCategory(data?.data[0]._id);
   }, [data?.data]);
+
+  useEffect(() => {
+    categoryRef?.current.scrollToIndex({
+      index: categoryStartIndex,
+      animated: true,
+      viewPosition: 0.5,
+    });
+  }, [categoryStartIndex]);
 
   useEffect(() => {
     if (category) {
@@ -44,11 +55,11 @@ const Categories = ({navigation}) => {
     }
   };
 
-  const Item = ({title, id, image}) => {
+  const Item = ({title, id, image, categoryStartIndex, itemIndex}) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          setCategory(id);
+          setCategoryStartIndex(itemIndex);
         }}>
         <View
           style={{
@@ -59,19 +70,19 @@ const Categories = ({navigation}) => {
           }}>
           <View
             style={{
-              height: category === id ? 70 : 50,
-              width: category === id ? 70 : 50,
-              borderRadius: category === id ? 70 / 2 : 50 / 2,
+              height: categoryStartIndex === itemIndex ? 70 : 50,
+              width: categoryStartIndex === itemIndex ? 70 : 50,
+              borderRadius: categoryStartIndex === itemIndex ? 70 / 2 : 50 / 2,
               borderColor: COLORS.white,
-              borderWidth: category === id ? 4 : 1,
+              borderWidth: categoryStartIndex === itemIndex ? 4 : 1,
               marginBottom: 10,
               overflow: 'hidden',
             }}>
             <CacheImage
               source={{uri: image ?? ''}}
               style={{
-                height: category === id ? 70 : 50,
-                width: category === id ? 70 : 50,
+                height: categoryStartIndex === itemIndex ? 70 : 50,
+                width: categoryStartIndex === itemIndex ? 70 : 50,
               }}
               resizeMode="contain"
             />
@@ -100,13 +111,31 @@ const Categories = ({navigation}) => {
           marginBottom: 20,
         }}>
         <FlatList
+          ref={categoryRef}
+          initialScrollIndex={categoryStartIndex}
           data={data?.data}
-          renderItem={({item}) => (
-            <Item title={item?.name} id={item?._id} image={item?.image} />
+          renderItem={({item, index}) => (
+            <Item
+              title={item?.name}
+              id={item?._id}
+              image={item?.image}
+              categoryStartIndex={categoryStartIndex}
+              itemIndex={index}
+            />
           )}
           keyExtractor={item => item._id}
           horizontal
           showsHorizontalScrollIndicator={false}
+          onScrollToIndexFailed={info => {
+            const wait = new Promise(resolve => setTimeout(resolve, 500));
+            wait.then(() => {
+              categoryRef.current?.scrollToIndex({
+                index: info.index,
+                animated: true,
+                viewPosition: 0.5,
+              });
+            });
+          }}
         />
       </View>
 

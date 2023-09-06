@@ -43,7 +43,7 @@ const CustomBottomNavigation = ({state, descriptors, navigation}) => {
           <View
             key={index}
             style={{
-              width: '20%',
+              width: '25%', // change back to 20% for 4 items
               alignItems: 'center',
             }}>
             <TouchableOpacity
