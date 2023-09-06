@@ -12,6 +12,8 @@ import Loading from '../Loading/Loading';
 const Reviews = ({product}) => {
   const {data, isLoading, isError} = useGetProductReviewQuery(product);
 
+  console.log(data); // data no longer being sent from backend
+
   if (isLoading) return <Loading />;
   return (
     <Card>

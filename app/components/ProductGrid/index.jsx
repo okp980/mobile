@@ -2,6 +2,7 @@ import {View, Text, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import {COLORS, FONTS} from '../../constants/theme';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import CacheImage from '../CacheImage/CacheImage';
 
 const ProductGrid = ({products, onProductClick, showMore}) => {
   return (
@@ -12,6 +13,7 @@ const ProductGrid = ({products, onProductClick, showMore}) => {
         // marginTop: 20,
       }}>
       {products.map((product, index) => {
+        console.log(product);
         return (
           <View
             key={index}
@@ -36,7 +38,7 @@ const ProductGrid = ({products, onProductClick, showMore}) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Image
+                <CacheImage
                   style={{
                     width: '100%',
                     height: 60,
@@ -46,7 +48,7 @@ const ProductGrid = ({products, onProductClick, showMore}) => {
               </View>
               <Text
                 style={{
-                  ...FONTS.font,
+                  ...FONTS.fontSm,
                   color: COLORS.title,
                   textAlign: 'center',
                 }}>

@@ -25,7 +25,7 @@ const myOrders = [
   {title: 'Unpaid', icon: 'ios-card-outline'},
   {title: 'Processing', icon: 'ios-sync'},
   {title: 'Shipped', icon: 'car-outline'},
-  {title: 'Review', icon: 'ios-reader-outline'},
+  // {title: 'Review', icon: 'ios-reader-outline'}, // add back when ready to implement reviews
   {title: 'Return', icon: 'ios-arrow-undo-circle-outline'},
 ];
 const support = [

@@ -1,13 +1,5 @@
 import React, {useEffect} from 'react';
-import {
-  FlatList,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import {COLORS, FONTS} from '../../constants/theme';
 
 import {
@@ -15,21 +7,19 @@ import {
   useLazyGetSubCategoriesQuery,
 } from '../../../store/services/category';
 import ProductGrid from '../../components/ProductGrid';
-
-import {TopCollection} from '../Home/Home';
-import Collections from '../Components/Collections';
 import {useState} from 'react';
 import Root from '../../components/Root';
 import VirtualizedView from '../../components/VirtualizedView/VirtualizedView';
 import Card from '../../components/Card';
 import Loading from '../../components/Loading/Loading';
+import CacheImage from '../../components/CacheImage/CacheImage';
 
 const Categories = ({navigation}) => {
   const [category, setCategory] = useState('');
   const [subCategories, setSubCategories] = useState([]);
   const {data, isError, isLoading} = useGetCategoriesQuery();
   const [getSubCategories, {isError: err, isLoading: load}] =
-    useLazyGetSubCategoriesQuery();
+    useLazyGetSubCategoriesQuery({skip: category.trim().length === 0});
   const [loadingSubCategories, setLoadingSubCategories] = useState(false);
 
   useEffect(() => {
@@ -37,7 +27,9 @@ const Categories = ({navigation}) => {
   }, [data?.data]);
 
   useEffect(() => {
-    handleGetSubCategories();
+    if (category) {
+      handleGetSubCategories();
+    }
   }, [category]);
 
   const handleGetSubCategories = async () => {
@@ -53,7 +45,6 @@ const Categories = ({navigation}) => {
   };
 
   const Item = ({title, id, image}) => {
-    console.log('image url', image);
     return (
       <TouchableOpacity
         onPress={() => {
@@ -76,7 +67,7 @@ const Categories = ({navigation}) => {
               marginBottom: 10,
               overflow: 'hidden',
             }}>
-            <Image
+            <CacheImage
               source={{uri: image ?? ''}}
               style={{
                 height: category === id ? 70 : 50,
@@ -87,7 +78,7 @@ const Categories = ({navigation}) => {
           </View>
           <Text
             style={{
-              ...FONTS.fontXs,
+              ...FONTS.fontSm,
               textAlign: 'center',
               color: COLORS.white,
             }}>

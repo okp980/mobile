@@ -21,11 +21,12 @@ import Socials from '../Screens/Components/Socials';
 import ConfirmOrder from '../Screens/ConfirmOrder';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {COLORS} from '../constants/theme';
+import {COLORS, FONTS} from '../constants/theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {
   Add_Delivery_Address,
+  Add_Review_Route,
   Address_Route,
   BottomNavigation_Route,
   Confirm_Order,
@@ -58,6 +59,7 @@ import BottomNavigation from './BottomNavigation';
 import CustomSearchHeader from './Header/CustomSearchHeader';
 import ForgotPassword from '../Screens/Auth/ForgotPassword';
 import NotificationPreference from '../Screens/Account/NotificationPreference';
+import AddReview from '../Screens/Review/AddReview';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -176,6 +178,19 @@ const StackNavigator = () => {
           })
         }
         component={ConfirmOrder}
+      />
+      <StackComponent.Screen
+        name={Add_Review_Route}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {
+              headerTitle: 'Add Review',
+            },
+          })
+        }
+        component={AddReview}
       />
       <StackComponent.Screen
         name={DeliveryTracking_Route}
@@ -316,13 +331,14 @@ const StackNavigator = () => {
             navigation,
             route,
             options: {
+              headerTitle: undefined,
               headerRight: () => (
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
                     <Ionicon
                       name="cart-outline"
                       size={27}
-                      color={COLORS.primary}
+                      color={COLORS.dark}
                     />
                   </TouchableOpacity>
                 </View>
@@ -334,12 +350,7 @@ const StackNavigator = () => {
       <StackComponent.Screen
         name={Search_Route}
         component={Search}
-        options={({navigation, route}) => ({
-          headerShown: true,
-          header: () => (
-            <CustomSearchHeader navigation={navigation} route={route} />
-          ),
-        })}
+        options={{headerShown: false}}
       />
 
       {/* To be removed */}

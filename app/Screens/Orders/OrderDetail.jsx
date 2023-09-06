@@ -12,7 +12,11 @@ import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
 import Root from '../../components/Root';
 import {useFocusEffect} from '@react-navigation/native';
 import {useCallback} from 'react';
-import {Home_Route, PaystackPayment_Route} from '../../constants/routes';
+import {
+  Add_Review_Route,
+  Home_Route,
+  PaystackPayment_Route,
+} from '../../constants/routes';
 import {getPrice} from '../../../helpers/util';
 
 const OrderDetail = ({navigation, route}) => {
@@ -257,6 +261,9 @@ const OrderDetail = ({navigation, route}) => {
           )}
           {data.status.toLowerCase() === 'signed and delivered' && (
             <CustomButton
+              onPress={() =>
+                navigation.navigate(Add_Review_Route, {order: data?.id})
+              }
               title="Review Order"
               customStyles={{backgroundColor: COLORS.dark}}
             />

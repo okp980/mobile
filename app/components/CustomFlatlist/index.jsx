@@ -14,19 +14,17 @@ const CustomFlatlist = ({
   onRefresh,
   getMore,
   isLoadingMore,
+  errorMessage = 'Error fetching Data',
   refreshing,
+  isGrid = true,
   ...rest
 }) => {
   const renderFooter = () => {
     return isLoadingMore ? <Loading /> : null;
   };
 
-  if (loading)
-    return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Loading />
-      </View>
-    );
+  if (loading) return <Loading />;
+
   if (error)
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -36,25 +34,27 @@ const CustomFlatlist = ({
             textAlign: 'center',
             textTransform: 'capitalize',
           }}>
-          {error?.data?.error || 'Errror fetching Orders'}
+          {error?.data?.error || errorMessage}
         </Text>
       </View>
     );
   return (
     <FlatList
+      key={isGrid}
       data={data}
       ListEmptyComponent={
         <Text
           style={{
             ...FONTS.font,
             textAlign: 'center',
-            textTransform: 'capitalize',
+            // textTransform: 'capitalize',
+            marginTop: 100,
           }}>
           {emptyMessage}
         </Text>
       }
       enableEmptySections={true}
-      keyExtractor={item => item.id}
+      keyExtractor={(_, index) => '_' + index}
       renderItem={({item, index}) => (
         <RenderItem {...{...item, index, ...RenderItemExtraProps}} />
       )}

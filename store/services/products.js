@@ -1,23 +1,26 @@
 import {apiSlice} from '../api';
+import queryString from 'query-string';
 
 const extendedApi = apiSlice.injectEndpoints({
   endpoints: build => ({
     getProducts: build.query({
-      query: () => ({
-        url: '/products',
-        // params: {category, sub_category: subCategory},
+      query: params => ({
+        url: `/products?${queryString.stringify(params, {
+          arrayFormat: 'comma',
+          skipEmptyString: true,
+        })}`,
       }),
     }),
     getProductsByCategory: build.query({
       query: ({categoryId, ...params}) => ({
         url: `/categories/${categoryId}/products`,
-        params: {...params},
+        params,
       }),
     }),
     getProductsBySubCategory: build.query({
       query: ({subcategoryId, ...params}) => ({
         url: `/subcategories/${subcategoryId}/products`,
-        params: {...params},
+        params,
       }),
     }),
     getNewArrivals: build.query({
@@ -41,6 +44,12 @@ const extendedApi = apiSlice.injectEndpoints({
     getSingleProducts: build.query({
       query: productId => `/products/${productId}`,
     }),
+    getSearchProducts: build.query({
+      query: searchWord => `/products/search/${searchWord}`,
+    }),
+    getAttributes: build.query({
+      query: () => `/attributes`,
+    }),
   }),
 
   overrideExisting: true,
@@ -48,6 +57,7 @@ const extendedApi = apiSlice.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useLazyGetProductsQuery,
   useGetSingleProductsQuery,
   useLazyGetProductsByCategoryQuery,
   useGetProductsByCategoryQuery,
@@ -56,4 +66,6 @@ export const {
   useLazyGetNewArrivalsQuery,
   useLazyGetTrendingProductsQuery,
   useLazyGetRecommendedProductsQuery,
+  useGetAttributesQuery,
+  useGetSearchProductsQuery,
 } = extendedApi;

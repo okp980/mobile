@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   Image,
   ImageBackground,
   StyleSheet,
@@ -13,7 +14,7 @@ import {COLORS, FONTS, SIZES} from '../constants/theme';
 const CustomButton = props => {
   return (
     <TouchableOpacity
-      disabled={props.disabled}
+      disabled={props.disabled || props.loading}
       activeOpacity={0.75}
       style={[
         {...styles.button},
@@ -30,25 +31,30 @@ const CustomButton = props => {
         props.customStyles,
       ]}
       onPress={() => (props.onPress ? props.onPress() : '')}>
-      {props.icon ? (
-        <View
-          style={{
-            position: 'absolute',
-            left: 20,
-          }}>
-          {props.icon}
-        </View>
-      ) : null}
+      {!props.loading && (
+        <>
+          {props.icon ? (
+            <View
+              style={{
+                position: 'absolute',
+                left: 20,
+              }}>
+              {props.icon}
+            </View>
+          ) : null}
 
-      <Text
-        style={[
-          {...FONTS.fontLg, color: COLORS.white},
-          props.btnLight && {color: '#646464'},
-          props.textColor && {color: props.textColor},
-          props.outline && !props.textColor && {color: COLORS.primary},
-        ]}>
-        {props.title}
-      </Text>
+          <Text
+            style={[
+              {...FONTS.fontLg, color: COLORS.white},
+              props.btnLight && {color: '#646464'},
+              props.textColor && {color: props.textColor},
+              props.outline && !props.textColor && {color: COLORS.primary},
+            ]}>
+            {props.title}
+          </Text>
+        </>
+      )}
+      {props.loading && <ActivityIndicator size={15} color={COLORS.white} />}
     </TouchableOpacity>
   );
 };

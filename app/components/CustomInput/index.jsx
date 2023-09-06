@@ -52,6 +52,7 @@ const CustomInput = ({label, placeholder, isPassword, error, ...props}) => {
             style={[
               GlobalStyleSheet.formControl,
               isFocused && GlobalStyleSheet.activeInput,
+              props.inputStyle,
             ]}
             placeholder={placeholder}
             placeholderTextColor={COLORS.label}

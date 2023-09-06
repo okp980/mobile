@@ -1,95 +1,59 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
 
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {COLORS, FONTS} from '../../constants/theme';
 import Root from '../../components/Root';
+import {useGetSearchProductsQuery} from '../../../store/services/products';
+import SearchItem from './SearchItem';
+import CustomSearchHeader from '../../Navigations/Header/CustomSearchHeader';
+import {FlatList} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SEARCH_RESULTS_STORAGE} from '../../constants/reusables';
 
-const SearchData = [
-  {
-    title: 'boat earbuds',
-  },
-  {
-    title: 'mobile phones',
-  },
-  {
-    title: 'realme earphones',
-  },
-  {
-    title: 'vivo t1 5g',
-  },
-  {
-    title: 'washing machine',
-  },
-  {
-    title: 'Air conditioner',
-  },
-  {
-    title: 'refrigerator',
-  },
-  {
-    title: 'neckbands wireless',
-  },
-  {
-    title: 'home theatre',
-  },
-  {
-    title: 'boat earbuds',
-  },
-];
+const Search = ({navigation, route}) => {
+  const [searchWord, setSearchWord] = useState('');
+  const [storedSearch, setStoredSearch] = useState([]);
+  const {data} = useGetSearchProductsQuery(searchWord, {
+    skip: searchWord.trim().length === 0,
+  });
 
-const Search = ({navigation}) => {
+  useEffect(() => {
+    handleStoredSearch();
+  }, [searchWord]);
+
+  const handleStoredSearch = async () => {
+    try {
+      const value = await AsyncStorage.getItem(SEARCH_RESULTS_STORAGE);
+      if (value !== null) {
+        const search_results = JSON.parse(value);
+        setStoredSearch(search_results);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Root>
-      <ScrollView
-        contentContainerStyle={{
-          paddingVertical: 10,
-        }}>
-        {SearchData.map((data, index) => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Items', {type: 'Electronics'})}
-            key={index}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-
-              paddingVertical: 12,
-            }}>
-            <MaterialIcons
-              size={22}
-              color={COLORS.text}
-              style={{
-                marginRight: 12,
-              }}
-              name={'history'}
-            />
-            <Text
-              numberOfLines={2}
-              style={{
-                ...FONTS.font,
-                ...FONTS.fontBold,
-                color: COLORS.title,
-                flex: 1,
-              }}>
-              {data.title}
-            </Text>
-            <FeatherIcon
-              style={{opacity: 0.6}}
-              color={COLORS.text}
-              size={20}
-              name="arrow-up-left"
-            />
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+    <Root noPadding>
+      <CustomSearchHeader
+        searchWord={searchWord}
+        onChangeSearch={setSearchWord}
+      />
+      {searchWord.trim().length > 0 && (
+        <FlatList
+          data={data?.data}
+          renderItem={({item}) => <SearchItem name={item?.name} />}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          extraData={searchWord}
+        />
+      )}
+      {searchWord.trim().length === 0 && (
+        <FlatList
+          data={storedSearch}
+          renderItem={({item}) => <SearchItem name={item} isStoredSearch />}
+          keyExtractor={(item, index) => item + index}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </Root>
   );
 };

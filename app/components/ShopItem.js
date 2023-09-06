@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {BASE, baseURL} from '../../config/api';
 import {ProductDetail_Route} from '../constants/routes';
 import {getPrice} from '../../helpers/util';
+import CacheImage from './CacheImage/CacheImage';
 
 const ShopItem = ({item, handleLike, index, ...props}) => {
   const navigation = useNavigation();
@@ -44,7 +45,7 @@ const ShopItem = ({item, handleLike, index, ...props}) => {
             <FontAwesome name="heart-o" color={COLORS.white} size={22} />
           )}
         </TouchableOpacity> */}
-        <Image
+        <CacheImage
           style={{
             // width: 200,
             height: 150,
