@@ -78,6 +78,8 @@ const ProductDetail = ({navigation, route}) => {
   const {handleMessageToast, handleErrorToast} = useToast();
   const {handleOpenModal, handleCloseModal} = useModal();
 
+  console.log('data is ===>', data?.data?.product_type);
+
   const [variant, setVariant] = useState(null); // {type:'', qty:'} | null
 
   const findVariants = attributes => {
@@ -87,7 +89,7 @@ const ProductDetail = ({navigation, route}) => {
   };
 
   const handleAddToCart = async product => {
-    if (!variant) {
+    if (!variant && data?.data?.product_type !== 'simple') {
       handleOpenModal({
         type: SELECT_VARIANT,
         modalPayload: {product, variants: data?.data?.variants},

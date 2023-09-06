@@ -180,7 +180,11 @@ const OrderDetail = ({navigation, route}) => {
           style={[GlobalStyleSheet.container, {backgroundColor: COLORS.light}]}>
           <Text style={[FONTS.fontLg, FONTS.fontBold]}>Products</Text>
           {data?.items?.map((item, index) => (
-            <OrderProductItem key={index} item={item} />
+            <OrderProductItem
+              key={index}
+              item={item}
+              canReview={data.status.toLowerCase() === 'signed and delivered'}
+            />
           ))}
         </View>
         <View>
@@ -259,7 +263,7 @@ const OrderDetail = ({navigation, route}) => {
               customStyles={{backgroundColor: COLORS.primary}}
             />
           )}
-          {data.status.toLowerCase() === 'signed and delivered' && (
+          {/* {data.status.toLowerCase() === 'signed and delivered' && (
             <CustomButton
               onPress={() =>
                 navigation.navigate(Add_Review_Route, {order: data?.id})
@@ -267,7 +271,7 @@ const OrderDetail = ({navigation, route}) => {
               title="Review Order"
               customStyles={{backgroundColor: COLORS.dark}}
             />
-          )}
+          )} */}
         </View>
       </ScrollView>
     </Root>

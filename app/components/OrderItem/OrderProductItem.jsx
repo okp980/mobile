@@ -1,10 +1,12 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {COLORS, FONTS} from '../../constants/theme';
-import {BASE} from '../../../config/api';
 import {getPrice} from '../../../helpers/util';
+import {useNavigation} from '@react-navigation/native';
+import {Add_Review_Route} from '../../constants/routes';
 
-const OrderProductItem = ({item}) => {
+const OrderProductItem = ({item, canReview}) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View>
@@ -29,14 +31,33 @@ const OrderProductItem = ({item}) => {
         <View style={styles.productDetails}>
           <View style={styles.productMeta}>
             <View style={styles.meta}>
-              <View style={styles.dot} />
-              <Text style={{...FONTS.fontXs}}>Green</Text>
+              {/* <View style={styles.dot} />  */}
+              <Text style={{...FONTS.fontXs}}></Text>
             </View>
           </View>
           <View>
             <Text tyle={{...FONTS.fontLg}}>{`(X${item?.quantity})`}</Text>
           </View>
         </View>
+        {canReview && (
+          <View>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate(Add_Review_Route, {
+                  product: item.product?.id,
+                })
+              }>
+              <Text
+                style={{
+                  ...FONTS.font,
+                  textDecorationLine: 'underline',
+                  textDecorationColor: COLORS.dark,
+                }}>
+                Add Review
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
       <View style={styles.price}>
         <Text style={{...FONTS.font, ...FONTS.fontBold}}>

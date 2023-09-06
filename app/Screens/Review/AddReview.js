@@ -13,7 +13,7 @@ const AddReview = ({navigation, route}) => {
   const [comment, setComment] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const {order} = route.params;
+  const {product} = route.params;
   const [createReview] = useCreateReviewMutation();
 
   const handleSubmit = async () => {
@@ -28,7 +28,7 @@ const AddReview = ({navigation, route}) => {
     }
     try {
       setLoading(true);
-      await createReview({rating, order, comment}).unwrap();
+      await createReview({rating, product, comment}).unwrap();
     } catch (error) {
       setError(error?.data?.error || 'Error creating review');
     } finally {

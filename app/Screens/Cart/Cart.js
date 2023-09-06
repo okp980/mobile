@@ -1,12 +1,9 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import CheckoutItem from '../../components/CheckoutItem';
 import {COLORS, FONTS} from '../../constants/theme';
-
-import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import CustomButton from '../../components/CustomButton';
 import Card from '../../components/Card';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Collections from '../Components/Collections';
 import {useGetCartQuery} from '../../../store/services/cart';
 import {useGetProductsQuery} from '../../../store/services/products';

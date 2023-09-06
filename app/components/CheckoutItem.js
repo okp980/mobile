@@ -7,6 +7,7 @@ import useModal from '../../hooks/useModal';
 import {DELETE_ITEM_CONTENT} from '../constants/modal';
 import {BASE} from '../../config/api';
 import {getPrice} from '../../helpers/util';
+import CacheImage from './CacheImage/CacheImage';
 
 const CheckoutItem = ({
   cartProductId,
@@ -66,14 +67,14 @@ const CheckoutItem = ({
         paddingBottom: 15,
         paddingTop: 15,
       }}>
-      <Image
+      <CacheImage
         style={{
           height: 90,
           width: 75,
           borderRadius: 2,
           marginRight: 12,
         }}
-        source={{uri: `${BASE}/uploads/${image}`}}
+        source={{uri: image}}
       />
       <View style={{flex: 1, paddingVertical: 7}}>
         <Text
