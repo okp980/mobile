@@ -12,8 +12,8 @@ import Root from '../../components/Root';
 import VirtualizedView from '../../components/VirtualizedView/VirtualizedView';
 import Card from '../../components/Card';
 import Loading from '../../components/Loading/Loading';
-import CacheImage from '../../components/CacheImage/CacheImage';
 import {useRef} from 'react';
+import CategoryItem from './CategoryItem';
 
 const Categories = ({navigation}) => {
   const categoryRef = useRef();
@@ -55,58 +55,13 @@ const Categories = ({navigation}) => {
     }
   };
 
-  const Item = ({title, id, image, categoryStartIndex, itemIndex}) => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          setCategoryStartIndex(itemIndex);
-        }}>
-        <View
-          style={{
-            height: 120,
-            width: 80,
-            marginRight: 10,
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              height: categoryStartIndex === itemIndex ? 70 : 50,
-              width: categoryStartIndex === itemIndex ? 70 : 50,
-              borderRadius: categoryStartIndex === itemIndex ? 70 / 2 : 50 / 2,
-              borderColor: COLORS.white,
-              borderWidth: categoryStartIndex === itemIndex ? 4 : 1,
-              marginBottom: 10,
-              overflow: 'hidden',
-            }}>
-            <CacheImage
-              source={{uri: image ?? ''}}
-              style={{
-                height: categoryStartIndex === itemIndex ? 70 : 50,
-                width: categoryStartIndex === itemIndex ? 70 : 50,
-              }}
-              resizeMode="contain"
-            />
-          </View>
-          <Text
-            style={{
-              ...FONTS.fontSm,
-              textAlign: 'center',
-              color: COLORS.white,
-            }}>
-            {title}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <Root noPadding>
       <View
         style={{
           borderBottomColor: COLORS.borderColor,
           borderBottomWidth: 1,
-          padding: 10,
+          // padding: 10,
           backgroundColor: COLORS.primary,
           marginBottom: 20,
         }}>
@@ -115,12 +70,14 @@ const Categories = ({navigation}) => {
           initialScrollIndex={categoryStartIndex}
           data={data?.data}
           renderItem={({item, index}) => (
-            <Item
+            <CategoryItem
               title={item?.name}
               id={item?._id}
               image={item?.image}
               categoryStartIndex={categoryStartIndex}
               itemIndex={index}
+              setCategoryStartIndex={setCategoryStartIndex}
+              setCategory={setCategory}
             />
           )}
           keyExtractor={item => item._id}

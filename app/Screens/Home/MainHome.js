@@ -1,15 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  FlatList,
-  Image,
-  ImageBackground,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
