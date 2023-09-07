@@ -4,7 +4,8 @@ import {Provider} from 'react-redux';
 import RNBootSplash from 'react-native-bootsplash';
 import messaging from '@react-native-firebase/messaging';
 
-import {store} from './store';
+import {store, persistor} from './store';
+import {PersistGate} from 'redux-persist/integration/react';
 import {Platform} from 'react-native';
 import {PERMISSIONS, check, request} from 'react-native-permissions';
 import {displayBlockedAlert} from './helpers/util';
@@ -194,8 +195,10 @@ const App = () => {
   return (
     <>
       <Provider store={store}>
-        <Routes />
-        <FlashMessage position="bottom" />
+        <PersistGate loading={null} persistor={persistor}>
+          <Routes />
+          <FlashMessage position="bottom" />
+        </PersistGate>
       </Provider>
     </>
   );

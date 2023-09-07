@@ -33,7 +33,7 @@ const CategoryItem = ({
         style={{
           // height: 120,
           width: 80,
-          marginRight: 10,
+          //   marginRight: 10,
           alignItems: 'center',
           paddingVertical: 20,
         }}>
