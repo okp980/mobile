@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import {COLORS, FONTS} from '../constants/theme';
 import {useUpdateCartCountMutation} from '../../store/services/cart';
 import useModal from '../../hooks/useModal';
@@ -18,6 +19,7 @@ const CheckoutItem = ({
   oldPrice,
   quantity,
   type,
+  selected,
   onPress,
 }) => {
   const [itemQuantity, setItemQuantity] = useState(Number(quantity));
@@ -56,108 +58,143 @@ const CheckoutItem = ({
     }
   };
 
+  const handleDeleteCart = async () => {
+    try {
+      await updateCartCount({
+        cartProductId,
+        cartId,
+        count: 0,
+      }).unwrap();
+      setItemQuantity(0);
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
+  };
+
   return (
-    <TouchableOpacity
-      activeOpacity={0.9}
-      onPress={onPress}
+    <View
       style={{
         flexDirection: 'row',
         paddingHorizontal: 15,
-
+        alignItems: 'center',
         paddingBottom: 15,
         paddingTop: 15,
       }}>
-      <CacheImage
-        style={{
-          height: 90,
-          width: 75,
-          borderRadius: 2,
-          marginRight: 12,
-        }}
-        source={{uri: image}}
-      />
-      <View style={{flex: 1, paddingVertical: 7}}>
-        <Text
-          numberOfLines={1}
+      {/* <TouchableOpacity>
+        <IonIcon
+          name={selected ? 'radio-button-on' : 'radio-button-off-sharp'}
+          size={25}
+        />
+      </TouchableOpacity> */}
+      <TouchableOpacity
+        activeOpacity={0.9}
+        onPress={onPress}
+        style={{flex: 1, flexDirection: 'row'}}>
+        <CacheImage
           style={{
-            ...FONTS.font,
-            color: COLORS.title,
-            marginBottom: 4,
-          }}>
-          {title}
-        </Text>
-        <Text numberOfLines={1} style={{...FONTS.fontXs, color: COLORS.gray}}>
-          {type}
-        </Text>
+            height: 90,
+            width: 75,
+            borderRadius: 2,
+            marginRight: 12,
+          }}
+          source={{uri: image}}
+        />
         <View
           style={{
+            flex: 1,
+            paddingVertical: 7,
             flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 12,
+            justifyContent: 'space-between',
           }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              flex: 1,
-            }}>
-            <Text style={{...FONTS.h6}}>{getPrice(price)}</Text>
+          <View>
             <Text
+              numberOfLines={1}
               style={{
-                ...FONTS.fontSm,
-                textDecorationLine: 'line-through',
-                marginLeft: 8,
-              }}>
-              {oldPrice}
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <TouchableOpacity
-              disabled={loading}
-              onPress={() => handleUpdateCart('minus')}
-              style={{
-                height: 25,
-                width: 25,
-                borderWidth: 1,
-                borderRadius: 2,
-                borderColor: COLORS.borderColor,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <FeatherIcon size={14} color={COLORS.title} name="minus" />
-            </TouchableOpacity>
-            <Text
-              style={{
-                ...FONTS.fontSm,
-                ...FONTS.fontBold,
+                ...FONTS.font,
                 color: COLORS.title,
-                width: 30,
-                textAlign: 'center',
+                marginBottom: 4,
               }}>
-              {itemQuantity}
+              {title}
             </Text>
-            <TouchableOpacity
-              disabled={loading}
-              onPress={() => handleUpdateCart('add')}
+            <Text
+              numberOfLines={1}
+              style={{...FONTS.fontXs, color: COLORS.gray}}>
+              {type}
+            </Text>
+            <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  flex: 1,
+                }}>
+                <Text style={{...FONTS.fontLg}}>{getPrice(price)}</Text>
+                <Text
+                  style={{
+                    ...FONTS.fontSm,
+                    textDecorationLine: 'line-through',
+                    marginLeft: 8,
+                  }}>
+                  {oldPrice}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={{alignItems: 'center'}}>
+            <View
               style={{
-                height: 25,
-                width: 25,
-                borderWidth: 1,
-                borderRadius: 2,
-                borderColor: COLORS.borderColor,
+                flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'center',
+                marginBottom: 8,
               }}>
-              <FeatherIcon size={14} color={COLORS.title} name="plus" />
+              <TouchableOpacity
+                disabled={loading}
+                onPress={() => handleUpdateCart('minus')}
+                style={{
+                  height: 25,
+                  width: 25,
+                  borderWidth: 1,
+                  borderRadius: 2,
+                  borderColor: COLORS.borderColor,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <FeatherIcon size={14} color={COLORS.title} name="minus" />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  ...FONTS.fontSm,
+                  ...FONTS.fontBold,
+                  color: COLORS.title,
+                  width: 30,
+                  textAlign: 'center',
+                }}>
+                {itemQuantity}
+              </Text>
+              <TouchableOpacity
+                disabled={loading}
+                onPress={() => handleUpdateCart('add')}
+                style={{
+                  height: 25,
+                  width: 25,
+                  borderWidth: 1,
+                  borderRadius: 2,
+                  borderColor: COLORS.borderColor,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <FeatherIcon size={14} color={COLORS.title} name="plus" />
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity onPress={handleDeleteCart}>
+              <IonIcon name="trash-bin" size={25} color={COLORS.danger} />
             </TouchableOpacity>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 

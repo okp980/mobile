@@ -96,6 +96,7 @@ const AddDeliveryAddress = ({navigation, route}) => {
 
   const submit = async values => {
     handleOpenModal({type: FULL_SCREEN_LOADER});
+    console.log('Clicked');
     try {
       let res;
       if (edit) {

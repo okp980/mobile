@@ -10,6 +10,7 @@ import {
   OrderDetail_Route,
 } from '../../constants/routes';
 import {format} from 'date-fns';
+import {getPrice} from '../../../helpers/util';
 
 const OrderItem = props => {
   const [show, setShow] = useState(false);
@@ -80,12 +81,12 @@ const OrderItem = props => {
             <View style={styles.costItem}>
               <View>
                 <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>
-                  Shipping fee
+                  Shipping Fee
                 </Text>
               </View>
               <View>
                 <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>
-                  ₦{props?.shippingMethod?.charge}
+                  {getPrice(props?.shippingMethod?.charge)}
                 </Text>
               </View>
             </View>
@@ -96,7 +97,7 @@ const OrderItem = props => {
               </View>
               <View>
                 <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>
-                  ₦{props?.totalAmount}
+                  {getPrice(props?.totalAmount)}
                 </Text>
               </View>
             </View>
@@ -110,7 +111,7 @@ const OrderItem = props => {
               customStyles={{flex: 1, backgroundColor: COLORS.dark}}
             />
             <View style={{width: 10}} />
-            {props?.status.toLowerCase() !== 'signed and delivered' && (
+            {/* {props?.status.toLowerCase() === 'processing' && (
               <CustomButton
                 textColor={COLORS.dark}
                 outline
@@ -120,7 +121,18 @@ const OrderItem = props => {
                 title="Track Order"
                 customStyles={{flex: 1, borderColor: COLORS.dark}}
               />
-            )}
+            )} */}
+            {/* {props?.status.toLowerCase() === 'pending' && (
+              <CustomButton
+                textColor={COLORS.dark}
+                outline
+                onPress={() =>
+                  navigation.navigate(DeliveryTracking_Route, {trackingId: ''})
+                }
+                title="Pay Order"
+                customStyles={{flex: 1, borderColor: COLORS.dark}}
+              />
+            )} */}
           </View>
         </View>
       )}

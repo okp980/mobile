@@ -36,7 +36,7 @@ const OrderProductItem = ({item, canReview}) => {
             </View>
           </View>
           <View>
-            <Text tyle={{...FONTS.fontLg}}>{`(X${item?.quantity})`}</Text>
+            <Text style={{...FONTS.fontLg}}>{`( X ${item?.quantity})`}</Text>
           </View>
         </View>
         {canReview && (
@@ -73,7 +73,7 @@ export default OrderProductItem;
 const styles = StyleSheet.create({
   container: {flexDirection: 'row', alignItems: 'center', marginVertical: 10},
   info: {flex: 1, paddingHorizontal: 5},
-  price: {width: 70, alignItems: 'center'},
+  // price: {width: 70, alignItems: 'center'},
 
   dot: {
     height: 8,

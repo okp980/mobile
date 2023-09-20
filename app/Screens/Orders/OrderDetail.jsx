@@ -5,7 +5,10 @@ import {Divider} from 'react-native-paper';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import {COLORS, FONTS} from '../../constants/theme';
 import CustomButton from '../../components/CustomButton';
-import {useGetSingleOrderQuery} from '../../../store/services/order';
+import {
+  useGetSingleOrderQuery,
+  useLazyPayUnpaidOrderQuery,
+} from '../../../store/services/order';
 import Loading from '../../components/Loading/Loading';
 import {format} from 'date-fns';
 import ErrorOccurred from '../../components/ErrorOccurred/ErrorOccurred';
@@ -18,11 +21,13 @@ import {
   PaystackPayment_Route,
 } from '../../constants/routes';
 import {getPrice} from '../../../helpers/util';
+import Snackbar from 'react-native-snackbar';
 
 const OrderDetail = ({navigation, route}) => {
   const orderId = route?.params?.orderId;
   const from = route?.params?.from;
   const {data, isLoading, isError, error} = useGetSingleOrderQuery(orderId);
+  const [payUnpaid, {isLoading: isLoadingPay}] = useLazyPayUnpaidOrderQuery();
 
   useFocusEffect(
     useCallback(() => {
@@ -41,6 +46,22 @@ const OrderDetail = ({navigation, route}) => {
       };
     }, [navigation]),
   );
+
+  const handlePayUnpaidOrder = async id => {
+    try {
+      const data = await payUnpaid(id).unwrap();
+      const checkoutUrl = data?.authorization_url;
+      const orderId = data?.order_id;
+      navigation.navigate(PaystackPayment_Route, {checkoutUrl, orderId});
+    } catch (error) {
+      Snackbar.show({
+        text: error?.data?.error || 'Error while processing order',
+        duration: Snackbar.LENGTH_SHORT,
+        backgroundColor: COLORS.danger,
+        textColor: COLORS.text,
+      });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -197,17 +218,12 @@ const OrderDetail = ({navigation, route}) => {
           </View>
           <View style={[GlobalStyleSheet.container]}>
             <Text style={[FONTS.font, {textTransform: 'capitalize'}]}>
-              {data?.shippingAddress[0]?.fullName}
+              {data?.shippingAddress?.fullName}
             </Text>
-            <Text style={[FONTS.font]}>
-              {data?.shippingAddress[0]?.address}
-            </Text>
-            <Text style={[FONTS.font]}>{data?.shippingAddress[0]?.city}</Text>
-            <Text style={[FONTS.font]}> {data?.shippingAddress[0]?.state}</Text>
-            <Text style={[FONTS.font]}>
-              {' '}
-              {data?.shippingAddress[0]?.country}
-            </Text>
+            <Text style={[FONTS.font]}>{data?.shippingAddress?.address}</Text>
+            <Text style={[FONTS.font]}>{data?.shippingAddress?.lga}</Text>
+            <Text style={[FONTS.font]}> {data?.shippingAddress?.state}</Text>
+            <Text style={[FONTS.font]}> {data?.shippingAddress?.country}</Text>
           </View>
         </View>
         <View>
@@ -256,11 +272,20 @@ const OrderDetail = ({navigation, route}) => {
             </View>
           </View>
         </View>
-        <View style={GlobalStyleSheet.container}>
+        <View style={[GlobalStyleSheet.container, {flexDirection: 'row'}]}>
           {data.status.toLowerCase() !== 'signed and delivered' && (
             <CustomButton
               title="Cancel Order"
-              customStyles={{backgroundColor: COLORS.primary}}
+              customStyles={{backgroundColor: COLORS.primary, flex: 1}}
+            />
+          )}
+          <View style={{width: 10}} />
+          {data.status.toLowerCase() === 'pending' && (
+            <CustomButton
+              onPress={() => handlePayUnpaidOrder(data.id)}
+              title="Pay Order"
+              customStyles={{backgroundColor: COLORS.primary, flex: 1}}
+              loading={isLoadingPay}
             />
           )}
           {/* {data.status.toLowerCase() === 'signed and delivered' && (

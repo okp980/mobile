@@ -23,7 +23,7 @@ export const address_validation = Yup.object().shape({
   country: Yup.string().required('Country is Required'),
   state: Yup.string().required('State is Required'),
   lga: Yup.string().required('LGA is Required'),
-  city: Yup.string().required('City is Required'),
+  // city: Yup.string().required('City is Required'),
   address: Yup.string().required('Address is Required'),
 });
 export const change_password_validation = Yup.object().shape({

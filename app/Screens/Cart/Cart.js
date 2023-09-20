@@ -51,17 +51,17 @@ const Cart = ({navigation}) => {
               <CheckoutItem
                 onPress={() =>
                   navigation.navigate('ProductDetail', {
-                    product: item.product._id,
+                    product: item?.product._id,
                   })
                 }
                 cartId={data?.data?._id}
-                cartProductId={item._id}
+                cartProductId={item?._id}
                 key={index}
                 image={item?.product?.image}
-                title={item.product.name}
-                type={item.product.sub_category.name}
-                quantity={item.count}
-                price={item.price}
+                title={item.product?.name}
+                type={item.product?.sub_category?.name}
+                quantity={item?.count}
+                price={item?.price}
                 // oldPrice={data.oldPrice}
               />
             ))}

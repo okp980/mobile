@@ -29,24 +29,32 @@ const myOrders = [
   {title: 'Return', icon: 'ios-arrow-undo-circle-outline'},
 ];
 const support = [
-  {title: 'FAQs', icon: 'ios-card-outline', url: 'https://zuraaya.com/faq'},
-  {title: 'Live Chat', icon: 'ios-sync', url: 'https://zuraaya.com/faq'},
-  {title: 'Contact Us', icon: 'car-outline', url: 'https://zuraaya.com/faq'},
+  {title: 'FAQs', icon: 'help-circle', url: 'https://zuraaya.com/faq'},
+  {
+    title: 'Live Chat',
+    icon: 'chatbox-ellipses',
+    url: 'https://zuraaya.com/faq',
+  },
+  {
+    title: 'Contact Us',
+    icon: 'headset-outline',
+    url: 'https://zuraaya.com/faq',
+  },
 ];
 const socials = [
   {
     title: 'Facebook',
-    icon: 'ios-card-outline',
+    icon: 'logo-facebook',
     url: 'https://facebook.com/zuraaya11',
   },
   {
     title: 'Twitter',
-    icon: 'ios-sync',
+    icon: 'logo-twitter',
     url: 'https://twitter.com/Zuraaya1?s=20',
   },
   {
     title: 'Instagram',
-    icon: 'car-outline',
+    icon: 'logo-instagram',
     url: 'https://instagram.com/zuraaya1?igshid=NTc4MTIwNjQ2YQ==',
   },
 ];
