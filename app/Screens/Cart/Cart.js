@@ -10,7 +10,6 @@ import {useGetProductsQuery} from '../../../store/services/products';
 import Icon from 'react-native-vector-icons/Zocial';
 import Root from '../../components/Root';
 import {getPrice} from '../../../helpers/util';
-import {BottomNavigation_Route} from '../../constants/routes';
 import VirtualizedView from '../../components/VirtualizedView/VirtualizedView';
 
 const Cart = ({navigation}) => {
@@ -33,17 +32,6 @@ const Cart = ({navigation}) => {
               style={{paddingHorizontal: 20}}
             />
             <Text style={{...FONTS.fontLg}}>Your Cart is empty</Text>
-            {/* <CustomButton
-              title="Shop Now"
-              btnSm
-              color={COLORS.dark}
-              customStyles={{marginTop: 20}}
-              onPress={() =>
-                navigation.navigate(BottomNavigation_Route, {
-                  screen: 'MainHome',
-                })
-              }
-            /> */}
           </Card>
         ) : (
           <Card>
@@ -119,7 +107,6 @@ const Cart = ({navigation}) => {
             <Text style={{...FONTS.h4, ...FONTS.fontBold}}>
               {getPrice(data?.data?.total)}
             </Text>
-            {/* <Text style={{...FONTS.fontSm}}>Saved: $15.5</Text> */}
           </View>
           <View style={{flex: 1}}>
             <CustomButton

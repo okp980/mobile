@@ -8,11 +8,16 @@ import useModal from '../../../hooks/useModal';
 import {PRODUCT_DESCRIPTION} from '../../constants/modal';
 import CustomMarkDown from '../CustomMarkDown/CustomMarkDown';
 
-const Description = () => {
+const Description = ({description}) => {
   const {handleOpenModal} = useModal();
   return (
     <TouchableOpacity
-      onPress={() => handleOpenModal({type: PRODUCT_DESCRIPTION})}>
+      onPress={() =>
+        handleOpenModal({
+          type: PRODUCT_DESCRIPTION,
+          modalPayload: {description},
+        })
+      }>
       <Card>
         <View
           style={{
@@ -27,7 +32,7 @@ const Description = () => {
           </Text>
           <Ionicon name="chevron-forward" size={18} color={COLORS.text} />
         </View>
-        <Divider />
+        {/* <Divider />
         <View style={{padding: 20}}>
           <CustomMarkDown>
             **Key Features** - 100% Copper Collections - Low Noise - Fuel
@@ -35,7 +40,7 @@ const Description = () => {
             Front Side) - DB(A): 69 - Start Method:Electrical+Recoil -
             BatteryType: BS.7A
           </CustomMarkDown>
-        </View>
+        </View> */}
       </Card>
     </TouchableOpacity>
   );

@@ -311,7 +311,7 @@ const ProductDetail = ({navigation, route}) => {
 
           {/* <ProductMeasure /> */}
 
-          <Description />
+          <Description description={data?.data?.description} />
           <ShippingMethod shippingCosts={shippingCosts} />
 
           <HorizontalCollections
