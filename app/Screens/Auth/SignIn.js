@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Image,
   KeyboardAvoidingView,
   Platform,
   Text,
@@ -7,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import CustomButton from '../../components/CustomButton';
-import {COLORS, FONTS} from '../../constants/theme';
+import {COLORS, FONTS, IMAGES, SIZES} from '../../constants/theme';
 import CustomInput from '../../components/CustomInput';
 import {Formik} from 'formik';
 import {useSignInMutation} from '../../../store/services/auth';
@@ -21,6 +22,7 @@ import useModal from '../../../hooks/useModal';
 import {FULL_SCREEN_LOADER} from '../../constants/modal';
 import Root from '../../components/Root';
 import {auth_validation} from '../../../helpers/formValidations';
+import FontAwesome5Brands from 'react-native-vector-icons/FontAwesome5Pro';
 
 const SignIn = ({navigation, route}) => {
   const from = route?.params?.from;
@@ -94,6 +96,38 @@ const SignIn = ({navigation, route}) => {
             <Text style={{...FONTS.fontLg, color: COLORS.primary}}>
               Forgot password?
             </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            marginVertical: 15,
+          }}>
+          <TouchableOpacity
+            style={{
+              borderWidth: 1,
+              height: 50,
+              borderRadius: SIZES.radius,
+              borderColor: COLORS.borderColor,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+              marginRight: 10,
+            }}>
+            <Image style={{height: 22, width: 22}} source={IMAGES.google} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              height: 50,
+              borderRadius: SIZES.radius,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#305CCD',
+              flex: 1,
+              marginLeft: 10,
+            }}>
+            <FontAwesome5Brands color={'#fff'} name="facebook" size={22} />
           </TouchableOpacity>
         </View>
 

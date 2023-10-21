@@ -49,9 +49,18 @@ import {
 } from '../../constants/modal';
 import {BASE} from '../../../config/api';
 import Root from '../../components/Root';
-import {getPrice, getProductAttribute, getVariant} from '../../../helpers/util';
+import {
+  attributeObj,
+  filterSelectAttr,
+  getMaxPrice,
+  getMinPrice,
+  getPrice,
+  getProductAttribute,
+  getVariant,
+} from '../../../helpers/util';
 import ProductAttributes from './ProductAttributes';
 import VirtualizedView from '../../components/VirtualizedView/VirtualizedView';
+import {useGetProductReviewQuery} from '../../../store/services/review';
 
 const productImage = [pic1, pic1, pic1];
 
@@ -60,6 +69,9 @@ const ProductDetail = ({navigation, route}) => {
   const {data, isLoading, isError, isSuccess, error} =
     useGetSingleProductsQuery(product);
 
+  const {data: review, isLoading: isLoadingReview} =
+    useGetProductReviewQuery(product);
+
   const {data: shippingCosts} = useGetShippingMethodsCostQuery(product);
   const {
     data: products,
@@ -67,6 +79,8 @@ const ProductDetail = ({navigation, route}) => {
     error: productError,
     isSuccess: iS,
   } = useGetProductsQuery(undefined);
+
+  console.log('reviews: ', review);
 
   const [addToCart] = useAddToCartMutation();
 
@@ -80,12 +94,32 @@ const ProductDetail = ({navigation, route}) => {
 
   console.log('data is ===>', data?.data?.product_type);
 
-  const [variant, setVariant] = useState(null); // {type:'', qty:'} | null
+  const [variant, setVariant] = useState(null); // '12adlakmskm' | null
 
-  const findVariants = attributes => {
-    const match = getVariant(data?.data?.variants, attributes);
-    setVariant(match?.id);
-    console.log('matching varaint', match);
+  const handleSelectVariant = id => {
+    setVariant(id);
+  };
+
+  const handleProductPrice = () => {
+    let price;
+    if (data?.data?.product_type === 'simple') {
+      price = data?.data?.price_in_naira;
+      price = getPrice(price);
+    } else if (data?.data?.product_type === 'variable' && variant) {
+      price = data?.data?.variants.find(v => v.id === variant)?.price_in_naira;
+      price = getPrice(price);
+    } else if (data?.data?.product_type === 'variable' && !variant) {
+      const minPrice = getMinPrice(data?.data?.variants);
+      const maxPrice = getMaxPrice(data?.data?.variants);
+      price =
+        minPrice === maxPrice
+          ? getPrice(minPrice)
+          : `${getPrice(minPrice)} - ${getPrice(maxPrice)}`;
+    } else {
+      price = null;
+    }
+
+    return price;
   };
 
   const handleAddToCart = async product => {
@@ -231,7 +265,7 @@ const ProductDetail = ({navigation, route}) => {
                   </Text>
                 </View>
 
-                <Rating />
+                <Rating rating={review?.averageRating} />
               </View>
             </View>
             <View style={styles.price}>
@@ -243,7 +277,7 @@ const ProductDetail = ({navigation, route}) => {
                     marginRight: 5,
                     color: COLORS.dark,
                   }}>
-                  {getPrice(data?.data?.price)}
+                  {handleProductPrice()}
                 </Text>
                 {/* <Text
                   style={{
@@ -266,8 +300,8 @@ const ProductDetail = ({navigation, route}) => {
               <View>
                 {data?.data?.product_type === 'variable' && (
                   <ProductAttributes
-                    attribute={getProductAttribute(data?.data?.variants)}
-                    handleFindVariant={findVariants}
+                    variants={data?.data?.variants}
+                    onSelectVariant={handleSelectVariant}
                   />
                 )}
               </View>

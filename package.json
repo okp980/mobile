@@ -9,6 +9,8 @@
     "pod:i": "cd ios && pod install && cd ..",
     "clean:a": "cd android && ./gradlew clean && cd ..",
     "build:apk": "cd android && ./gradlew clean && ./gradlew app:assembleRelease && cd ..",
+    "distribute-andriod": "cd android && fastlane distribute && cd ..",
+    "distribute-ios": "cd ios && fastlane distribute && cd ..",
     "test": "jest",
     "lint": "eslint ."
   },

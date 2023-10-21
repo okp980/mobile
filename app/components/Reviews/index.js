@@ -29,10 +29,15 @@ const Reviews = ({product}) => {
           Reviews ({data?.totalReviews})
         </Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={{...FONTS.fontSm, color: COLORS.dark, marginRight: 5}}>
-            View All
-          </Text>
-          <AntIcon name="right" size={10} />
+          {data?.totalReviews > 0 && (
+            <>
+              <Text
+                style={{...FONTS.fontSm, color: COLORS.dark, marginRight: 5}}>
+                View All
+              </Text>
+              <AntIcon name="right" size={10} />
+            </>
+          )}
         </View>
       </View>
       <Divider />

@@ -24,6 +24,9 @@ const SelectVariant = () => {
     setVariant(match?.id);
     console.log('matching varaint', match);
   };
+  const handleSelectVariant = id => {
+    setVariant(id);
+  };
 
   const handleAddToCart = async () => {
     if (!variant) {
@@ -54,8 +57,8 @@ const SelectVariant = () => {
         <Text>SelectVariant</Text>
         <View>
           <ProductAttributes
-            attribute={getProductAttribute(modalPayload?.variants)}
-            handleFindVariant={findVariants}
+            variants={modalPayload?.variants}
+            onSelectVariant={handleSelectVariant}
           />
         </View>
         <View style={styles.buy}>

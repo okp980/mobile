@@ -10,6 +10,13 @@ const extendedApi = apiSlice.injectEndpoints({
       transformResponse: response => response.data,
       providesTags: [SHIPPING_METHODS],
     }),
+    getOrderShippingCosts: build.query({
+      query: () => ({
+        url: '/shipping-methods/orders/cost',
+      }),
+      transformResponse: response => response.data,
+      // providesTags: [SHIPPING_METHODS],
+    }),
     getShippingMethodsCost: build.query({
       query: id => ({
         url: `/products/${id}/shipping-methods`,
@@ -24,4 +31,5 @@ export const {
   useLazyGetShippingMethodsQuery,
   useGetShippingMethodsQuery,
   useGetShippingMethodsCostQuery,
+  useLazyGetOrderShippingCostsQuery,
 } = extendedApi;

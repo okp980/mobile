@@ -1,0 +1,2 @@
+json_key_file("zuraaya-d82fa-8c7b2856628f.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("com.zuraaya") # e.g. com.krausefx.app

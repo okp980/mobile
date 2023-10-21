@@ -75,11 +75,10 @@ const CheckoutItem = ({
   return (
     <View
       style={{
-        flexDirection: 'row',
+        // flexDirection: 'row',
         paddingHorizontal: 15,
-        alignItems: 'center',
-        paddingBottom: 15,
-        paddingTop: 15,
+        // alignItems: 'center',
+        padding: 10,
       }}>
       {/* <TouchableOpacity>
         <IonIcon
@@ -87,10 +86,7 @@ const CheckoutItem = ({
           size={25}
         />
       </TouchableOpacity> */}
-      <TouchableOpacity
-        activeOpacity={0.9}
-        onPress={onPress}
-        style={{flex: 1, flexDirection: 'row'}}>
+      <View style={{flex: 1, flexDirection: 'row', marginBottom: 10}}>
         <CacheImage
           style={{
             height: 90,
@@ -141,59 +137,64 @@ const CheckoutItem = ({
               </View>
             </View>
           </View>
-          <View style={{alignItems: 'center'}}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: 8,
-              }}>
-              <TouchableOpacity
-                disabled={loading}
-                onPress={() => handleUpdateCart('minus')}
-                style={{
-                  height: 25,
-                  width: 25,
-                  borderWidth: 1,
-                  borderRadius: 2,
-                  borderColor: COLORS.borderColor,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <FeatherIcon size={14} color={COLORS.title} name="minus" />
-              </TouchableOpacity>
-              <Text
-                style={{
-                  ...FONTS.fontSm,
-                  ...FONTS.fontBold,
-                  color: COLORS.title,
-                  width: 30,
-                  textAlign: 'center',
-                }}>
-                {itemQuantity}
-              </Text>
-              <TouchableOpacity
-                disabled={loading}
-                onPress={() => handleUpdateCart('add')}
-                style={{
-                  height: 25,
-                  width: 25,
-                  borderWidth: 1,
-                  borderRadius: 2,
-                  borderColor: COLORS.borderColor,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <FeatherIcon size={14} color={COLORS.title} name="plus" />
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity onPress={handleDeleteCart}>
-              <IonIcon name="trash-bin" size={25} color={COLORS.danger} />
-            </TouchableOpacity>
-          </View>
         </View>
-      </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          alignItems: 'center',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingHorizontal: 20,
+        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+            disabled={loading}
+            onPress={() => handleUpdateCart('minus')}
+            style={{
+              height: 25,
+              width: 25,
+              borderWidth: 1,
+              borderRadius: 2,
+              borderColor: COLORS.borderColor,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <FeatherIcon size={14} color={COLORS.title} name="minus" />
+          </TouchableOpacity>
+          <Text
+            style={{
+              ...FONTS.fontSm,
+              ...FONTS.fontBold,
+              color: COLORS.title,
+              width: 30,
+              textAlign: 'center',
+            }}>
+            {itemQuantity}
+          </Text>
+          <TouchableOpacity
+            disabled={loading}
+            onPress={() => handleUpdateCart('add')}
+            style={{
+              height: 25,
+              width: 25,
+              borderWidth: 1,
+              borderRadius: 2,
+              borderColor: COLORS.borderColor,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <FeatherIcon size={14} color={COLORS.title} name="plus" />
+          </TouchableOpacity>
+        </View>
+        <View style={{width: 20}} />
+        <TouchableOpacity onPress={handleDeleteCart}>
+          <IonIcon name="trash-bin" size={25} color={COLORS.danger} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

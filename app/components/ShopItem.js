@@ -5,11 +5,30 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import {BASE, baseURL} from '../../config/api';
 import {ProductDetail_Route} from '../constants/routes';
-import {getPrice} from '../../helpers/util';
+import {getMaxPrice, getMinPrice, getPrice} from '../../helpers/util';
 import CacheImage from './CacheImage/CacheImage';
 
 const ShopItem = ({item, handleLike, index, ...props}) => {
   const navigation = useNavigation();
+
+  const handleProductPrice = () => {
+    let price;
+    if (item?.product_type === 'simple') {
+      price = item?.price_in_naira;
+      price = getPrice(price);
+    } else if (item?.product_type === 'variable') {
+      const minPrice = getMinPrice(item?.variants);
+      const maxPrice = getMaxPrice(item?.variants);
+      price =
+        minPrice === maxPrice
+          ? getPrice(minPrice)
+          : `${getPrice(minPrice)} - ${getPrice(maxPrice)}`;
+    } else {
+      price = null;
+    }
+
+    return price;
+  };
 
   return (
     <TouchableOpacity
@@ -69,14 +88,12 @@ const ShopItem = ({item, handleLike, index, ...props}) => {
           <View style={{flexDirection: 'row', flex: 1}}>
             <Text
               style={{
-                ...FONTS.fontLg,
+                ...FONTS.font,
                 ...FONTS.fontBold,
                 color: COLORS.dark,
                 marginRight: 5,
               }}>
-              {item?.product_type === 'simple'
-                ? getPrice(item?.price)
-                : getPrice(item?.min_price)}
+              {handleProductPrice()}
             </Text>
             {/* <Text style={{...FONTS.font, textDecorationLine: 'line-through'}}>
               ₦33.99

@@ -20,7 +20,10 @@ import {
   useGetDefaultShippingAddressQuery,
   useLazyGetDefaultShippingAddressQuery,
 } from '../../../store/services/shippingAddress';
-import {useLazyGetShippingMethodsQuery} from '../../../store/services/shippingMethod';
+import {
+  useLazyGetOrderShippingCostsQuery,
+  useLazyGetShippingMethodsQuery,
+} from '../../../store/services/shippingMethod';
 import {useCreateOrderMutation} from '../../../store/services/order';
 import Loading from '../../components/Loading/Loading';
 import Root from '../../components/Root';
@@ -53,7 +56,7 @@ const ConfirmOrder = ({navigation}) => {
   const [getPaymentMethods] = useLazyGetPaymentMethodQuery();
 
   const [getShippingMethods, {isLoading: isLoadingShippingMethods}] =
-    useLazyGetShippingMethodsQuery();
+    useLazyGetOrderShippingCostsQuery();
 
   useEffect(() => {
     if (!token) {

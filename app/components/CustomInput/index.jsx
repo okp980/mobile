@@ -1,9 +1,14 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState} from 'react';
 import {GlobalStyleSheet} from '../../constants/StyleSheet';
 import {COLORS, FONTS} from '../../constants/theme';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const CustomInput = ({label, placeholder, isPassword, error, ...props}) => {
   const [isFocused, setisFocused] = useState(false);

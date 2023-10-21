@@ -39,6 +39,7 @@ export const getProductAttribute = variants => {
     }
   }, {});
 
+  console.log('attributeObj ==>', attributeObj);
   return attributeObj;
 };
 
@@ -56,6 +57,60 @@ export const getVariant = (variants, attr) => {
   });
 
   return matchingItem;
+};
+
+export const attributeObj = variations => {
+  const attObj = {};
+  for (const variants of variations) {
+    for (const value of variants.attributeValue) {
+      if (attObj[value.attribute.name]) {
+        attObj[value.attribute.name] = [
+          ...attObj[value.attribute.name],
+          {value: value.value, variation_id: variants.id},
+        ];
+      } else {
+        attObj[value.attribute.name] = [
+          {value: value.value, variation_id: variants.id},
+        ];
+      }
+    }
+  }
+
+  return attObj;
+};
+
+// Accepts an obj with values of selected field
+// uses this obj make the other fiilds not in the obj
+// to return values with same variation id as the fields in the obj
+export const filterSelectAttr = (selectionObj, attributeObj) => {
+  let filteredField = {};
+  let selectedVariation_id = '';
+  for (const key of Object.keys(selectionObj)) {
+    selectedVariation_id = selectionObj[key].variation_id;
+    break;
+    // break out of the loop immediately geting the variation from one of the fields since all fields have same variation id
+  }
+
+  for (const key of Object.keys(attributeObj)) {
+    if (selectionObj.hasOwnProperty(key)) {
+      continue;
+    } else {
+      filteredField[key] = attributeObj[key].filter(val => {
+        if (selectedVariation_id === val.variation_id) {
+          console.log('val.variation_id', val.variation_id);
+        }
+
+        return selectedVariation_id === val.variation_id;
+      });
+    }
+  }
+  console.log('the filter fields : ', filteredField);
+  console.log('the fields after filter : ', {
+    ...attributeObj,
+    ...filteredField,
+  });
+
+  return [{...attributeObj, ...filteredField}, selectedVariation_id];
 };
 
 export const requestPermissions = async type => {
@@ -142,3 +197,22 @@ export const displayBlockedAlert = (message = '', navigationFunc) =>
     ],
     {cancelable: false},
   );
+
+export const getMaxPrice = function (array) {
+  let indexOfMax = 0;
+  for (let i = 0; i < array.length; i++) {
+    if (array[i]?.price_in_naira > array[indexOfMax]?.price_in_naira) {
+      indexOfMax = i;
+    }
+  }
+  return array[indexOfMax]?.price_in_naira;
+};
+export const getMinPrice = function (array) {
+  let indexOfMax = 0;
+  for (let i = 0; i < array.length; i++) {
+    if (array[i]?.price_in_naira < array[indexOfMax]?.price_in_naira) {
+      indexOfMax = i;
+    }
+  }
+  return array[indexOfMax]?.price_in_naira;
+};
