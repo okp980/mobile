@@ -1,5 +1,6 @@
 export const Confirm_Order = 'Confirm Order';
 export const Sign_In = 'SignIn';
+export const CallbackComponent_Route = 'CallbackComponent';
 export const Forgot_Password_route = 'Forgot_Password_route';
 export const VerifyEmail_route = 'VerifyEmail_route';
 export const Reset_Change_Password_route = 'Reset_Change_Password_route';

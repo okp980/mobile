@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {
   Image,
   KeyboardAvoidingView,
+  Linking,
   Text,
   TouchableOpacity,
   View,
@@ -18,11 +19,42 @@ import useModal from '../../../hooks/useModal';
 import {FULL_SCREEN_LOADER} from '../../constants/modal';
 import Root from '../../components/Root';
 import {auth_validation} from '../../../helpers/formValidations';
+import {InAppBrowser} from 'react-native-inappbrowser-reborn';
+import {getDeepLink} from '../../../helpers/util';
 
 const SignUp = ({navigation}) => {
   const [register] = useRegisterMutation();
   const {setToken} = useAuth();
   const {handleOpenModal, handleCloseModal} = useModal();
+
+  async function onLogin() {
+    const deepLink = getDeepLink('token/');
+    // const deepLink = 'http://localhost:4000/api/v1/auth/google/callback';
+    const url = `http://localhost:4000/api/v1/auth/google?redirect_uri=${deepLink}`;
+    try {
+      if (await InAppBrowser.isAvailable()) {
+        InAppBrowser.openAuth(url, deepLink, {
+          // iOS Properties
+          ephemeralWebSession: false,
+          // Android Properties
+          showTitle: false,
+          enableUrlBarHiding: true,
+          enableDefaultShare: false,
+        })
+          .then(response => {
+            console.log('response from resolver: ' + JSON.stringify(response));
+            if (response.type === 'success' && response.url) {
+              Linking.openURL(response.url);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else Linking.openURL(url);
+    } catch (error) {
+      Linking.openURL(url);
+    }
+  }
 
   const handleRegister = async (values, helpers) => {
     const {email, password} = values;
@@ -42,66 +74,58 @@ const SignUp = ({navigation}) => {
   };
 
   return (
-    <Root viewStyle={{justifyContent: 'center'}}>
+    <Root>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <View style={{marginBottom: 20}}>
-          <Text style={{...FONTS.h1, textAlign: 'center'}}>Zuraaya</Text>
-        </View>
-        <View style={{marginBottom: 20}}>
-          <Text style={{...FONTS.h3}}>Register Account</Text>
-          <Text style={{...FONTS.font}}>
-            Join to enjoy nice and interesting products
-          </Text>
-        </View>
-
-        <Formik
-          initialValues={{email: '', password: ''}}
-          validationSchema={auth_validation}
-          onSubmit={handleRegister}
-          validateOnBlur={false}>
-          {({handleChange, handleSubmit, values, errors}) => (
-            <>
-              <CustomInput
-                label={'Email'}
-                placeholder={'Enter Email'}
-                onChangeText={handleChange('email')}
-                keyboardType="email-address"
-                value={values.email}
-                error={errors.email}
-              />
-              <CustomInput
-                label={'Password'}
-                placeholder={'Enter Password'}
-                isPassword
-                onChangeText={handleChange('password')}
-                value={values.password}
-                error={errors.password}
-              />
-
-              <CustomButton onPress={handleSubmit} title="Register" />
-            </>
-          )}
-        </Formik>
-        <Text style={{...FONTS.font, marginTop: 15}}>
-          By tapping “Sign Up” you accept our terms and condition.
-        </Text>
-
-        <View style={{marginTop: 20}}>
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{flex: 1, justifyContent: 'space-around'}}>
+        <View>
           <Text
             style={{
-              ...FONTS.font,
-              color: COLORS.title,
+              ...FONTS.h1,
+              ...FONTS.fontBold,
+              textTransform: 'uppercase',
               textAlign: 'center',
-              marginBottom: 12,
             }}>
-            Already have an account?
+            Zuraaya
           </Text>
-          <CustomButton
-            outline
-            title="Continue with email"
-            onPress={() => navigation.navigate(Sign_In)}
-          />
+        </View>
+        <View>
+          <Formik
+            initialValues={{email: '', password: ''}}
+            validationSchema={auth_validation}
+            onSubmit={handleRegister}
+            validateOnBlur={false}>
+            {({handleChange, handleSubmit, values, errors}) => (
+              <>
+                <CustomInput
+                  label={'Email'}
+                  placeholder={'Enter Email'}
+                  onChangeText={handleChange('email')}
+                  value={values.email}
+                  keyboardType="email-address"
+                  error={errors.email}
+                />
+                <CustomInput
+                  label={'Password'}
+                  placeholder={'Enter Password'}
+                  isPassword
+                  onChangeText={handleChange('password')}
+                  value={values.password}
+                  error={errors.password}
+                />
+                <View style={{marginTop: 10}} />
+                <CustomButton onPress={handleSubmit} title="Sign Up" />
+              </>
+            )}
+          </Formik>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              marginTop: 10,
+            }}></View>
 
           <View
             style={{
@@ -109,29 +133,63 @@ const SignUp = ({navigation}) => {
               marginVertical: 15,
             }}>
             <TouchableOpacity
+              onPress={onLogin}
               style={{
                 borderWidth: 1,
                 height: 50,
-                borderRadius: SIZES.radius,
+                borderRadius: SIZES.radius_sm,
                 borderColor: COLORS.borderColor,
                 alignItems: 'center',
                 justifyContent: 'center',
                 flex: 1,
-                marginRight: 10,
+                flexDirection: 'row',
               }}>
-              <Image style={{height: 22, width: 22}} source={IMAGES.google} />
+              <Image
+                style={{height: 22, width: 22, marginRight: 10}}
+                source={IMAGES.google}
+              />
+              <Text style={{...FONTS.font}}>Sign up with Google</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+
+            {/* <TouchableOpacity
+            style={{
+              height: 50,
+              borderRadius: SIZES.radius_sm,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#305CCD',
+              flex: 1,
+              marginLeft: 10,
+            }}>
+            <FontAwesome5Brands color={'#fff'} name="facebook" size={22} />
+          </TouchableOpacity> */}
+          </View>
+
+          <View
+            style={{
+              marginTop: 20,
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}>
+            <Text
               style={{
-                height: 50,
-                borderRadius: SIZES.radius,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: '#305CCD',
-                flex: 1,
-                marginLeft: 10,
+                ...FONTS.font,
+                color: COLORS.title,
+                textAlign: 'center',
+                marginRight: 7,
               }}>
-              <FontAwesome5Brands color={'#fff'} name="facebook" size={22} />
+              Already have an account?
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate(Sign_In)}>
+              <Text
+                style={{
+                  ...FONTS.fontLg,
+                  ...FONTS.fontBold,
+                  color: COLORS.primary,
+                  textAlign: 'center',
+                }}>
+                Log in
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

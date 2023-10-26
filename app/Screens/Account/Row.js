@@ -26,18 +26,22 @@ const Row = ({title, items, data, showCount, more, onHandleMore, type}) => {
     navigation.navigate(Orders_Route, {show: title});
   };
   const handleLink = async url => {
-    if (await InAppBrowser.isAvailable()) {
-      const result = await InAppBrowser.open(url, {
-        // IOS Properties
-        dismissButtonStyle: 'Done',
-        animated: true,
-        modalEnabled: true,
-        // Android properties
-        showTitle: false,
-      });
-    } else {
-      //
-      Linking.openURL(url);
+    try {
+      if (await InAppBrowser.isAvailable()) {
+        const result = await InAppBrowser.open(url, {
+          // IOS Properties
+          dismissButtonStyle: 'Done',
+          animated: true,
+          modalEnabled: true,
+          // Android properties
+          showTitle: false,
+        });
+      } else {
+        //
+        Linking.openURL(url);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

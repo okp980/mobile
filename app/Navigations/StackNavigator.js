@@ -29,6 +29,7 @@ import {
   Add_Review_Route,
   Address_Route,
   BottomNavigation_Route,
+  CallbackComponent_Route,
   Confirm_Order,
   Coupons_Route,
   DeliveryTracking_Route,
@@ -60,6 +61,7 @@ import CustomSearchHeader from './Header/CustomSearchHeader';
 import ForgotPassword from '../Screens/Auth/ForgotPassword';
 import NotificationPreference from '../Screens/Account/NotificationPreference';
 import AddReview from '../Screens/Review/AddReview';
+import CallbackComponent from '../Screens/CallbackComponent/CallbackComponent';
 
 const StackComponent = createNativeStackNavigator();
 
@@ -103,6 +105,17 @@ const StackNavigator = () => {
       <StackComponent.Screen
         name={Sign_In}
         component={SignIn}
+        options={({navigation, route}) =>
+          screenOptions({
+            navigation,
+            route,
+            options: {gestureDirection: 'vertical', headerShown: false},
+          })
+        }
+      />
+      <StackComponent.Screen
+        name={CallbackComponent_Route}
+        component={CallbackComponent}
         options={({navigation, route}) =>
           screenOptions({
             navigation,

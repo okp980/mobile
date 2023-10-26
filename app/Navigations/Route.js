@@ -7,7 +7,7 @@ import {Provider, DefaultTheme, Snackbar} from 'react-native-paper';
 import useToast from '../../hooks/useToast';
 import {COLORS} from '../constants/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import useNetwork from '../../hooks/useNetwork';
 import {useEffect} from 'react';
@@ -24,6 +24,17 @@ const theme = {
     accent: COLORS.white,
   },
   // fonts: 'regular',
+};
+
+const config = {
+  screens: {
+    CallbackComponent: '/token/:tokenId',
+  },
+};
+
+const linking = {
+  prefixes: ['zuraaya://app'],
+  config,
 };
 
 const Routes = () => {
@@ -92,7 +103,9 @@ const Routes = () => {
       </View>
       <ModalManager />
       <SafeAreaProvider>
-        <NavigationContainer>
+        <NavigationContainer
+          linking={linking}
+          fallback={<Text>Loading...</Text>}>
           <StackNavigator />
         </NavigationContainer>
       </SafeAreaProvider>

@@ -126,7 +126,7 @@ const Profile = ({navigation}) => {
                   color: COLORS.white,
                   textTransform: 'capitalize',
                 }}>
-                Welcome {profile?.user?.email.split('@')[0]}
+                Welcome {profile?.user?.email?.split('@')[0]}
               </Text>
             ) : (
               <View style={{flexDirection: 'row'}}>

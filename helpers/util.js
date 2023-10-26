@@ -216,3 +216,10 @@ export const getMinPrice = function (array) {
   }
   return array[indexOfMax]?.price_in_naira;
 };
+
+export const getDeepLink = (path = '') => {
+  const scheme = 'zuraaya';
+  const host = __DEV__ ? 'localhost:4000/api/v1' : 'zuraaya.com/api/v1';
+  const prefix = Platform.OS == 'android' ? `${scheme}://app/` : `${scheme}://`;
+  return prefix + path;
+};
