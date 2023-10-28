@@ -345,7 +345,17 @@ const ProductDetail = ({navigation, route}) => {
 
           {/* <ProductMeasure /> */}
 
-          <Description description={data?.data?.description} />
+          <Card>
+            <View style={{paddingHorizontal: 20, paddingVertical: 10}}>
+              <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>
+                Description
+              </Text>
+            </View>
+            <Divider />
+            <View style={{padding: 20}}>
+              <Text style={{...FONTS.font}}>{data?.data?.description}</Text>
+            </View>
+          </Card>
           <ShippingMethod shippingCosts={shippingCosts} />
 
           <HorizontalCollections
