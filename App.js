@@ -197,7 +197,7 @@ const App = () => {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Routes />
-          <FlashMessage position="bottom" />
+          <FlashMessage position="top" duration={5000} />
         </PersistGate>
       </Provider>
     </>

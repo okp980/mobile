@@ -18,7 +18,7 @@ const authApi = apiSlice.injectEndpoints({
       query: ({email, password}) => ({
         url: '/auth/login',
         method: 'POST',
-        body: {email, password},
+        body: {username: email, password},
       }),
       invalidatesTags: [
         {type: SHIPPING_ADDRESS, id: DEFAULT_ADDRESS},

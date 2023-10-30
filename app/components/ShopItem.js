@@ -19,10 +19,13 @@ const ShopItem = ({item, handleLike, index, ...props}) => {
     } else if (item?.product_type === 'variable') {
       const minPrice = getMinPrice(item?.variants);
       const maxPrice = getMaxPrice(item?.variants);
-      price =
-        minPrice === maxPrice
-          ? getPrice(minPrice)
-          : `${getPrice(minPrice)} - ${getPrice(maxPrice)}`;
+
+      // price =
+      //   minPrice === maxPrice
+      //     ? getPrice(minPrice)
+      //     : `${getPrice(minPrice)} - ${getPrice(maxPrice)}`;
+
+      price = getPrice(minPrice);
     } else {
       price = null;
     }

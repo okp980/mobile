@@ -32,6 +32,7 @@ import {FULL_SCREEN_LOADER} from '../../constants/modal';
 import Snackbar from 'react-native-snackbar';
 import {useLazyGetPaymentMethodQuery} from '../../../store/services/paymentMethod';
 import PaymentMethod from '../../components/PaymentMethod';
+import {showMessage} from 'react-native-flash-message';
 
 const ConfirmOrder = ({navigation}) => {
   const {token} = useAuth();
@@ -118,7 +119,7 @@ const ConfirmOrder = ({navigation}) => {
 
   function retrieveMethod(methodData, selected = false) {
     return {
-      id: methodData?.id,
+      id: methodData?.id ?? methodData?._id,
       title: methodData?.title,
       description: methodData?.description,
       amount: methodData?.charge,
@@ -127,6 +128,7 @@ const ConfirmOrder = ({navigation}) => {
   }
 
   function handleSetDefaultShippingMethod(id) {
+    console.log('clicked', id);
     const newMethods = methods.map(item =>
       item.id === id ? {...item, selected: true} : {...item, selected: false},
     );
@@ -161,11 +163,15 @@ const ConfirmOrder = ({navigation}) => {
     } catch (error) {
       handleCloseModal();
       console.log(error);
-      Snackbar.show({
-        text: error?.data?.error || 'Error while processing order',
-        duration: Snackbar.LENGTH_SHORT,
-        backgroundColor: COLORS.danger,
-        textColor: COLORS.text,
+      // Snackbar.show({
+      //   text: error?.data?.error || 'Error while processing order',
+      //   duration: Snackbar.LENGTH_SHORT,
+      //   backgroundColor: COLORS.danger,
+      //   textColor: COLORS.text,
+      // });
+      showMessage({
+        message: error?.data?.error?.message || 'Error while processing order',
+        type: 'danger',
       });
     }
   }
@@ -195,14 +201,14 @@ const ConfirmOrder = ({navigation}) => {
               onSelectMethod={handleSetDefaultPaymentMethod}
             />
           </Card>
-          <Card style={{...GlobalStyleSheet.container}}>
+          {/* <Card style={{...GlobalStyleSheet.container}}>
             <Text style={{...FONTS.fontLg, ...FONTS.fontBold}}>Coupon</Text>
             <Text style={{...FONTS.font}}>
               If you have a coupon code, you can add it here.
             </Text>
             <CustomInput />
             <CustomButton title="Apply" />
-          </Card>
+          </Card> */}
           <OrderSummary shippingMethod={selectedMethod} />
         </ScrollView>
       </View>
