@@ -81,6 +81,7 @@ const OrderDetail = ({navigation, route}) => {
       </Root>
     );
   }
+
   return (
     <Root noPadding>
       <ScrollView>
@@ -130,7 +131,8 @@ const OrderDetail = ({navigation, route}) => {
                 {data?.shippingMethod?.title}
               </Text>
             </View>
-            <View
+            {/* TODO: check payment method */}
+            {/* <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -141,7 +143,7 @@ const OrderDetail = ({navigation, route}) => {
               <Text style={[FONTS.font]}>
                 {data?.payment?.paymentMethod?.name}
               </Text>
-            </View>
+            </View> */}
             {data?.createdAt && (
               <View
                 style={{
@@ -165,7 +167,7 @@ const OrderDetail = ({navigation, route}) => {
                 marginBottom: 5,
               }}>
               <Text style={[FONTS.font]}>Order Number</Text>
-              <Text style={[FONTS.font]}>GSHN7Q24W00MYUE</Text>
+              <Text style={[FONTS.font]}>{data?.id}</Text>
             </View>
             <View
               style={{
@@ -226,7 +228,7 @@ const OrderDetail = ({navigation, route}) => {
             <Text style={[FONTS.font]}> {data?.shippingAddress?.country}</Text>
           </View>
         </View>
-        <View>
+        {/* <View>
           <View
             style={[
               GlobalStyleSheet.container,
@@ -271,7 +273,7 @@ const OrderDetail = ({navigation, route}) => {
               </Text>
             </View>
           </View>
-        </View>
+        </View> */}
         <View style={[GlobalStyleSheet.container, {flexDirection: 'row'}]}>
           {data.status.toLowerCase() !== 'signed and delivered' && (
             <CustomButton
