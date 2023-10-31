@@ -26,6 +26,7 @@ import {auth_validation} from '../../../helpers/formValidations';
 import FontAwesome5Brands from 'react-native-vector-icons/FontAwesome5Pro';
 import {getDeepLink} from '../../../helpers/util';
 import {InAppBrowser} from 'react-native-inappbrowser-reborn';
+import {baseURL} from '../../../config/api';
 
 const SignIn = ({navigation, route}) => {
   const from = route?.params?.from;
@@ -36,7 +37,7 @@ const SignIn = ({navigation, route}) => {
   async function onLogin() {
     const deepLink = getDeepLink('token/');
     // const deepLink = 'http://localhost:4000/api/v1/auth/google/callback';
-    const url = `http://localhost:4000/api/v1/auth/google?redirect_uri=${deepLink}`;
+    const url = `${baseURL}/auth/google?redirect_uri=${deepLink}`;
     try {
       if (await InAppBrowser.isAvailable()) {
         InAppBrowser.openAuth(url, deepLink, {

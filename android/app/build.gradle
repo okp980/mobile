@@ -316,6 +316,9 @@ if (isNewArchitectureEnabled()) {
                     .using(project(":ReactAndroid:hermes-engine"))
                     .because("On New Architecture we're building Hermes from source")
         }
+        resolutionStrategy {
+    force 'androidx.browser:browser:1.5.0'
+   }
     }
 }
 

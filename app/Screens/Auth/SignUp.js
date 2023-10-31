@@ -30,7 +30,7 @@ const SignUp = ({navigation}) => {
   async function onLogin() {
     const deepLink = getDeepLink('token/');
     // const deepLink = 'http://localhost:4000/api/v1/auth/google/callback';
-    const url = `http://localhost:4000/api/v1/auth/google?redirect_uri=${deepLink}`;
+    const url = `${baseURL}/auth/google?redirect_uri=${deepLink}`;
     try {
       if (await InAppBrowser.isAvailable()) {
         InAppBrowser.openAuth(url, deepLink, {
